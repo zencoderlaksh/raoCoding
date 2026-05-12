@@ -1,7 +1,12 @@
-import React from "react";
+import { BrowserRouter } from "react-router-dom";
+import AppRoutes from "./appRoutes/AppRoutes";
 
-const App = () => {
-  return <div className="bg-red-500">App</div>;
-};
+function App() {
+  return (
+    <BrowserRouter>
+      <AppRoutes />
+    </BrowserRouter>
+  );
+}
 
 export default App;
