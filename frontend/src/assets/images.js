@@ -1,8 +1,7 @@
-import cart from '../assets/Cart.png'
-import favorites from '../assets/Favorites.png'
-import twitter from '../assets/Twitter.png'
-import instagram from '../assets/Instagram.png'
-import search from '../assets/Search.png'
-import user from '../assets/User.png'
+import instagram from '../assets/instagram-fill.svg'
 import logo from '../assets/Logo.png'
-export {cart,favorites,twitter,instagram,search,user,logo};
+import tiger from '../assets/tiger.png'
+import youtube from '../assets/youtube-fill.svg'
+import linkedin from '../assets/linkedin-box-fill.svg'
+import x from '../assets/twitter-x-fill.svg'
+export {youtube,linkedin,x,instagram,logo,tiger};
