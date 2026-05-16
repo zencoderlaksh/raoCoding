@@ -1,8 +1,10 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import {logo} from '../assets/images'
+import { useNavigate } from "react-router-dom";
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <nav className="w-full sticky  top-0 left-0 z-50 px-4 sm:px-6 lg:px-10">
@@ -70,6 +72,7 @@ const Navbar = () => {
     className="relative text-[#b3b2b3] text-sm lg:text-lg font-medium overflow-hidden px-2 py-1"
   >
     <motion.span
+     onClick={() => navigate("/about")}
       variants={{
         rest: { y: 0 },
         hover: { y: -30 },
@@ -81,6 +84,7 @@ const Navbar = () => {
     </motion.span>
 
     <motion.span
+     onClick={() => navigate("/about")}
       variants={{
         rest: { y: 30 },
         hover: { y: 0 },
@@ -141,7 +145,7 @@ const Navbar = () => {
   </motion.a>
 
   <motion.a
-    href="#"
+    href="/login"
     initial="rest"
     whileHover="hover"
     animate="rest"
@@ -239,7 +243,7 @@ const Navbar = () => {
             </a>
 
             <a
-              href="#"
+              href="/about"
               className="text-white text-lg hover:text-orange-400 transition"
             >
               About
