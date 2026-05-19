@@ -4,4 +4,12 @@ import tiger from '../assets/tiger.png'
 import youtube from '../assets/youtube-fill.svg'
 import linkedin from '../assets/linkedin-box-fill.svg'
 import x from '../assets/twitter-x-fill.svg'
-export {youtube,linkedin,x,instagram,logo,tiger};
+import computer from '../assets/computer.jpeg'
+import two from '../assets/2.jpeg'
+import three from '../assets/3.jpeg'
+import four from '../assets/4.jpeg'
+import five from '../assets/5.jpeg'
+import six from '../assets/6.jpeg'
+import course from '../assets/course.webp'
+import companies from '../assets/companies.png'
+export {youtube,linkedin,x,instagram,logo,tiger,computer,two,three,four,five,six,companies, course};

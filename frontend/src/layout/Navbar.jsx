@@ -7,7 +7,7 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   return (
-    <nav className="w-full sticky  top-0 left-0 z-50 px-4 sm:px-6 lg:px-10">
+    <nav className="w-full relative  top-0 left-0 z-50 px-4 sm:px-6 lg:px-10">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
 
         {/* Logo */}
@@ -26,7 +26,7 @@ const Navbar = () => {
       <div className="hidden md:flex items-center justify-center gap-10 lg:gap-14 w-[500px] lg:w-[650px] py-4 rounded-xl border border-white/20 bg-white/10 backdrop-blur-2xl shadow-2xl flex-shrink">
 
   <motion.a
-    href="#"
+    href="/"
     initial="rest"
     whileHover="hover"
     animate="rest"
@@ -106,7 +106,7 @@ const Navbar = () => {
   </motion.a>
 
   <motion.a
-    href="#"
+    href="/courses"
     initial="rest"
     whileHover="hover"
     animate="rest"
@@ -159,6 +159,48 @@ const Navbar = () => {
       transition={{ duration: 0.35, ease: "easeInOut" }}
       className="block"
     >
+      Book a Meeting
+    </motion.span>
+
+    <motion.span
+      variants={{
+        rest: { y: 30 },
+        hover: { y: 0 },
+      }}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      className="absolute left-0 top-1 text-orange-400 block"
+    >
+      Book a Meeting
+    </motion.span>
+
+    <motion.div
+      variants={{
+        rest: { scaleX: 0 },
+        hover: { scaleX: 1 },
+      }}
+      transition={{ duration: 0.4 }}
+      className="absolute bottom-0 left-0 w-full h-[2px] bg-orange-400 origin-left"
+    />
+  </motion.a>
+
+</div>
+
+        {/* Desktop Button */}
+        <motion.a
+    href="/login"
+    initial="rest"
+    whileHover="hover"
+    animate="rest"
+    className="relative text-[#b3b2b3] text-sm lg:text-lg font-medium overflow-hidden px-2 py-1"
+  >
+    <motion.span
+      variants={{
+        rest: { y: 0 },
+        hover: { y: -30 },
+      }}
+      transition={{ duration: 0.35, ease: "easeInOut" }}
+      className="block"
+    >
       Login
     </motion.span>
 
@@ -182,15 +224,6 @@ const Navbar = () => {
       className="absolute bottom-0 left-0 w-full h-[2px] bg-orange-400 origin-left"
     />
   </motion.a>
-
-</div>
-
-        {/* Desktop Button */}
-        <div className="hidden min-[768px]:flex flex-shrink-0">
-          <button className="cursor-pointer px-5 lg:px-6 py-3 rounded-full bg-orange-500 hover:bg-orange-600 transition-all duration-300 text-white font-medium shadow-lg whitespace-nowrap">
-            Book a Meeting
-          </button>
-        </div>
 
         {/* Mobile Menu Button */}
         <button
