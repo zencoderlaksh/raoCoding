@@ -6,6 +6,7 @@ import About from "../pages/about/About"
 import Contact from "../pages/contactus/ContactUs"
 import SignUp from '../pages/auth/SignUp';
 import Login from '../pages/auth/Login';
+import Courses from '../pages/courses/Courses';
 const AppRoutes = () => {
   return (
     <Routes>
@@ -13,6 +14,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/courses" element={<Courses />} />
       </Route>
       <Route path='/login' element={<Login />} />
       <Route path='/signup' element={<SignUp />} />
