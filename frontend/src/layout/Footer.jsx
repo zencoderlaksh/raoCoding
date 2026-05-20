@@ -1,5 +1,7 @@
 import React from "react";
 import {tiger,instagram,youtube,linkedin} from '../assets/images'
+import { Link } from "react-router-dom";
+
 const Footer=()=> {
   return (
     <footer className="relative overflow-hidden px-6 py-16 text-white">

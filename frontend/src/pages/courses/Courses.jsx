@@ -13,7 +13,37 @@ export default function Courses() {
         
         <Card
           image={course}
-          title="Data Science and Analytics with GenAI"
+          title="Full Stack"
+          price="6999"
+          originalPrice="14891"
+          discount="53"
+          tags={["Machine Learning", "Deep Learning", "Gen-AI"]}
+          link="/course/full-stack"
+        />
+
+        <Card
+          image={course}
+          title="DSA"
+          price="6999"
+          originalPrice="14891"
+          discount="53"
+          tags={["Machine Learning", "Deep Learning", "Gen-AI"]}
+          link="/course/dsa"
+        />
+
+        <Card
+          image={course}
+          title="AI ML"
+          price="6999"
+          originalPrice="14891"
+          discount="53"
+          tags={["Machine Learning", "Deep Learning", "Gen-AI"]}
+          link="/course/ai-ml"
+        />
+
+        <Card
+          image={course}
+          title="Data Science"
           price="6999"
           originalPrice="14891"
           discount="53"
@@ -23,37 +53,7 @@ export default function Courses() {
 
         <Card
           image={course}
-          title="Data Science and Analytics with GenAI"
-          price="6999"
-          originalPrice="14891"
-          discount="53"
-          tags={["Machine Learning", "Deep Learning", "Gen-AI"]}
-          link="/course/data-science"
-        />
-
-        <Card
-          image={course}
-          title="Data Science and Analytics with GenAI"
-          price="6999"
-          originalPrice="14891"
-          discount="53"
-          tags={["Machine Learning", "Deep Learning", "Gen-AI"]}
-          link="/course/data-science"
-        />
-
-        <Card
-          image={course}
-          title="Data Science and Analytics with GenAI"
-          price="6999"
-          originalPrice="14891"
-          discount="53"
-          tags={["Machine Learning", "Deep Learning", "Gen-AI"]}
-          link="/course/data-science"
-        />
-
-        <Card
-          image={course}
-          title="Data Science and Analytics with GenAI"
+          title="Data Science"
           price="6999"
           originalPrice="14891"
           discount="53"
