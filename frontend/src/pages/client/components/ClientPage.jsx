@@ -1,4 +1,3 @@
-// ClientPage.jsx
 import {
   motion,
   AnimatePresence,
@@ -10,8 +9,12 @@ import {
 } from "framer-motion";
 
 import { useEffect, useRef, useState } from "react";
+import PreviousProjects from "./PreviousProjects";
+import TeamSection from "./TeamSection";
+import QuotesGrid from "./QuotesGrid";
 
 const EASE = [0.22, 1, 0.36, 1];
+
 
 /* ─────────────────────────────────────────────
    REVEAL
@@ -113,35 +116,55 @@ function Counter({ to, suffix = "" }) {
 /* ─────────────────────────────────────────────
    DATA
 ───────────────────────────────────────────── */
-
 const SERVICES = [
   {
     title: "Brand Strategy",
     count: "01",
     icon: "✦",
-    size: "tall",
+    size: "tall", // Row 1 & 2 (Col 1)
     img: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=1200&auto=format&fit=crop",
   },
   {
     title: "Web Development",
     count: "02",
     icon: "◉",
-    size: "wide",
+    size: "wide", // Row 1 (Col 2-3)
     img: "https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=1200&auto=format&fit=crop",
   },
   {
     title: "UX Design",
     count: "03",
     icon: "▣",
-    size: "sq",
+    size: "sq", // Row 1 (Col 4)
     img: "https://images.unsplash.com/photo-1517292987719-0369a794ec0f?q=80&w=1200&auto=format&fit=crop",
   },
   {
     title: "eCommerce",
     count: "04",
     icon: "◈",
-    size: "tall",
+    size: "sq", // Row 2 (Col 2)
     img: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    title: "Mobile Apps",
+    count: "05",
+    icon: "📱",
+    size: "wide", // New Item 1 -> Row 2 (Col 3-4)
+    img: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    title: "SEO Optimization",
+    count: "06",
+    icon: "📈",
+    size: "wide", // New Item 2 -> Row 3 (Col 1-2)
+    img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop",
+  },
+  {
+    title: "Cyber Security",
+    count: "07",
+    icon: "🛡️",
+    size: "wide", // New Item 3 -> Row 3 (Col 3-4)
+    img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop",
   },
 ];
 
@@ -166,23 +189,23 @@ const WORK = [
   },
 ];
 
-const QUOTES = [
-  {
-    q: "RAO transformed our entire product experience.",
-    a: "Maya Iyer",
-    r: "Head of Product",
-  },
-  {
-    q: "Incredible design quality and execution.",
-    a: "Leon Hart",
-    r: "Founder",
-  },
-  {
-    q: "One of the best studios we've worked with.",
-    a: "Sara Okwu",
-    r: "CMO",
-  },
-];
+// const QUOTES = [
+//   {
+//     q: "RAO transformed our entire product experience.",
+//     a: "Maya Iyer",
+//     r: "Head of Product",
+//   },
+//   {
+//     q: "Incredible design quality and execution.",
+//     a: "Leon Hart",
+//     r: "Founder",
+//   },
+//   {
+//     q: "One of the best studios we've worked with.",
+//     a: "Sara Okwu",
+//     r: "CMO",
+//   },
+// ];
 
 const FAQS = [
   {
@@ -215,6 +238,7 @@ function ServiceCard({ s, i }) {
     wide: "md:col-span-2",
     tall: "md:row-span-2",
     sq: "",
+    wide3: "md:col-span-3",
   };
 
   return (
@@ -258,46 +282,71 @@ function WorkRow({ w }) {
   return (
     <motion.div
       whileHover="hover"
-      className="relative w-[90vw] md:w-[70vw] h-[65vh] rounded-[28px] overflow-hidden flex-shrink-0 bg-[#141414] p-10"
+      className="group relative w-[85vw] md:w-[42vw] h-[72vh] rounded-[32px] overflow-hidden flex-shrink-0 bg-[#111]"
     >
+      {/* IMAGE */}
       <motion.div
-        className="absolute inset-0 bg-cover bg-center brightness-[0.6]"
+        className="absolute inset-0 bg-cover bg-center brightness-[0.7]"
         style={{
           backgroundImage: `url(${w.img})`,
         }}
         variants={{
           hover: {
-            scale: 1.05,
+            scale: 1.06,
           },
+        }}
+        transition={{
+          duration: 1,
+          ease: [0.22, 1, 0.36, 1],
         }}
       />
 
-      <div className="relative z-10 flex justify-between text-[11px] uppercase tracking-[0.2em]">
-        <span>{w.tag}</span>
-        <span>{w.year}</span>
+      {/* OVERLAY */}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent z-10" />
+
+      {/* TOP */}
+      <div className="absolute top-8 left-8 right-8 z-20 flex items-center justify-between text-[11px] uppercase tracking-[0.22em]">
+        <span className="text-white/70">
+          {w.tag}
+        </span>
+
+        <span className="text-white/40">
+          {w.year}
+        </span>
       </div>
 
+      {/* TITLE */}
       <motion.h3
-        className="relative z-10 mt-8 text-[clamp(42px,6vw,90px)] leading-[0.95] font-serif font-light"
         variants={{
           hover: {
             x: 20,
           },
         }}
+        transition={{
+          duration: 0.7,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        className="absolute left-8 bottom-10 z-20 text-[clamp(44px,5vw,88px)] leading-[0.92] tracking-[-0.05em] font-serif font-light"
       >
         {w.title}
       </motion.h3>
 
-      <motion.span
-        className="absolute bottom-8 right-10 z-10 text-5xl text-[#ff5a28]"
+      {/* ARROW */}
+      <motion.div
         variants={{
           hover: {
-            x: 8,
+            x: 10,
+            y: -10,
           },
         }}
+        transition={{
+          duration: 0.7,
+          ease: [0.22, 1, 0.36, 1],
+        }}
+        className="absolute right-10 bottom-10 z-20 text-[#ff5a28] text-5xl"
       >
         ↗
-      </motion.span>
+      </motion.div>
     </motion.div>
   );
 }
@@ -456,14 +505,10 @@ function Cursor() {
 ───────────────────────────────────────────── */
 
 export default function ClientPage() {
-  const workWrap = useRef(null);
 
-  const { scrollYProgress } = useScroll({
-    target: workWrap,
-    offset: ["start start", "end end"],
-  });
 
-  const workX = useTransform(scrollYProgress, [0, 1], ["0%", "-60%"]);
+
+
 
   const [step, setStep] = useState(0);
 
@@ -498,43 +543,17 @@ export default function ClientPage() {
         </div>
       </section>
 
-      {/* WORK */}
 
-      {/* <section
-        ref={workWrap}
-        className="h-[300vh] bg-black"
-      >
-        <div className="sticky top-0 h-screen overflow-hidden flex flex-col justify-center">
-          <div className="px-[6vw]">
-            <div className="flex flex-wrap items-end justify-between gap-10 mb-16">
-              <Reveal>
-                <span className="uppercase tracking-[0.2em] text-[11px] text-[#ff5a28]">
-                  ▣ WORK
-                </span>
-              </Reveal>
+      {/* PreviousProjects */}
+      <PreviousProjects />
 
-              <Reveal>
-                <h2 className="text-[clamp(42px,6vw,100px)] leading-[0.95] tracking-[-0.04em] font-serif font-light">
-                  Selected
-                  <em> case studies.</em>
-                </h2>
-              </Reveal>
-            </div>
-          </div>
+      {/* TeamSection */}
+      <TeamSection />
 
-          <motion.div
-            style={{ x: workX }}
-            className="flex gap-6 px-[6vw]"
-          >
-            {WORK.map((w) => (
-              <WorkRow
-                key={w.title}
-                w={w}
-              />
-            ))}
-          </motion.div>
-        </div>
-      </section> */}
+
+
+   {/* WORK SECTION */}
+ 
 
       {/* STATS */}
 
@@ -575,7 +594,7 @@ export default function ClientPage() {
 
       {/* TESTIMONIALS */}
 
-      <section className="px-[6vw] py-[120px]">
+      <section className="px-[6vw] py-[40px]">
         <div className="flex flex-wrap items-end justify-between gap-10 mb-16">
           <Reveal>
             <span className="uppercase tracking-[0.2em] text-[11px] text-[#ff5a28]">
@@ -592,24 +611,10 @@ export default function ClientPage() {
           </Reveal>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {QUOTES.map((q, i) => (
-            <Reveal
-              key={q.a}
-              delay={i * 0.1}
-              className="border border-white/10 rounded-[24px] bg-[#121212] p-9"
-            >
-              <p className="text-2xl leading-[1.5] font-serif">“{q.q}”</p>
 
-              <div className="mt-10">
-                <strong className="block">{q.a}</strong>
 
-                <span className="text-white/60">{q.r}</span>
-              </div>
-            </Reveal>
-          ))}
-        </div>
       </section>
+      <QuotesGrid />
 
       {/* FAQ */}
 
