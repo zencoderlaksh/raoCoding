@@ -7,6 +7,7 @@ import Contact from "../pages/contactus/ContactUs"
 import SignUp from '../pages/auth/SignUp';
 import Login from '../pages/auth/Login';
 import Courses from '../pages/courses/Courses';
+import Client from '../pages/client/Client';
 import CoursePage from '../pages/courseDetails/CoursePages';
 const AppRoutes = () => {
   return (
@@ -16,6 +17,7 @@ const AppRoutes = () => {
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/courses" element={<Courses />} />
+        <Route path="/client" element={<Client />} />
         <Route path="/course/:courseName" element={<CoursePage />} />
       </Route>
       <Route path='/login' element={<Login />} />
