@@ -9,11 +9,14 @@ const Card = ({
   originalPrice,
   discount,
   tags = [],
-  link = "/",
 }) => {
+
+  // convert title into URL slug
+  const slug = title.toLowerCase().replace(/\s+/g, "-");
+
   return (
     <div className="w-full max-w-[420px] rounded-3xl border border-white/15 bg-white/10 backdrop-blur-lg overflow-hidden shadow-[0_0_40px_rgba(255,115,0,0.08)] p-4">
-      
+
       {/* Image */}
       <div className="relative overflow-hidden rounded-2xl">
         <img
@@ -40,7 +43,7 @@ const Card = ({
         {title}
       </h2>
 
-      {/* Price Section */}
+      {/* Price */}
       <div className="flex items-center justify-between mt-5">
         <div className="flex items-end gap-2 flex-wrap">
           <span className="text-gray-400 text-lg">Rs.</span>
@@ -60,8 +63,8 @@ const Card = ({
       </div>
 
       {/* Button */}
-      <Link to={link}>
-        <button className=" cursor-pointer mt-6 w-full border border-gray-600 hover:border-orange-500 text-white px-6 py-3 rounded-2xl flex items-center justify-center gap-3 text-lg transition-all duration-300 hover:bg-[#111]">
+      <Link to={`/course/${slug}`}>
+        <button className="cursor-pointer mt-6 w-full border border-gray-600 hover:border-orange-500 text-white px-6 py-3 rounded-2xl flex items-center justify-center gap-3 text-lg transition-all duration-300 hover:bg-[#111]">
           Check Course
           <ArrowRight size={20} />
         </button>
