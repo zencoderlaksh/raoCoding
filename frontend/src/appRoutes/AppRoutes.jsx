@@ -9,6 +9,7 @@ import Login from '../pages/auth/Login';
 import Courses from '../pages/courses/Courses';
 import Client from '../pages/client/Client';
 import CoursePage from '../pages/courseDetails/CoursePages';
+import BookMeeting from '@/pages/bookMeeting/BookMeeting';
 const AppRoutes = () => {
   return (
     <Routes>
@@ -16,6 +17,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/meeting" element={<BookMeeting />} />
         <Route path="/courses" element={<Courses />} />
         <Route path="/client" element={<Client />} />
         <Route path="/course/:courseName" element={<CoursePage />} />
