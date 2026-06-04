@@ -1,5 +1,5 @@
 import Card from "./components/Card";
-import { course } from "../../assets/images";
+import { webd,dsa,ai } from "../../assets/images";
 import TextPressure from "../../components/TextPressure";
 import Headings from '../home/components/Headings'
 import Difference from '../home/components/Difference'
@@ -12,53 +12,33 @@ export default function Courses() {
       <div className="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8 place-items-center">
         
         <Card
-          image={course}
+          image={webd}
           title="Full Stack"
-          price="6999"
-          originalPrice="14891"
+          price="24,999"
+          originalPrice="29,999"
           discount="53"
           tags={["Machine Learning", "Deep Learning", "Gen-AI"]}
           link="/course/full-stack"
         />
 
         <Card
-          image={course}
+          image={dsa}
           title="DSA"
-          price="6999"
-          originalPrice="14891"
-          discount="53"
+          price="19,999"
+          originalPrice="23,999"
+          discount=""
           tags={["Machine Learning", "Deep Learning", "Gen-AI"]}
           link="/course/dsa"
         />
 
         <Card
-          image={course}
+          image={ai}
           title="AI ML"
           price="6999"
-          originalPrice="14891"
-          discount="53"
+          originalPrice="29,999"
+          discount="40,000"
           tags={["Machine Learning", "Deep Learning", "Gen-AI"]}
           link="/course/ai-ml"
-        />
-
-        <Card
-          image={course}
-          title="Data Science"
-          price="6999"
-          originalPrice="14891"
-          discount="53"
-          tags={["Machine Learning", "Deep Learning", "Gen-AI"]}
-          link="/course/data-science"
-        />
-
-        <Card
-          image={course}
-          title="Data Science"
-          price="6999"
-          originalPrice="14891"
-          discount="53"
-          tags={["Machine Learning", "Deep Learning", "Gen-AI"]}
-          link="/course/data-science"
         />
       </div>
     </div>
