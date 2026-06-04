@@ -1,17 +1,41 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import {logo} from '../assets/images'
-import { useNavigate } from "react-router-dom";
+import { logo } from '../assets/images';
+import { useNavigate, useLocation } from "react-router-dom";
+
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Helper to check if the path is active
+  const isActive = (path) => location.pathname === path;
+
+  // Dynamic class for desktop links
+  const getDesktopLinkClass = (path) =>
+    `relative text-sm lg:text-lg font-medium overflow-hidden px-2 py-1 cursor-pointer ${
+      isActive(path) ? "text-white" : "text-[#b3b2b3]"
+    }`;
+
+  // Dynamic class for mobile links
+  const getMobileLinkClass = (path) =>
+    `text-lg hover:text-orange-400 transition ${
+      isActive(path) ? "text-white font-semibold" : "text-[#b3b2b3]"
+    }`;
+
+  const navLinks = [
+    { name: "Home", path: "/" },
+    { name: "About", path: "/about" },
+    { name: "Courses", path: "/courses" },
+    { name: "Book a Meeting", path: "/contact" },
+  ];
 
   return (
-    <nav className="w-full relative  top-0 left-0 z-50 px-4 sm:px-6 lg:px-10">
+    <nav className="w-full relative top-0 left-0 z-50 px-4 sm:px-6 lg:px-10">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
-
+        
         {/* Logo */}
-        <div className="flex items-center flex-shrink-0">
+        <div className="flex items-center flex-shrink-0 cursor-pointer" onClick={() => navigate("/")}>
           <img
             src={logo}
             alt="Logo"
@@ -20,210 +44,95 @@ const Navbar = () => {
         </div>
 
         {/* Glass Navbar */}
-        
+        <div className="hidden md:flex items-center justify-center gap-10 lg:gap-14 w-[500px] lg:w-[650px] py-4 rounded-xl border border-white/20 bg-white/10 backdrop-blur-2xl shadow-2xl flex-shrink">
+          {navLinks.map((link) => (
+            <motion.a
+              key={link.name}
+              onClick={(e) => {
+                e.preventDefault();
+                navigate(link.path);
+              }}
+              initial="rest"
+              whileHover="hover"
+              animate="rest"
+              className={getDesktopLinkClass(link.path)}
+            >
+              <motion.span
+                variants={{
+                  rest: { y: 0 },
+                  hover: { y: -30 },
+                }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                className="block"
+              >
+                {link.name}
+              </motion.span>
 
+              <motion.span
+                variants={{
+                  rest: { y: 30 },
+                  hover: { y: 0 },
+                }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                className="absolute left-0 top-1 text-orange-400 block"
+              >
+                {link.name}
+              </motion.span>
 
-      <div className="hidden md:flex items-center justify-center gap-10 lg:gap-14 w-[500px] lg:w-[650px] py-4 rounded-xl border border-white/20 bg-white/10 backdrop-blur-2xl shadow-2xl flex-shrink">
-
-  <motion.a
-    href="/"
-    initial="rest"
-    whileHover="hover"
-    animate="rest"
-    className="relative text-white text-sm lg:text-lg font-medium overflow-hidden px-2 py-1"
-  >
-    <motion.span
-      variants={{
-        rest: { y: 0 },
-        hover: { y: -30 },
-      }}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
-      className="block"
-    >
-      Home
-    </motion.span>
-
-    <motion.span
-      variants={{
-        rest: { y: 30 },
-        hover: { y: 0 },
-      }}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
-      className="absolute left-0 top-1 text-orange-400 block"
-    >
-      Home
-    </motion.span>
-
-    <motion.div
-      variants={{
-        rest: { scaleX: 0 },
-        hover: { scaleX: 1 },
-      }}
-      transition={{ duration: 0.4 }}
-      className="absolute bottom-0 left-0 w-full h-[2px] bg-orange-400 origin-left"
-    />
-  </motion.a>
-
-  <motion.a
-    href="#"
-    initial="rest"
-    whileHover="hover"
-    animate="rest"
-    className="relative text-[#b3b2b3] text-sm lg:text-lg font-medium overflow-hidden px-2 py-1"
-  >
-    <motion.span
-     onClick={() => navigate("/about")}
-      variants={{
-        rest: { y: 0 },
-        hover: { y: -30 },
-      }}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
-      className="block"
-    >
-      About
-    </motion.span>
-
-    <motion.span
-     onClick={() => navigate("/about")}
-      variants={{
-        rest: { y: 30 },
-        hover: { y: 0 },
-      }}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
-      className="absolute left-0 top-1 text-orange-400 block"
-    >
-      About
-    </motion.span>
-
-    <motion.div
-      variants={{
-        rest: { scaleX: 0 },
-        hover: { scaleX: 1 },
-      }}
-      transition={{ duration: 0.4 }}
-      className="absolute bottom-0 left-0 w-full h-[2px] bg-orange-400 origin-left"
-    />
-  </motion.a>
-
-  <motion.a
-    href="/courses"
-    initial="rest"
-    whileHover="hover"
-    animate="rest"
-    className="relative text-[#b3b2b3] text-sm lg:text-lg font-medium overflow-hidden px-2 py-1"
-  >
-    <motion.span
-      variants={{
-        rest: { y: 0 },
-        hover: { y: -30 },
-      }}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
-      className="block"
-    >
-      Courses
-    </motion.span>
-
-    <motion.span
-      variants={{
-        rest: { y: 30 },
-        hover: { y: 0 },
-      }}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
-      className="absolute left-0 top-1 text-orange-400 block"
-    >
-      Courses
-    </motion.span>
-
-    <motion.div
-      variants={{
-        rest: { scaleX: 0 },
-        hover: { scaleX: 1 },
-      }}
-      transition={{ duration: 0.4 }}
-      className="absolute bottom-0 left-0 w-full h-[2px] bg-orange-400 origin-left"
-    />
-  </motion.a>
-
-  <motion.a
-    href="/login"
-    initial="rest"
-    whileHover="hover"
-    animate="rest"
-    className="relative text-[#b3b2b3] text-sm lg:text-lg font-medium overflow-hidden px-2 py-1"
-  >
-    <motion.span
-      variants={{
-        rest: { y: 0 },
-        hover: { y: -30 },
-      }}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
-      className="block"
-    >
-      Book a Meeting
-    </motion.span>
-
-    <motion.span
-      variants={{
-        rest: { y: 30 },
-        hover: { y: 0 },
-      }}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
-      className="absolute left-0 top-1 text-orange-400 block"
-    >
-      Book a Meeting
-    </motion.span>
-
-    <motion.div
-      variants={{
-        rest: { scaleX: 0 },
-        hover: { scaleX: 1 },
-      }}
-      transition={{ duration: 0.4 }}
-      className="absolute bottom-0 left-0 w-full h-[2px] bg-orange-400 origin-left"
-    />
-  </motion.a>
-
-</div>
+              <motion.div
+                variants={{
+                  rest: { scaleX: 0 },
+                  hover: { scaleX: 1 },
+                }}
+                transition={{ duration: 0.4 }}
+                className="absolute bottom-0 left-0 w-full h-[2px] bg-orange-400 origin-left"
+              />
+            </motion.a>
+          ))}
+        </div>
 
         {/* Desktop Button */}
         <motion.a
-    href="/login"
-    initial="rest"
-    whileHover="hover"
-    animate="rest"
-    className="relative text-[#b3b2b3] text-sm lg:text-lg font-medium overflow-hidden px-2 py-1"
-  >
-    <motion.span
-      variants={{
-        rest: { y: 0 },
-        hover: { y: -30 },
-      }}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
-      className="block"
-    >
-      Login
-    </motion.span>
+          onClick={(e) => {
+            e.preventDefault();
+            navigate("/login");
+          }}
+          initial="rest"
+          whileHover="hover"
+          animate="rest"
+          className={getDesktopLinkClass("/login")}
+        >
+          <motion.span
+            variants={{
+              rest: { y: 0 },
+              hover: { y: -30 },
+            }}
+            transition={{ duration: 0.35, ease: "easeInOut" }}
+            className="block"
+          >
+            Login
+          </motion.span>
 
-    <motion.span
-      variants={{
-        rest: { y: 30 },
-        hover: { y: 0 },
-      }}
-      transition={{ duration: 0.35, ease: "easeInOut" }}
-      className="absolute left-0 top-1 text-orange-400 block"
-    >
-      Login
-    </motion.span>
+          <motion.span
+            variants={{
+              rest: { y: 30 },
+              hover: { y: 0 },
+            }}
+            transition={{ duration: 0.35, ease: "easeInOut" }}
+            className="absolute left-0 top-1 text-orange-400 block"
+          >
+            Login
+          </motion.span>
 
-    <motion.div
-      variants={{
-        rest: { scaleX: 0 },
-        hover: { scaleX: 1 },
-      }}
-      transition={{ duration: 0.4 }}
-      className="absolute bottom-0 left-0 w-full h-[2px] bg-orange-400 origin-left"
-    />
-  </motion.a>
+          <motion.div
+            variants={{
+              rest: { scaleX: 0 },
+              hover: { scaleX: 1 },
+            }}
+            transition={{ duration: 0.4 }}
+            className="absolute bottom-0 left-0 w-full h-[2px] bg-orange-400 origin-left"
+          />
+        </motion.a>
 
         {/* Mobile Menu Button */}
         <button
@@ -239,11 +148,7 @@ const Navbar = () => {
               stroke="currentColor"
               strokeWidth={2}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M6 18L18 6M6 6l12 12"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
             </svg>
           ) : (
             <svg
@@ -254,11 +159,7 @@ const Navbar = () => {
               stroke="currentColor"
               strokeWidth={2}
             >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
             </svg>
           )}
         </button>
@@ -268,35 +169,38 @@ const Navbar = () => {
       {menuOpen && (
         <div className="md:hidden mt-4 animate-fadeIn">
           <div className="flex flex-col gap-5 px-6 py-6 rounded-3xl border border-white/20 bg-white/10 backdrop-blur-2xl shadow-2xl">
-            <a
-              href="#"
-              className="text-white text-lg hover:text-orange-400 transition"
+            <span
+              onClick={() => { navigate("/"); setMenuOpen(false); }}
+              className={`cursor-pointer ${getMobileLinkClass("/")}`}
             >
               Home
-            </a>
+            </span>
 
-            <a
-              href="/about"
-              className="text-white text-lg hover:text-orange-400 transition"
+            <span
+              onClick={() => { navigate("/about"); setMenuOpen(false); }}
+              className={`cursor-pointer ${getMobileLinkClass("/about")}`}
             >
               About
-            </a>
+            </span>
 
-            <a
-              href="#"
-              className="text-white text-lg hover:text-orange-400 transition"
+            <span
+              onClick={() => { navigate("/courses"); setMenuOpen(false); }}
+              className={`cursor-pointer ${getMobileLinkClass("/courses")}`}
             >
-              Services
-            </a>
+              Courses
+            </span>
 
-            <a
-              href="#"
-              className="text-white text-lg hover:text-orange-400 transition"
+            <span
+              onClick={() => { navigate("/contact"); setMenuOpen(false); }}
+              className={`cursor-pointer ${getMobileLinkClass("/contact")}`}
             >
               Contact
-            </a>
+            </span>
 
-            <button className="cursor-pointer mt-2 px-6 py-3 rounded-full bg-orange-500 hover:bg-orange-600 transition text-white font-medium">
+            <button 
+              onClick={() => { navigate("/contact"); setMenuOpen(false); }}
+              className="cursor-pointer mt-2 px-6 py-3 rounded-full bg-orange-500 hover:bg-orange-600 transition text-white font-medium"
+            >
               Book a Meeting
             </button>
           </div>
@@ -307,4 +211,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

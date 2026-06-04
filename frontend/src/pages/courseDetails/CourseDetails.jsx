@@ -210,6 +210,7 @@ const CourseDetails = ({
       smooth: true,
       lerp: 0.08,
     });
+    locoScroll.scrollTo("top", { duration: 0, disableLerp: true });
     return () => locoScroll.destroy();
   }, []);
 
