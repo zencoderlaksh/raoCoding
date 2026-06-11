@@ -2,7 +2,6 @@ import React from 'react'
 import Heading from './components/Heading'
 import AnimatedAvatars from './components/AnimatedAvatars'
 import Button from '../../components/Button'
-import MagicBento from '../../components/MagicBento'
 import { Link } from "react-router-dom";
 import ImageMarquee from "./components/ImageMarquee"
 import ScrollCourses from './components/ScrollCourses'
@@ -13,6 +12,7 @@ import Difference from './components/Difference'
 import FAQ from './components/FAQ'
 import LastHeading from './components/LastHeading'
 import TextPressure from "../../components/TextPressure";
+import Magic from './components/Magic'
 
 const Home = () => {
   return (
@@ -30,23 +30,7 @@ const Home = () => {
       </Link>
     </div>
     <div className="flex justify-center items-center">
-      <div className="w-[full] lg-w-2/3 rounded-[32px] border border-white/10 bg-[rgba(15,15,15,0.45)] backdrop-blur-xl shadow-[0_8px_32px_rgba(0,0,0,0.45)] p-6 flex justify-center items-center">
-    
-        <MagicBento 
-          textAutoHide={true}
-          enableStars={false}
-          enableSpotlight
-          enableBorderGlow={false}
-          enableTilt={false}
-          enableMagnetism={false}
-          clickEffect
-          spotlightRadius={400}
-          particleCount={12}
-          glowColor='255, 180, 120'
-          disableAnimations={false}
-        />
-    
-      </div>
+      <Magic />
     </div>
     <div>
       <ImageMarquee />

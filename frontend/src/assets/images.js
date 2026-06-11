@@ -12,4 +12,7 @@ import five from '../assets/5.jpeg'
 import six from '../assets/6.jpeg'
 import course from '../assets/course.webp'
 import companies from '../assets/companies.png'
-export {youtube,linkedin,x,instagram,logo,tiger,computer,two,three,four,five,six,companies, course};
+import webd from "../assets/webd.webp"
+import ai from "../assets/ai.png"
+import dsa from "../assets/dsa.avif"
+export {youtube,linkedin,x,instagram,logo,tiger,computer,two,three,four,five,six,companies, course,dsa,ai,webd};
