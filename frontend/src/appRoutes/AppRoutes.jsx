@@ -11,7 +11,7 @@ import Client from '../pages/client/Client';
 import CoursePage from '../pages/courseDetails/CoursePages';
 import BookMeeting from '@/pages/bookMeeting/BookMeeting';
 
-import Career from '@/pages/career/Career';
+import Career from '@/pages/career/CareerPage';
 import Students from '@/pages/students/Students';
 import StudentProfile from '@/pages/students/StudentProfile';
 import ScrollTop from '@/components/ScrollTop';
