@@ -10,9 +10,12 @@ import Courses from '../pages/courses/Courses';
 import Client from '../pages/client/Client';
 import CoursePage from '../pages/courseDetails/CoursePages';
 import BookMeeting from '@/pages/bookMeeting/BookMeeting';
+
 import Career from '@/pages/careers/Career';
 import Students from '@/pages/students/Students';
 import StudentProfile from '@/pages/students/StudentProfile';
+
+
 import ScrollTop from '@/components/ScrollTop';
 
 const AppRoutes = () => {

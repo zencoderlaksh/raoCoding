@@ -27,7 +27,8 @@ const Navbar = () => {
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
     { name: "Courses", path: "/courses" },
-    { name: "Book a Meeting", path: "/contact" },
+    { name: "Book a Meeting", path: "/meeting" },
+    {name:"Client",path:"/client"}
   ];
 
   return (
@@ -44,7 +45,7 @@ const Navbar = () => {
         </div>
 
         {/* Glass Navbar */}
-        <div className="hidden md:flex items-center justify-center gap-10 lg:gap-14 w-[500px] lg:w-[650px] py-4 rounded-xl border border-white/20 bg-white/10 backdrop-blur-2xl shadow-2xl flex-shrink">
+        <div className="hidden md:flex items-center justify-center gap-10 lg:gap-14 w-[550px] lg:w-[750px] py-4 rounded-xl border border-white/20 bg-white/10 backdrop-blur-2xl shadow-2xl flex-shrink">
           {navLinks.map((link) => (
             <motion.a
               key={link.name}
@@ -195,6 +196,13 @@ const Navbar = () => {
               className={`cursor-pointer ${getMobileLinkClass("/contact")}`}
             >
               Contact
+            </span>
+
+            <span
+              onClick={() => { navigate("/client"); setMenuOpen(false); }}
+              className={`cursor-pointer ${getMobileLinkClass("/contact")}`}
+            >
+              Client
             </span>
 
             <button 

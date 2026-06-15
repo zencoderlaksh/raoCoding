@@ -16,7 +16,7 @@ export default function Courses() {
           title="Full Stack"
           price="24,999"
           originalPrice="29,999"
-          discount="53"
+          discount="16"
           tags={["Machine Learning", "Deep Learning", "Gen-AI"]}
           link="/course/full-stack"
         />
@@ -26,7 +26,7 @@ export default function Courses() {
           title="DSA"
           price="19,999"
           originalPrice="23,999"
-          discount=""
+          discount="17"
           tags={["Machine Learning", "Deep Learning", "Gen-AI"]}
           link="/course/dsa"
         />
@@ -34,9 +34,9 @@ export default function Courses() {
         <Card
           image={ai}
           title="AI ML"
-          price="6999"
-          originalPrice="29,999"
-          discount="40,000"
+          price="29,999"
+          originalPrice="40,000"
+          discount="25"
           tags={["Machine Learning", "Deep Learning", "Gen-AI"]}
           link="/course/ai-ml"
         />
