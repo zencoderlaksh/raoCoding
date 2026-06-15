@@ -28,9 +28,9 @@ const Magic = () => {
 
           <h1 className="mt-8 text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight">
             Learn.
-            
+            <br />
             Build.
-            
+            <br />
             Scale.
           </h1>
 

@@ -12,8 +12,8 @@ import CoursePage from '../pages/courseDetails/CoursePages';
 import BookMeeting from '@/pages/bookMeeting/BookMeeting';
 
 import Career from '@/pages/career/Career';
-import Students from '@/students/Students';
-import StudentProfile from '@/students/StudentProfile';
+import Students from '@/pages/students/Students';
+import StudentProfile from '@/pages/students/StudentProfile';
 import ScrollTop from '@/components/ScrollTop';
 
 const AppRoutes = () => {
