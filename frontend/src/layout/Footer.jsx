@@ -155,7 +155,7 @@ const Footer = () => {
 
               <li>
                 <Link
-                  to="/career-guidance"
+                  to="/career"
                   className="transition-all duration-300 hover:translate-x-1 hover:text-purple-400"
                 >
                   Career Guidance
