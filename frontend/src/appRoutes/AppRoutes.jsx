@@ -11,7 +11,7 @@ import Client from '../pages/client/Client';
 import CoursePage from '../pages/courseDetails/CoursePages';
 import BookMeeting from '@/pages/bookMeeting/BookMeeting';
 
-import Career from '@/pages/Career/StudentCareer';
+import StudentCareer from '@/pages/Career/StudentCareer';
 import Students from '@/students/Students';
 import StudentProfile from '@/students/StudentProfile';
 import ScrollTop from '@/components/ScrollTop';
@@ -30,7 +30,7 @@ const AppRoutes = () => {
         <Route path="/client" element={<Client />} />
         <Route path="/course/:courseName" element={<CoursePage />} />
 
-         <Route path="/career" element={<Career />} />
+         <Route path="/career" element={<StudentCareer />} />
 
         <Route path="/students" element={<Students />} />
 
