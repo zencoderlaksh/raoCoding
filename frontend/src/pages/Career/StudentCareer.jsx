@@ -7,7 +7,7 @@ import {
   ArrowRight,
 } from "lucide-react";
 
-const Career = () => {
+const StudentCareer = () => {
   const cards = [
     {
       icon: <BookOpen size={28} />,
@@ -186,4 +186,4 @@ const Career = () => {
   );
 };
 
-export default Career;
+export default StudentCareer;
