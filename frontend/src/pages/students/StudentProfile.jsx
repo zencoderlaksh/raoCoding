@@ -35,23 +35,35 @@ const studentsData = [
     review: "This program transformed my career. The hands-on projects helped me gain confidence and build a portfolio that attracted recruiters."
   },
   {
-    slug: "priya-verma",
-    name: "Priya Verma",
-    image: "https://i.pravatar.cc/300?img=5",
-    role: "AI & Data Science",
+    slug: "kritika-bhagwani",
+    name: "Kritika Bhagwani",
+    image: "/assets/k1.jpeg",
+    role: "Full Stack Development",
     batch: "2025",
-    bio: "Machine Learning enthusiast and problem solver. I enjoy uncovering patterns in complex datasets.",
-    skills: ["Python", "TensorFlow", "Pandas", "Scikit-Learn", "SQL"],
-    socials: { github: "#", linkedin: "#", website: "#" },
+    bio: "Aspiring to learn and develop new things",
+    skills: ["C", "C++", "Java", "Javascript", "HTML","CSS","React"],
+    socials: { github: "kritikabhagwani", linkedin: "-www.linkedin.com/in/kritika-bhagwani-4960b4396 ", website: "#" },
     projects: [
       {
         id: 1,
-        title: "Sales Predictor",
-        desc: "Time-series forecasting model for retail sales.",
-        tags: ["Python", "ML", "Data"],
+        title: "Resume Analyser ",
+        desc: ".",
+        tags: ["", "", ""],
         demoLink: "#",
         githubLink: "#"
-      }
+      },
+      {
+        id: 2,
+        title: "Dice Analyser"
+      },
+      {
+        id: 3,
+        title: "Website for remote Healthcare and well being"
+      },
+    {
+      id: 4,
+        title: "Website for rental property management system"
+    }
     ],
     review: "The curriculum was extremely practical. I loved the deep dives into real-world datasets!"
   }

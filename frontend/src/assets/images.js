@@ -15,4 +15,5 @@ import companies from '../assets/companies.png'
 import webd from "../assets/webd.webp"
 import ai from "../assets/ai.png"
 import dsa from "../assets/dsa.avif"
-export {youtube,linkedin,x,instagram,logo,tiger,computer,two,three,four,five,six,companies, course,dsa,ai,webd};
+import img from "../assets/k1.jpeg"
+export {youtube,linkedin,x,instagram,logo,tiger,computer,two,three,four,five,six,companies, course,dsa,ai,webd,img};

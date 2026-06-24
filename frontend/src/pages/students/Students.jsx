@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-
+import { EXPORT_IMAGES } from "../../assets/img.js"
 const students = [
   {
     id: 1,
@@ -14,10 +14,10 @@ const students = [
     id: 2,
     slug: "kritika-bhagwani",
     name: "Kritika Bhagwani",
-    course: "Full Stack Development",
-    projects: 3,
-    image: "https://i.pravatar.cc/300?img=5",
-    bio: "Topper of the batch with amazing coding skills",
+    course: "Mern Stack Development",
+    projects: 4,
+     image: EXPORT_IMAGES.img,
+    bio: "Aspiring to learn and develop new things",
   },
   {
     id: 3,
@@ -104,7 +104,7 @@ export default function Students() {
                 <img
                   src={student.image}
                   alt={student.name}
-                  className="w-full h-64 object-cover"
+                  className="w-full h-64 object-contain"
                 />
 
                 <div className="p-6">
