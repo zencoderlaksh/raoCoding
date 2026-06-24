@@ -17,8 +17,8 @@ const COURSES = [
     title: ["AI Powered", "Full Stack"],
     desc: "Master React, Node.js and Generative AI. Ship production-grade applications with real-world mentorship from industry engineers.",
     image: webd,
-    price: "₹24,999",
-    slashed: "₹29,999",
+    price: "₹19,999",
+    slashed: "₹24,999",
     accent: "#4ADE80",
     glow: "rgba(74,222,128,0.055)",
     borderTop: "rgba(74,222,128,0.25)",
@@ -31,8 +31,8 @@ const COURSES = [
     title: ["AI", "ML" ,"DL"],
     desc: "Deep-dive into ML algorithms, Python, LLMs and analytics pipelines. Built for engineers who want to lead with data.",
     image: ai,
-    price: "₹29,999",
-    slashed: "₹40,000",
+    price: "₹20,999",
+    slashed: "₹29,999",
     accent: "#FB923C",
     glow: "rgba(251,146,60,0.055)",
     borderTop: "rgba(251,146,60,0.25)",
@@ -45,8 +45,8 @@ const COURSES = [
     title: ["Problem Solving"],
     desc: "From basic to advanced level dsa with mock interviews",
     image: dsa,
-    price: "₹19,999",
-    slashed: "₹23,999",
+    price: "₹14,999",
+    slashed: "₹19,999",
     accent: "#60A5FA",
     glow: "rgba(96,165,250,0.055)",
     borderTop: "rgba(96,165,250,0.25)",
@@ -187,7 +187,7 @@ function CourseSection({ c }) {
           />
           <div className="sc-save-badge">
             <p className="sc-save-label">You Save</p>
-            <p className="sc-save-value" style={{ color: c.accent }}>50% OFF</p>
+            <p className="sc-save-value" style={{ color: c.accent }}>20% OFF</p>
           </div>
         </div>
       </div>

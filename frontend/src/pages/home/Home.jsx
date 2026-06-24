@@ -1,6 +1,5 @@
 import React from 'react'
 import Heading from './components/Heading'
-import AnimatedAvatars from './components/AnimatedAvatars'
 import Button from '../../components/Button'
 import { Link } from "react-router-dom";
 import ImageMarquee from "./components/ImageMarquee"
@@ -24,7 +23,7 @@ const Home = () => {
       <p  className="text-[D7D7D7] text-2xl font-light text-center max-w-4xl">
         Start your journey toward a successful tech career with hands-on learning and a thriving student community at Rao Coding School.
       </p>
-      <AnimatedAvatars />
+      
       <Link to="/login">
         <Button />
       </Link>

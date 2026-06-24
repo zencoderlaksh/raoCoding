@@ -18,9 +18,9 @@ export const coursesData = [
     title: "Full Stack Development",
     description:
       "Master frontend and backend development with real-world projects and production-ready applications.",
-    price: "6999",
-    originalPrice: "14891",
-    discount: "53",
+    price: "19,999",
+    originalPrice: "24,999",
+    discount: "20",
     tags: ["React", "Node.js", "MongoDB"],
     duration: "7",
     lectures: "200",
@@ -64,7 +64,8 @@ export const coursesData = [
       { name: "Render", icon: "☁️", color: "#46E3B7" },
     ],
     certificateText:
-      "Receive an industry-recognized certificate after successful completion of this course. This credential validates your expertise in full stack development and is trusted by top tech companies across India and globally. Share it on LinkedIn, attach it to job applications, and stand out in your career.",
+    "Earn a course completion certificate after completing all modules and projects. It represents your commitment to learning software engineering skills, building real-world applications, and improving your technical abilities. Share your achievement on LinkedIn and use it as part of your professional portfolio."
+      ,
     certificateImage: course,
     teacher: {
       name: "Harsh Sharma",
@@ -78,35 +79,35 @@ export const coursesData = [
     },
     feedbacks: [
       {
-        name: "Rahul",
+        name: "Shruti Singhal",
         role: "Now at TCS",
         image: studentAvatars.rahul,
         rating: 5,
         message: "Amazing projects and beautifully structured course. Got my first job offer within 2 months!",
       },
       {
-        name: "Priya",
+        name: "Ekta Poonia",
         role: "Freelance Developer",
         image: studentAvatars.priya,
         rating: 5,
         message: "Loved the UI and smooth learning experience. The backend section is pure gold.",
       },
       {
-        name: "Aman",
+        name: "Shubham Jakhar",
         role: "CS Student",
         image: studentAvatars.aman,
         rating: 5,
         message: "Best full stack roadmap for beginners. Everything is crystal clear.",
       },
       {
-        name: "Neha",
+        name: "Kritika",
         role: "Now at Infosys",
         image: studentAvatars.neha,
         rating: 5,
         message: "Projects are industry-level. I built my entire portfolio from this course.",
       },
       {
-        name: "Arjun",
+        name: "Md Shahzad",
         role: "Startup Founder",
         image: studentAvatars.arjun,
         rating: 5,
@@ -114,10 +115,47 @@ export const coursesData = [
       },
     ],
     faqs: [
-      { question: "Is this course beginner friendly?", answer: "Yes, it starts completely from basics." },
-      { question: "Will I get certificate?", answer: "Yes, after completing the course." },
-      { question: "Are projects included?", answer: "Yes, multiple real-world projects are included." },
-    ],
+  {
+    question: "Who are these courses designed for?",
+    answer:
+      "These courses are designed for engineering students, beginners, and anyone who wants to build strong programming and software engineering skills from scratch. Whether you are starting your coding journey or preparing for placements, these courses will help you develop practical skills.",
+  },
+  {
+    question: "What courses do you offer?",
+    answer:
+      "I offer courses in Web Development, Data Structures & Algorithms (DSA), and Artificial Intelligence & Machine Learning. Each course includes concepts, practical implementation, real-world projects, and problem-solving techniques.",
+  },
+  {
+    question: "Do I need prior programming experience?",
+    answer:
+      "No. The courses start from fundamentals and gradually move towards advanced topics. Every concept is explained step by step so beginners can build strong programming foundations.",
+  },
+  {
+    question: "Will I work on real-world projects?",
+    answer:
+      "Yes. Along with theory, you will build practical projects that help you understand how technologies are used in real software development environments.",
+  },
+  {
+    question: "How does your teaching approach work?",
+    answer:
+      "My teaching approach focuses on understanding why concepts work instead of memorizing code. Every topic is explained using examples, visualizations, and hands-on practice.",
+  },
+  {
+    question: "Will these courses help with coding interviews?",
+    answer:
+      "Yes. The DSA course focuses on problem-solving patterns, algorithms, and interview preparation. Development courses focus on building industry-ready projects.",
+  },
+  {
+    question: "Are the courses self-paced or live?",
+    answer:
+      "The courses follow a structured roadmap that allows you to learn at your own pace while progressing from beginner concepts to advanced engineering skills.",
+  },
+  {
+    question: "What technologies will I learn?",
+    answer:
+      "You will learn modern technologies used in software engineering including web development tools, programming languages, data structures, algorithms, AI concepts, and machine learning techniques.",
+  },
+],
   },
 
   {
@@ -126,9 +164,9 @@ export const coursesData = [
     title: "DSA Mastery",
     description:
       "Master Data Structures & Algorithms for coding interviews and problem solving.",
-    price: "6999",
-    originalPrice: "14891",
-    discount: "53",
+    price: "14,999",
+    originalPrice: "19,999",
+    discount: "25",
     tags: ["Java", "DSA", "Problem Solving"],
     duration: "6",
     lectures: "180",
@@ -207,9 +245,9 @@ export const coursesData = [
     title: "AI & Machine Learning",
     description:
       "Build intelligent systems from scratch — master ML algorithms, neural networks, and deploy real AI models used in production.",
-    price: "7999",
-    originalPrice: "17999",
-    discount: "56",
+    price: "20,999",
+    originalPrice: "29,999",
+    discount: "30",
     tags: ["Python", "TensorFlow", "Machine Learning"],
     duration: "8",
     lectures: "220",

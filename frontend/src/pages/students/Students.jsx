@@ -1,23 +1,77 @@
 import { Link } from "react-router-dom";
-
+import { EXPORT_IMAGES } from "../../assets/img.js"
 const students = [
   {
     id: 1,
-    slug: "rahul-sharma",
-    name: "Rahul Sharma",
-    course: "Full Stack Development",
+    slug: "shahzad",
+    name: "Shahzad",
+    course: "Full Stack Development & Java",
     projects: 5,
     image: "https://i.pravatar.cc/300?img=1",
     bio: "Passionate developer building modern web apps.",
   },
   {
     id: 2,
-    slug: "priya-verma",
-    name: "Priya Verma",
-    course: "AI & Data Science",
-    projects: 8,
+    slug: "kritika-bhagwani",
+    name: "Kritika Bhagwani",
+    course: "Mern Stack Development",
+    projects: 4,
+     image: EXPORT_IMAGES.img,
+    bio: "Aspiring to learn and develop new things",
+  },
+  {
+    id: 3,
+    slug: "shubham-jakhar",
+    name: "Shubham Jakhar",
+    course: "Full Stack Development & C++",
+    projects: 6,
+    image: "https://i.pravatar.cc/300?img=2",
+    bio: "Building crazy things",
+  },
+  {
+    id: 4,
+    slug: "sonam-choudhary",
+    name: "Sonam Choudhary",
+    course: "Full Stack Development & C++",
+    projects: 6,
     image: "https://i.pravatar.cc/300?img=5",
-    bio: "Machine Learning enthusiast and problem solver.",
+    bio: "Curious Web developer",
+  },
+  {
+    id: 5,
+    slug: "shruti-singhal",
+    name: "Shruti Singhal",
+    course: "Full Stack Development",
+    projects: 3,
+    image: "https://i.pravatar.cc/300?img=5",
+    bio: "Building with Startups",
+  },
+  {
+    id: 6,
+    slug: "ekta-poonia",
+    name: "Ekta Poonia",
+    course: "Full Stack Development",
+    projects: 3,
+    image: "https://i.pravatar.cc/300?img=5",
+    bio: "Working with Google",
+  },
+  {
+    id: 7,
+    slug: "akshita",
+    name: "Akshita",
+    course: "Full Stack Development",
+    projects: 3,
+    image: "https://i.pravatar.cc/300?img=5",
+    bio: "Freelancer",
+  },
+  {
+    id: 8,
+    slug: "neeraj",
+    name: "Neeraj",
+    course: "Full Stack Development",
+    projects: 3,
+    image: "https://i.pravatar.cc/300?img=5",
+    bio: "Thinks like a founder",
   },
 ];
 
@@ -50,7 +104,7 @@ export default function Students() {
                 <img
                   src={student.image}
                   alt={student.name}
-                  className="w-full h-64 object-cover"
+                  className="w-full h-64 object-contain"
                 />
 
                 <div className="p-6">
