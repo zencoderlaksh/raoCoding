@@ -23,9 +23,9 @@ const students = [
     id: 3,
     slug: "shubham-jakhar",
     name: "Shubham Jakhar",
-    course: "Full Stack Development & C++",
-    projects: 6,
-    image: "https://i.pravatar.cc/300?img=2",
+    course: "Mern Stack Developer",
+    projects: 2,
+    image: EXPORT_IMAGES.img1,
     bio: "Building crazy things",
   },
   {
