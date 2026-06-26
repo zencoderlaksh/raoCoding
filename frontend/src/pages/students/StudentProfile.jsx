@@ -1,33 +1,34 @@
 import { useParams, Link } from "react-router-dom";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import { Globe, Star } from "lucide-react";
+import { EXPORT_IMAGES } from "../../assets/img.js"
 
 // Mock Database: In a real app, you would fetch this from an API or a shared data file.
 // Notice how the 'slug' matches the URL paths generated in your Students gallery.
 const studentsData = [
   {
-    slug: "rahul-sharma",
-    name: "Rahul Sharma",
-    image: "https://i.pravatar.cc/400?img=1",
-    role: "Full Stack Developer",
+    slug: "shubham-jakhar",
+    name: "Shubham Jakhar",
+    image: EXPORT_IMAGES.img1,
+    role: "Mern Stack Developer",
     batch: "2025",
     bio: "Passionate full-stack developer with expertise in React, Flask, Node.js and AI-powered applications. I love building products that solve real-world problems.",
-    skills: ["HTML", "CSS", "JavaScript", "React", "Tailwind", "Node", "Flask", "MongoDB"],
-    socials: { github: "#", linkedin: "#", website: "#" },
+    skills: ["HTML", "CSS", "JavaScript", "React", "Express", "Node",  "MongoDB"],
+    socials: { github: "https://github.com/shubhamjakhar15 ", linkedin: "https://www.linkedin.com/in/shubham-jakhar15", website: "#" },
     projects: [
       {
         id: 1,
-        title: "AI Resume Analyzer",
-        desc: "Resume analysis platform using AI and ATS optimization.",
-        tags: ["React", "Flask", "AI"],
+        title: "Minime Clothing website",
+        desc: "",
+        tags: [],
         demoLink: "#",
         githubLink: "#"
       },
       {
         id: 2,
-        title: "E-Commerce Dashboard",
-        desc: "Admin panel for managing online store inventory and orders.",
-        tags: ["React", "Node", "MongoDB"],
+        title: "Rao coding school",
+        desc: ".",
+        tags: [],
         demoLink: "#",
         githubLink: "#"
       }
@@ -37,7 +38,7 @@ const studentsData = [
   {
     slug: "kritika-bhagwani",
     name: "Kritika Bhagwani",
-    image: "/assets/k1.jpeg",
+    image: EXPORT_IMAGES.img,
     role: "Full Stack Development",
     batch: "2025",
     bio: "Aspiring to learn and develop new things",
@@ -47,22 +48,34 @@ const studentsData = [
       {
         id: 1,
         title: "Resume Analyser ",
-        desc: ".",
-        tags: ["", "", ""],
+         desc: "Resume analysis platform using AI and ATS optimization.",
+        tags: ["React", "AI"],
         demoLink: "#",
         githubLink: "#"
       },
       {
         id: 2,
-        title: "Dice Analyser"
+        title: "Dice Analyser",
+        desc: "",
+        tags: [],
+        demoLink: "#",
+        githubLink: "#"
       },
       {
         id: 3,
-        title: "Website for remote Healthcare and well being"
+        title: "Website for remote Healthcare and well being",
+        desc: "",
+        tags: [],
+        demoLink: "#",
+        githubLink: "#"
       },
     {
       id: 4,
-        title: "Website for rental property management system"
+        title: "Website for rental property management system",
+        desc: "",
+        tags: [],
+        demoLink: "#",
+        githubLink: "#"
     }
     ],
     review: "The curriculum was extremely practical. I loved the deep dives into real-world datasets!"
