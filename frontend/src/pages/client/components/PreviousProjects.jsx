@@ -1,16 +1,23 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, useSpring, useMotionValue } from "framer-motion";
+import portraitIndexMoney from "@/assets/portrai_index_money.png"
+import { useNavigate } from "react-router-dom";
 
 const ARCHIVE = [
-  { id: "01", title: "Apex FinTech", category: "Web Design / Next.js", year: "2025", img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop" },
-  { id: "02", title: "Nova Wearable", category: "E-Commerce / Shopify", year: "2025", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop" },
-  { id: "03", title: "Quantum AI", category: "SaaS Dashboard Development", year: "2024", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop" },
-  { id: "04", title: "Vortex Agency", category: "Creative Branding Portfolio", year: "2024", img: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=600&auto=format&fit=crop" },
+  // { id: "01", title: "FinTech", category: "Web Design / Next.js", year: "2025", img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop" },
+  { id: "01", title: "Fresh Belly", category: "Web Design / Next.js", year: "2025", img: "https://freshbelly.netlify.app/assets/Glass-me40kAFO.png", projectLink: "https://freshbelly.netlify.app/" },
+  // { id: "02", title: "Nova Wearable", category: "E-Commerce / Shopify", year: "2025", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop" },
+  { id: "02", title: "Sucha", category: "E-Commerce / Shopify", year: "2025", img: "https://sucha.netlify.app/assets/l1-DsGXrqKZ.png", projectLink: "https://sucha.netlify.app/" },
+  // { id: "03", title: "Quantum AI", category: "SaaS Dashboard Development", year: "2024", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop" },
+  { id: "03", title: "Mini Me Clothing", category: "E-Commerce ", year: "2024", img: "https://theminimeclothing.netlify.app/assets/home-DuCpc2eD.avif", projectLink: "https://theminimeclothing.netlify.app/" },
+  // { id: "04", title: "Vortex Agency", category: "Creative Branding Portfolio", year: "2024", img: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=600&auto=format&fit=crop" },
+  { id: "04", title: "Index Money", category: "Creative Branding Portfolio", year: "2024", img: portraitIndexMoney, projectLink: "https://indexmoney.in/" },
 ];
 
 export default function PreviousProjects() {
   const [hoveredIndex, setHoveredIndex] = useState(null);
-  
+  const navigate = useNavigate();
+
   // Track absolute cursor coordinates
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
@@ -27,7 +34,7 @@ export default function PreviousProjects() {
   };
 
   return (
-    <section 
+    <section
       onMouseMove={handleMouseMove}
       className="relative w-full bg-black text-white px-[6vw] py-32 border-t border-zinc-900"
     >
@@ -54,6 +61,7 @@ export default function PreviousProjects() {
             onMouseEnter={() => setHoveredIndex(idx)}
             onMouseLeave={() => setHoveredIndex(null)}
             className="group relative flex justify-between items-center py-8 md:py-12 border-b border-zinc-800 cursor-pointer transition-colors duration-300"
+            onClick={() => window.open(project.projectLink, "_blank")}
           >
             {/* Soft backdrop highlight on line items */}
             <div className="absolute inset-0 bg-zinc-900/0 group-hover:bg-zinc-900/20 transition-colors duration-500 pointer-events-none -z-10" />
@@ -62,16 +70,14 @@ export default function PreviousProjects() {
               <span className="font-mono text-xs text-zinc-600 group-hover:text-[#ff5a28] transition-colors duration-300">
                 {project.id}
               </span>
-              <h3 className={`text-[clamp(24px,3.5vw,54px)] font-light tracking-[-0.02em] transition-opacity duration-300 ${
-                hoveredIndex !== null && hoveredIndex !== idx ? "opacity-30" : "opacity-100"
-              }`}>
+              <h3 className={`text-[clamp(24px,3.5vw,54px)] font-light tracking-[-0.02em] transition-opacity duration-300 ${hoveredIndex !== null && hoveredIndex !== idx ? "opacity-30" : "opacity-100"
+                }`}>
                 {project.title}
               </h3>
             </div>
 
-            <div className={`flex items-center gap-12 text-sm font-light text-zinc-500 transition-opacity duration-300 ${
-              hoveredIndex !== null && hoveredIndex !== idx ? "opacity-30" : "opacity-100"
-            }`}>
+            <div className={`flex items-center gap-12 text-sm font-light text-zinc-500 transition-opacity duration-300 ${hoveredIndex !== null && hoveredIndex !== idx ? "opacity-30" : "opacity-100"
+              }`}>
               <span className="hidden md:inline text-zinc-400 font-mono text-[13px]">{project.category}</span>
               <span className="font-mono text-zinc-600">{project.year}</span>
             </div>

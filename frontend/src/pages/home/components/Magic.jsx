@@ -8,6 +8,15 @@ import {
   FolderKanban,
 } from "lucide-react";
 
+import redBoyCoding from "@/assets/red_boy_coding.png"
+import expertMentor from "@/assets/expert_mentor.png"
+import codingCommunity from "@/assets/coding_community.jpg"
+// import commnityBuilding from "@/assets/commnity_building.png"
+// import globalClient from "@/assets/global_client.png"
+import projects from "@/assets/real_project_img.png"
+import buildAmazing from '@/assets/build_amazing_img.jpg'
+// import studentsCoding from "@/assets/students_coding.png"
+
 import HeroButton from "../../../components/HeroButton";
 import { computer, two, three, four, five, six } from "@/assets/images";
 
@@ -28,9 +37,9 @@ const Magic = () => {
 
           <h1 className="mt-8 text-5xl md:text-7xl font-bold text-white tracking-tight leading-tight">
             Learn.
-            
+
             Build.
-            
+
             Scale.
           </h1>
 
@@ -43,7 +52,8 @@ const Magic = () => {
         {/* HERO CARD */}
         <div className="relative overflow-hidden rounded-[40px] border border-white/10 bg-white/[0.03] backdrop-blur-3xl mb-10 shadow-[0_20px_80px_rgba(0,0,0,0.5)]">
           <img
-            src={computer}
+            // src={computer}
+            src={redBoyCoding}
             alt=""
             className="absolute inset-0 w-full h-full object-cover opacity-40"
           />
@@ -80,7 +90,8 @@ const Magic = () => {
           {/* Community */}
           <div className="group relative overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.03] backdrop-blur-3xl">
             <img
-              src={two}
+              // src={two}
+              src={codingCommunity}
               alt=""
               className="absolute inset-0 w-full h-full object-cover opacity-20 group-hover:scale-110 transition duration-700"
             />
@@ -133,7 +144,8 @@ const Magic = () => {
           <div className="group overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.03] backdrop-blur-3xl">
             <div className="h-56 overflow-hidden">
               <img
-                src={five}
+                // src={five}
+                src={expertMentor}
                 alt=""
                 className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
               />
@@ -159,7 +171,8 @@ const Magic = () => {
           <div className="group overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.03] backdrop-blur-3xl">
             <div className="h-56 overflow-hidden">
               <img
-                src={six}
+                // src={six}
+                src={projects}
                 alt=""
                 className="w-full h-full object-cover group-hover:scale-110 transition duration-700"
               />
@@ -184,7 +197,8 @@ const Magic = () => {
           {/* CTA */}
           <div className="relative overflow-hidden rounded-[32px] border border-white/10 bg-white/[0.03] backdrop-blur-3xl">
             <img
-              src={four}
+              // src={four}
+              src={buildAmazing}
               alt=""
               className="absolute inset-0 w-full h-full object-cover opacity-30"
             />
