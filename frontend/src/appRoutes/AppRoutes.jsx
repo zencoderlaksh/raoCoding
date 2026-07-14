@@ -16,9 +16,15 @@ import CoursePage from '../pages/courseDetails/CoursePages';
 import AdminDashboard from '../pages/admin/AdminDashboard';
 import BookMeeting from '@/pages/bookMeeting/BookMeeting';
 
-import Career from '@/pages/career/Career';
-import Students from '@/students/Students';
-import StudentProfile from '@/students/StudentProfile';
+
+import StudentCareer from '@/pages/career/StudentCareer';
+
+import Students from '@/pages/students/Students';
+import StudentProfile from '@/pages/students/StudentProfile';
+
+
+
+
 import ScrollTop from '@/components/ScrollTop';
 
 const OnboardingGuard = ({ children }) => {
@@ -59,7 +65,7 @@ const AppRoutes = () => {
         <Route path="/client" element={<Client />} />
         <Route path="/course/:courseName" element={<CoursePage />} />
 
-         <Route path="/career" element={<Career />} />
+         <Route path="/career" element={<StudentCareer />} />
 
         <Route path="/students" element={<Students />} />
 

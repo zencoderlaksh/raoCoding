@@ -141,10 +141,7 @@ function CourseSection({ c }) {
             accent={c.accent}
             glow={c.glow}
           />
-          <div className="sc-save-badge">
-            <p className="sc-save-label">You Save</p>
-            <p className="sc-save-value" style={{ color: c.accent }}>50% OFF</p>
-          </div>
+          
         </div>
       </div>
     </section>

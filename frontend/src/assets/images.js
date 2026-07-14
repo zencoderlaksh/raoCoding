@@ -15,4 +15,7 @@ import companies from '../assets/companies.png'
 import webd from "../assets/webd.webp"
 import ai from "../assets/ai.png"
 import dsa from "../assets/dsa.avif"
-export {youtube,linkedin,x,instagram,logo,tiger,computer,two,three,four,five,six,companies, course,dsa,ai,webd};
+import img from "../assets/k1.jpeg"
+import indexMoney from '../assets/index_money_project.png'
+import portraitIndexMoney from '../assets/portrai_index_money.png'
+export { youtube, linkedin, x, instagram, logo, tiger, computer, two, three, four, five, six, companies, course, dsa, ai, webd, img, indexMoney, portraitIndexMoney };

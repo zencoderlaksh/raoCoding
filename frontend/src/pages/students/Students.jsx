@@ -68,7 +68,7 @@ export default function Students() {
                 <img
                   src={student.image}
                   alt={student.name}
-                  className="w-full h-64 object-cover"
+                  className="w-full h-64 object-contain"
                 />
 
                 <div className="p-6">
