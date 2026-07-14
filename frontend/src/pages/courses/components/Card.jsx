@@ -3,6 +3,7 @@ import { ArrowRight, Tag } from "lucide-react";
 import { Link } from "react-router-dom";
 
 const Card = ({
+  slug,
   image,
   title,
   price,
@@ -10,8 +11,8 @@ const Card = ({
   discount,
   tags = [],
 }) => {
-  // Convert title into URL slug safely
-  const slug = title?.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "") || "course";
+  // Convert title into URL slug safely as a fallback, but prefer the actual DB slug
+  const courseSlug = slug || title?.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)+/g, "") || "course";
 
   return (
     <div className="group relative w-full max-w-[420px] mx-auto rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.05] to-transparent backdrop-blur-xl p-4 sm:p-5 transition-all duration-500 hover:-translate-y-2 hover:shadow-[0_20px_40px_-15px_rgba(255,107,0,0.25)] hover:border-orange-500/30">
@@ -75,7 +76,7 @@ const Card = ({
           </div>
 
           {/* Call to Action Button */}
-          <Link to={`/course/${slug}`} className="block w-full">
+          <Link to={`/course/${courseSlug}`} className="block w-full">
             <button className="relative w-full overflow-hidden flex items-center justify-center gap-2 py-3.5 sm:py-4 rounded-xl bg-white/5 border border-white/10 text-white font-semibold text-sm sm:text-base transition-all duration-300 group/btn hover:bg-gradient-to-r hover:from-[#ff6b00] hover:to-orange-500 hover:border-transparent hover:shadow-[0_0_20px_rgba(255,107,0,0.4)]">
               <span className="relative z-10 flex items-center gap-2">
                 View Course Details

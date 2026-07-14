@@ -7,6 +7,9 @@ import {
   ChevronDown, Star, Users, Zap, Trophy, BookOpen,
   TrendingUp, Code2, Flame,
 } from "lucide-react";
+import { useAuth } from "@clerk/clerk-react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 
 /* ─────────────────────────── CountUp ─────────────────────────── */
 const CountUp = ({ end, suffix = "" }) => {
@@ -195,13 +198,16 @@ const JourneyTimeline = () => (
 
 /* ─────────────────────── MAIN COMPONENT ─────────────────────── */
 const CourseDetails = ({
-  image, title, description, price, originalPrice, discount,
+  _id, image, title, description, price, originalPrice, discount,
   tags, duration, lectures, projects,
   curriculum, learnings, prerequisites, technologies,
   certificateText, certificateImage,
   teacher, feedbacks, faqs,
 }) => {
   const scrollRef = useRef(null);
+  const { isSignedIn, getToken } = useAuth();
+  const navigate = useNavigate();
+  const [isEnrolling, setIsEnrolling] = useState(false);
 
   useEffect(() => {
     if (!scrollRef.current) return;
@@ -213,6 +219,43 @@ const CourseDetails = ({
     locoScroll.scrollTo("top", { duration: 0, disableLerp: true });
     return () => locoScroll.destroy();
   }, []);
+
+  const handleEnroll = async () => {
+    if (!isSignedIn) {
+      navigate('/login');
+      return;
+    }
+    
+    if (!_id) {
+      toast.error("This course is currently a demo and not available for purchase. (Missing Database ID)");
+      return;
+    }
+
+    setIsEnrolling(true);
+    try {
+      const token = await getToken();
+      const res = await fetch('/api/payments/checkout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`
+        },
+        body: JSON.stringify({ courseId: _id })
+      });
+      
+      const result = await res.json();
+      if (res.ok && result.data?.checkoutUrl) {
+        window.location.href = result.data.checkoutUrl;
+      } else {
+        toast.error(result.message || "Failed to initiate checkout");
+      }
+    } catch (err) {
+      console.error(err);
+      toast.error("Payment initiation failed. Please try again later.");
+    } finally {
+      setIsEnrolling(false);
+    }
+  };
 
   return (
     <div
@@ -244,17 +287,19 @@ const CourseDetails = ({
             <h1 className="text-5xl lg:text-7xl font-bold leading-tight">{title}</h1>
             <p className="mt-8 text-gray-400 text-lg leading-relaxed">{description}</p>
             <div className="flex items-center gap-5 mt-10 flex-wrap">
-              <h2 className="text-5xl font-bold text-orange-500">₹{price}</h2>
-              <span className="line-through text-2xl text-gray-500">₹{originalPrice}</span>
+              <h2 className="text-5xl font-bold text-orange-500">₹{price / 100}</h2>
+              <span className="line-through text-2xl text-gray-500">₹{originalPrice / 100}</span>
               <div className="px-5 py-2 rounded-xl bg-orange-500 text-black font-bold">{discount}% OFF</div>
             </div>
             <motion.button
-              whileHover={{ scale: 1.03 }}
-              whileTap={{ scale: 0.97 }}
-              className="mt-8 px-10 py-4 bg-orange-500 hover:bg-orange-400 text-black font-bold rounded-2xl text-lg transition-colors duration-300 flex items-center gap-3"
+              whileHover={{ scale: isEnrolling ? 1 : 1.03 }}
+              whileTap={{ scale: isEnrolling ? 1 : 0.97 }}
+              onClick={handleEnroll}
+              disabled={isEnrolling}
+              className={`mt-8 px-10 py-4 bg-orange-500 hover:bg-orange-400 text-black font-bold rounded-2xl text-lg transition-colors duration-300 flex items-center gap-3 ${isEnrolling ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
               <Zap size={20} />
-              Enroll Now
+              {isEnrolling ? "Processing..." : "Enroll Now"}
             </motion.button>
           </motion.div>
           <motion.img
@@ -374,7 +419,7 @@ const CourseDetails = ({
               initial={{ opacity: 0, scale: 0.9 }}
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
-              src={certificateImage}
+              src={certificateImage || "https://dummyimage.com/600x400/111/fff?text=Certificate"}
               alt="certificate"
               loading="lazy"
               className="rounded-[30px] border border-white/10 shadow-2xl"
@@ -390,17 +435,17 @@ const CourseDetails = ({
             <div className="lg:col-span-2 bg-gradient-to-br from-orange-500/20 to-purple-600/20 flex items-end justify-center pt-10 min-h-[420px] relative overflow-hidden">
               <div className="absolute top-0 left-0 right-0 bottom-0 bg-gradient-to-b from-transparent to-black/40" />
               <img
-                src={teacher.image}
-                alt={teacher.name}
+                src={teacher?.image || "https://dummyimage.com/400x250/111/fff"}
+                alt={teacher?.name || "Instructor"}
                 loading="lazy"
                 className="relative z-10 w-56 h-56 object-cover rounded-full border-4 border-orange-500/50 mb-26"
               />
             </div>
             {/* right: info panel */}
             <div className="lg:col-span-3 p-10 flex flex-col justify-center">
-              <p className="text-orange-400 text-sm font-semibold uppercase tracking-widest mb-2">{teacher.role}</p>
-              <h3 className="text-4xl font-bold mb-4">{teacher.name}</h3>
-              <p className="text-gray-300 leading-relaxed mb-8">{teacher.bio}</p>
+              <p className="text-orange-400 text-sm font-semibold uppercase tracking-widest mb-2">{teacher?.role || "Instructor"}</p>
+              <h3 className="text-4xl font-bold mb-4">{teacher?.name || "Unknown Instructor"}</h3>
+              <p className="text-gray-300 leading-relaxed mb-8">{teacher?.bio || "No bio available."}</p>
 
               {/* stats row */}
               <div className="grid grid-cols-3 gap-4 mb-8">
@@ -444,7 +489,7 @@ const CourseDetails = ({
               <div key={index} className="w-[360px] p-7 rounded-[28px] bg-white/5 border border-white/10 hover:border-orange-500/30 transition-colors duration-300 flex-shrink-0">
                 <div className="flex items-center gap-4 mb-5">
                   <img
-                    src={item.image}
+                    src={item.image || "https://dummyimage.com/100x100/111/fff"}
                     alt={item.name}
                     className="w-12 h-12 rounded-full border-2 border-orange-500/40 bg-white/10"
                   />
@@ -471,7 +516,7 @@ const CourseDetails = ({
               <div key={index} className="w-[360px] p-7 rounded-[28px] bg-white/5 border border-white/10 flex-shrink-0">
                 <div className="flex items-center gap-4 mb-5">
                   <img
-                    src={item.image}
+                    src={item.image || "https://dummyimage.com/100x100/111/fff"}
                     alt={item.name}
                     className="w-12 h-12 rounded-full border-2 border-purple-500/40 bg-white/10"
                   />

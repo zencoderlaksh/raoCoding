@@ -2,11 +2,14 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { logo } from '../assets/images';
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth, useClerk } from "@clerk/clerk-react";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const { isSignedIn } = useAuth();
+  const { signOut } = useClerk();
 
   // Helper to check if the path is active
   const isActive = (path) => location.pathname === path;
@@ -92,48 +95,80 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Desktop Button */}
-        <motion.a
-          onClick={(e) => {
-            e.preventDefault();
-            navigate("/login");
-          }}
-          initial="rest"
-          whileHover="hover"
-          animate="rest"
-          className={getDesktopLinkClass("/login")}
-        >
-          <motion.span
-            variants={{
-              rest: { y: 0 },
-              hover: { y: -30 },
-            }}
-            transition={{ duration: 0.35, ease: "easeInOut" }}
-            className="block"
-          >
-            Login
-          </motion.span>
-
-          <motion.span
-            variants={{
-              rest: { y: 30 },
-              hover: { y: 0 },
-            }}
-            transition={{ duration: 0.35, ease: "easeInOut" }}
-            className="absolute left-0 top-1 text-orange-400 block"
-          >
-            Login
-          </motion.span>
-
-          <motion.div
-            variants={{
-              rest: { scaleX: 0 },
-              hover: { scaleX: 1 },
-            }}
-            transition={{ duration: 0.4 }}
-            className="absolute bottom-0 left-0 w-full h-[2px] bg-orange-400 origin-left"
-          />
-        </motion.a>
+        {/* Desktop Buttons */}
+        <div className="hidden md:flex items-center gap-4">
+          {!isSignedIn ? (
+            <motion.a
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/login");
+              }}
+              initial="rest"
+              whileHover="hover"
+              animate="rest"
+              className={getDesktopLinkClass("/login")}
+            >
+              <motion.span
+                variants={{ rest: { y: 0 }, hover: { y: -30 } }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                className="block"
+              >
+                Login
+              </motion.span>
+              <motion.span
+                variants={{ rest: { y: 30 }, hover: { y: 0 } }}
+                transition={{ duration: 0.35, ease: "easeInOut" }}
+                className="absolute left-0 top-1 text-orange-400 block"
+              >
+                Login
+              </motion.span>
+              <motion.div
+                variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }}
+                transition={{ duration: 0.4 }}
+                className="absolute bottom-0 left-0 w-full h-[2px] bg-orange-400 origin-left"
+              />
+            </motion.a>
+          ) : (
+            <>
+              <motion.a
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigate("/profile");
+                }}
+                initial="rest"
+                whileHover="hover"
+                animate="rest"
+                className={getDesktopLinkClass("/profile")}
+              >
+                <motion.span
+                  variants={{ rest: { y: 0 }, hover: { y: -30 } }}
+                  transition={{ duration: 0.35, ease: "easeInOut" }}
+                  className="block"
+                >
+                  Profile
+                </motion.span>
+                <motion.span
+                  variants={{ rest: { y: 30 }, hover: { y: 0 } }}
+                  transition={{ duration: 0.35, ease: "easeInOut" }}
+                  className="absolute left-0 top-1 text-orange-400 block"
+                >
+                  Profile
+                </motion.span>
+                <motion.div
+                  variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }}
+                  transition={{ duration: 0.4 }}
+                  className="absolute bottom-0 left-0 w-full h-[2px] bg-orange-400 origin-left"
+                />
+              </motion.a>
+              <button
+                onClick={() => signOut(() => navigate("/"))}
+                className="px-4 py-2 text-sm font-medium text-white bg-red-600/80 hover:bg-red-600 rounded-lg transition"
+              >
+                Logout
+              </button>
+            </>
+          )}
+        </div>
 
         {/* Mobile Menu Button */}
         <button
@@ -205,12 +240,35 @@ const Navbar = () => {
               Client
             </span>
 
+            {isSignedIn && (
+              <span
+                onClick={() => { navigate("/profile"); setMenuOpen(false); }}
+                className={`cursor-pointer ${getMobileLinkClass("/profile")}`}
+              >
+                Profile
+              </span>
+            )}
+
             <button 
               onClick={() => { navigate("/contact"); setMenuOpen(false); }}
               className="cursor-pointer mt-2 px-6 py-3 rounded-full bg-orange-500 hover:bg-orange-600 transition text-white font-medium"
             >
               Book a Meeting
             </button>
+
+            {isSignedIn && (
+              <button 
+                onClick={() => {
+                  signOut(() => {
+                    navigate("/");
+                    setMenuOpen(false);
+                  });
+                }}
+                className="cursor-pointer mt-2 px-6 py-3 rounded-full bg-red-600/80 hover:bg-red-600 transition text-white font-medium"
+              >
+                Logout
+              </button>
+            )}
           </div>
         </div>
       )}
