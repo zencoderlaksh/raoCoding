@@ -56,8 +56,8 @@ const LeaderCard = ({ name, role, image, index }) => {
 const LeadersSection = () => {
   const leaders = [
     { name: "Lakshay Yadav", role: "Founder & CEO", image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLZlKj57kfs3R3Vt_XFnE_Qdj2po77SycCoQ&s" },
-    { name: "Shubham Jakhar", role: "Co-Founder", image: "https://via.placeholder.com/600x800" },
-    { name: "Kritika Bhagwani", role: "Head of Operations", image: "https://via.placeholder.com/600x800" },
+    { name: "Shubham Jakhar", role: "Co-Founder", image: "https://dummyimage.com/600x800/111/fff" },
+    { name: "Kritika Bhagwani", role: "Head of Operations", image: "https://dummyimage.com/600x800/111/fff" },
   ];
 
   return (

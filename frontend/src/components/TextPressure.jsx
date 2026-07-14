@@ -292,8 +292,8 @@ const debounce = (func, delay) => {
 
 const TextPressure = ({
   text = "RaoCoding",
-  fontFamily = "Compressa VF",
-  fontUrl = "https://res.cloudinary.com/dr6lvwubh/raw/upload/v1529908256/CompressaPRO-GX.woff2",
+  fontFamily = "Inter",
+  fontUrl = "",
 
   width = true,
   weight = true,
@@ -407,10 +407,11 @@ const TextPressure = ({
   const styleTag = useMemo(
     () => (
       <style>{`
+        ${fontUrl ? `
         @font-face {
           font-family: '${fontFamily}';
           src: url('${fontUrl}');
-        }
+        }` : ''}
 
         .text-pressure {
           display: flex;

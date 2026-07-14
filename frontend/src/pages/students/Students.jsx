@@ -1,81 +1,45 @@
 import { Link } from "react-router-dom";
-import { EXPORT_IMAGES } from "../../assets/img.js"
-const students = [
-  {
-    id: 1,
-    slug: "shahzad",
-    name: "Shahzad",
-    course: "Full Stack Development & Java",
-    projects: 5,
-    image: "https://i.pravatar.cc/300?img=1",
-    bio: "Passionate developer building modern web apps.",
-  },
-  {
-    id: 2,
-    slug: "kritika-bhagwani",
-    name: "Kritika Bhagwani",
-    course: "Mern Stack Development",
-    projects: 4,
-     image: EXPORT_IMAGES.img,
-    bio: "Aspiring to learn and develop new things",
-  },
-  {
-    id: 3,
-    slug: "shubham-jakhar",
-    name: "Shubham Jakhar",
-    course: "Mern Stack Developer",
-    projects: 2,
-    image: EXPORT_IMAGES.img1,
-    bio: "Building crazy things",
-  },
-  {
-    id: 4,
-    slug: "sonam-choudhary",
-    name: "Sonam Choudhary",
-    course: "Full Stack Development & C++",
-    projects: 6,
-    image: "https://i.pravatar.cc/300?img=5",
-    bio: "Curious Web developer",
-  },
-  {
-    id: 5,
-    slug: "shruti-singhal",
-    name: "Shruti Singhal",
-    course: "Full Stack Development",
-    projects: 3,
-    image: "https://i.pravatar.cc/300?img=5",
-    bio: "Building with Startups",
-  },
-  {
-    id: 6,
-    slug: "ekta-poonia",
-    name: "Ekta Poonia",
-    course: "Full Stack Development",
-    projects: 3,
-    image: "https://i.pravatar.cc/300?img=5",
-    bio: "Working with Google",
-  },
-  {
-    id: 7,
-    slug: "akshita",
-    name: "Akshita",
-    course: "Full Stack Development",
-    projects: 3,
-    image: "https://i.pravatar.cc/300?img=5",
-    bio: "Freelancer",
-  },
-  {
-    id: 8,
-    slug: "neeraj",
-    name: "Neeraj",
-    course: "Full Stack Development",
-    projects: 3,
-    image: "https://i.pravatar.cc/300?img=5",
-    bio: "Thinks like a founder",
-  },
-];
+import { useState, useEffect } from "react";
 
 export default function Students() {
+  const [students, setStudents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchStudents = async () => {
+      try {
+        const response = await fetch('/api/students');
+        if (!response.ok) {
+          throw new Error('Failed to fetch students');
+        }
+        const data = await response.json();
+        setStudents(data.data);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchStudents();
+  }, []);
+
+  if (loading) {
+    return (
+      <section className="min-h-screen bg-black text-white px-6 py-20 flex items-center justify-center">
+        <p>Loading students...</p>
+      </section>
+    );
+  }
+
+  if (error) {
+    return (
+      <section className="min-h-screen bg-black text-white px-6 py-20 flex items-center justify-center">
+        <p className="text-red-400">Error: {error}</p>
+      </section>
+    );
+  }
+
   return (
     <section className="min-h-screen bg-black text-white px-6 py-20">
       <div className="max-w-7xl mx-auto">
@@ -95,7 +59,7 @@ export default function Students() {
 
           {students.map((student) => (
             <Link
-              key={student.id}
+              key={student._id}
               to={`/students/${student.slug}`}
               className="group"
             >
@@ -117,15 +81,15 @@ export default function Students() {
                     {student.course}
                   </p>
 
-                  <p className="text-gray-400 mt-4">
+                  <p className="text-gray-400 mt-4 line-clamp-2">
                     {student.bio}
                   </p>
 
                   <div className="mt-4 text-sm text-gray-500">
-                    {student.projects} Projects Built
+                    {student.projectsCount || student.projects?.length || 0} Projects Built
                   </div>
 
-                  <button className="mt-6 text-cyan-400 font-semibold">
+                  <button className="mt-6 text-cyan-400 font-semibold group-hover:text-cyan-300 transition-colors">
                     View Profile →
                   </button>
 
@@ -133,6 +97,9 @@ export default function Students() {
               </div>
             </Link>
           ))}
+          {students.length === 0 && (
+            <p className="text-gray-500 col-span-3 text-center py-10">No students added yet.</p>
+          )}
 
         </div>
       </div>

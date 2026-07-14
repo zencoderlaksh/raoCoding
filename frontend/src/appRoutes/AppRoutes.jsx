@@ -1,14 +1,19 @@
 import React from 'react'
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+import { useUser } from "@clerk/clerk-react";
 import Home from "../pages/home/Home"
 import Layout from "../layout/Layout"
 import About from "../pages/about/About"
 import Contact from "../pages/contactus/ContactUs"
 import SignUp from '../pages/auth/SignUp';
 import Login from '../pages/auth/Login';
+import Onboarding from '../pages/auth/Onboarding';
+import Profile from '../pages/profile/Profile';
+import CourseViewer from '../pages/profile/CourseViewer';
 import Courses from '../pages/courses/Courses';
 import Client from '../pages/client/Client';
 import CoursePage from '../pages/courseDetails/CoursePages';
+import AdminDashboard from '../pages/admin/AdminDashboard';
 import BookMeeting from '@/pages/bookMeeting/BookMeeting';
 
 
@@ -22,11 +27,35 @@ import StudentProfile from '@/pages/students/StudentProfile';
 
 import ScrollTop from '@/components/ScrollTop';
 
+const OnboardingGuard = ({ children }) => {
+  const { user, isLoaded, isSignedIn } = useUser();
+  const location = useLocation();
+
+  if (!isLoaded) return null;
+
+  if (isSignedIn) {
+    const hasOnboarded = user?.publicMetadata?.onboardingComplete === true;
+    
+    if (!hasOnboarded && location.pathname !== '/onboarding') {
+      return <Navigate to="/onboarding" replace />;
+    }
+    
+    if (hasOnboarded && location.pathname === '/onboarding') {
+      return <Navigate to="/" replace />;
+    }
+  } else if (location.pathname === '/onboarding') {
+    return <Navigate to="/signup" replace />;
+  }
+
+  return children;
+};
+
 const AppRoutes = () => {
   return (
     <>
       <ScrollTop />
-    <Routes>
+      <OnboardingGuard>
+        <Routes>
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
@@ -47,7 +76,12 @@ const AppRoutes = () => {
       </Route>
       <Route path='/login' element={<Login />} />
       <Route path='/signup' element={<SignUp />} />
-    </Routes>
+      <Route path='/onboarding' element={<Onboarding />} />
+      <Route path='/profile' element={<Profile />} />
+      <Route path='/admin' element={<AdminDashboard />} />
+      <Route path='/my-courses/:id' element={<CourseViewer />} />
+        </Routes>
+      </OnboardingGuard>
     </>
   )
 }
