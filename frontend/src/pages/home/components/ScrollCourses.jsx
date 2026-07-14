@@ -1,4 +1,5 @@
 import React, { useEffect, useRef } from "react";
+import { useState } from "react";
 import LocomotiveScroll from "locomotive-scroll";
 import "locomotive-scroll/dist/locomotive-scroll.css";
 import { ArrowUpRight, Clock3, BadgeCheck, Headphones } from "lucide-react";
@@ -8,51 +9,6 @@ import {dsa,ai,webd} from "../../../assets/images"
 /* ─────────────────────────────────────────────
    DATA
 ───────────────────────────────────────────── */
-const COURSES = [
-  {
-    num: "01",
-    link: "/course/full-stack", // <-- Direct link added here
-    tag: "Most Popular",
-    subject: "Full Stack + Generative AI",
-    title: ["AI Powered", "Full Stack"],
-    desc: "Master React, Node.js and Generative AI. Ship production-grade applications with real-world mentorship from industry engineers.",
-    image: webd,
-    price: "₹24,999",
-    slashed: "₹29,999",
-    accent: "#4ADE80",
-    glow: "rgba(74,222,128,0.055)",
-    borderTop: "rgba(74,222,128,0.25)",
-  },
-  {
-    num: "02",
-    link: "/course/ai-ml", // <-- Direct link added here
-    tag: "Advanced Track",
-    subject: "Machine Learning + AI",
-    title: ["AI", "ML" ,"DL"],
-    desc: "Deep-dive into ML algorithms, Python, LLMs and analytics pipelines. Built for engineers who want to lead with data.",
-    image: ai,
-    price: "₹29,999",
-    slashed: "₹40,000",
-    accent: "#FB923C",
-    glow: "rgba(251,146,60,0.055)",
-    borderTop: "rgba(251,146,60,0.25)",
-  },
-  {
-    num: "03",
-    link: "/course/dsa", // <-- Direct link added here
-    tag: "Trending Now",
-    subject: "Data Structures and Algorithms",
-    title: ["Problem Solving"],
-    desc: "From basic to advanced level dsa with mock interviews",
-    image: dsa,
-    price: "₹19,999",
-    slashed: "₹23,999",
-    accent: "#60A5FA",
-    glow: "rgba(96,165,250,0.055)",
-    borderTop: "rgba(96,165,250,0.25)",
-  },
-];
-
 const FEATURES = [
   { Icon: Clock3, label: "6+ Months" },
   { Icon: BadgeCheck, label: "Certified" },
@@ -195,11 +151,45 @@ function CourseSection({ c }) {
   );
 }
 
+const COLORS = [
+  { accent: "#4ADE80", glow: "rgba(74,222,128,0.055)", borderTop: "rgba(74,222,128,0.25)" },
+  { accent: "#FB923C", glow: "rgba(251,146,60,0.055)", borderTop: "rgba(251,146,60,0.25)" },
+  { accent: "#60A5FA", glow: "rgba(96,165,250,0.055)", borderTop: "rgba(96,165,250,0.25)" },
+  { accent: "#A78BFA", glow: "rgba(167,139,250,0.055)", borderTop: "rgba(167,139,250,0.25)" },
+];
+
 /* ─────────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────────── */
 const ScrollCourses = () => {
   const scrollRef = useRef(null);
+  const [courses, setCourses] = useState([]);
+  const locoRef = useRef(null);
+
+  useEffect(() => {
+    fetch('/api/courses')
+      .then(res => res.json())
+      .then(result => {
+         const mapped = (result.data || []).map((c, i) => {
+           const color = COLORS[i % COLORS.length];
+           const titles = c.title.split("+").map(t => t.trim());
+           return {
+             _id: c._id,
+             num: String(i + 1).padStart(2, '0'),
+             link: `/course/${c.slug}`,
+             tag: c.tags && c.tags.length > 0 ? c.tags[0] : "New Course",
+             subject: c.title,
+             title: titles.length > 1 ? titles : [titles[0], "Course"],
+             desc: c.description,
+             image: c.image || "https://dummyimage.com/400x250/111/fff",
+             price: `₹${(c.price / 100).toLocaleString()}`,
+             slashed: `₹${(c.originalPrice / 100).toLocaleString()}`,
+             ...color
+           }
+         });
+         setCourses(mapped);
+      });
+  }, []);
 
   useEffect(() => {
     const id = "sc-font-dm-serif";
@@ -212,18 +202,26 @@ const ScrollCourses = () => {
   }, []);
 
   useEffect(() => {
-    if (!scrollRef.current) return;
-    const loco = new LocomotiveScroll({
-      el: scrollRef.current,
-      smooth: true,
-      multiplier: 0.85,
-      lerp: 0.1,
-      class: "is-inview",
-      smartphone: { smooth: false },
-      tablet: { smooth: false },
-    });
-    return () => loco.destroy();
-  }, []);
+    if (!scrollRef.current || courses.length === 0) return;
+    
+    // Tiny delay to ensure DOM is ready for locomotive scroll
+    const timer = setTimeout(() => {
+      locoRef.current = new LocomotiveScroll({
+        el: scrollRef.current,
+        smooth: true,
+        multiplier: 0.85,
+        lerp: 0.1,
+        class: "is-inview",
+        smartphone: { smooth: false },
+        tablet: { smooth: false },
+      });
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      if (locoRef.current) locoRef.current.destroy();
+    };
+  }, [courses]);
 
   return (
     <>
@@ -618,8 +616,8 @@ const ScrollCourses = () => {
         </section>
 
         {/* ── COURSE SECTIONS ── */}
-        {COURSES.map((c) => (
-          <CourseSection key={c.num} c={c} />
+        {courses.map((c) => (
+          <CourseSection key={c._id} c={c} />
         ))}
 
         <section data-scroll-section style={{ height: 80, background: "#070707" }} />
