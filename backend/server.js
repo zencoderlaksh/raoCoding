@@ -31,7 +31,10 @@ const limiter = rateLimit({
 app.use('/api', limiter);
 
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  credentials: true,
+}));
 
 // Configure express.json to skip the webhook route, and enforce 10kb limit on others
 app.use((req, res, next) => {

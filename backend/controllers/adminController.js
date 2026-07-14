@@ -8,7 +8,7 @@ import { ApiResponse } from '../utils/ApiResponse.js';
 
 // @desc    Get all users
 // @route   GET /api/admin/users
-// @access  Private/Admin
+
 const getAllUsers = asyncHandler(async (req, res) => {
     const users = await User.find({}).select('-__v');
     return res.status(200).json(new ApiResponse(200, users, "Users fetched successfully"));
