@@ -26,6 +26,7 @@ import StudentProfile from '@/pages/students/StudentProfile';
 
 
 import ScrollTop from '@/components/ScrollTop';
+import Community from '@/pages/join community/Community';
 
 const OnboardingGuard = ({ children }) => {
   const { user, isLoaded, isSignedIn } = useUser();
@@ -79,6 +80,7 @@ const AppRoutes = () => {
       <Route path='/onboarding' element={<Onboarding />} />
       <Route path='/profile' element={<Profile />} />
       <Route path='/admin' element={<AdminDashboard />} />
+      <Route path='/community' element={<Community />} />
       <Route path='/my-courses/:id' element={<CourseViewer />} />
         </Routes>
       </OnboardingGuard>
