@@ -12,6 +12,11 @@ import { useEffect, useRef, useState } from "react";
 import PreviousProjects from "./PreviousProjects";
 import TeamSection from "./TeamSection";
 import QuotesGrid from "./QuotesGrid";
+import brandStrategyImg from "../../../assets/Brand-Strategy.png";
+import uiImg from "../../../assets/UI.png";
+import webDevImg from "../../../assets/Web Development.png";
+import cyberSecurityImg from "../../../assets/CyberSecurity.png";
+import eCommerceImg from "../../../assets/E-commerce.png";
 
 const EASE = [0.22, 1, 0.36, 1];
 
@@ -122,49 +127,49 @@ const SERVICES = [
     count: "01",
     icon: "✦",
     size: "tall", // Row 1 & 2 (Col 1)
-    img: "https://images.unsplash.com/photo-1586281380349-632531db7ed4?q=80&w=1200&auto=format&fit=crop",
+    img: brandStrategyImg,
   },
   {
     title: "Web Development",
     count: "02",
     icon: "◉",
     size: "wide", // Row 1 (Col 2-3)
-    img: "https://images.unsplash.com/photo-1551650975-87deedd944c3?q=80&w=1200&auto=format&fit=crop",
+    img: webDevImg,
   },
   {
     title: "UX Design",
     count: "03",
     icon: "▣",
     size: "sq", // Row 1 (Col 4)
-    img: "https://images.unsplash.com/photo-1517292987719-0369a794ec0f?q=80&w=1200&auto=format&fit=crop",
+    img: uiImg,
   },
   {
     title: "eCommerce",
     count: "04",
     icon: "◈",
     size: "sq", // Row 2 (Col 2)
-    img: "https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?q=80&w=1200&auto=format&fit=crop",
+    img: eCommerceImg,
   },
   {
     title: "Mobile Apps",
     count: "05",
     icon: "📱",
     size: "wide", // New Item 1 -> Row 2 (Col 3-4)
-    img: "https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?q=80&w=1200&auto=format&fit=crop",
+    img: "https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1200&auto=format&fit=crop",
   },
   {
     title: "SEO Optimization",
     count: "06",
     icon: "📈",
     size: "wide", // New Item 2 -> Row 3 (Col 1-2)
-    img: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop",
+    img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop",
   },
   {
     title: "Cyber Security",
     count: "07",
     icon: "🛡️",
     size: "wide", // New Item 3 -> Row 3 (Col 3-4)
-    img: "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop",
+    img: cyberSecurityImg,
   },
 ];
 

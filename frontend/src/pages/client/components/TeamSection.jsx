@@ -1,10 +1,14 @@
 import React from "react";
 import { motion } from "framer-motion";
 
+import img1 from "../../../assets/k1.jpeg";
+import img2 from "../../../assets/Founder.jpeg";
+import img3 from "../../../assets/s1.jpeg";
+
 const TEAM = [
-  { name: "Alex Rivers", role: "Creative Director", img: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=600&auto=format&fit=crop" },
-  { name: "Marcus Chen", role: "Lead Engineer", img: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=600&auto=format&fit=crop" },
-  { name: "Elena Rostova", role: "UX Architect", img: "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=600&auto=format&fit=crop" },
+  { name: "Kritika Bhawnani", role: "Creative Director", img: img1 },
+  { name: "Laksh Yadav", role: "Lead Engineer", img: img2 },
+  { name: "Shubham Jhakhar", role: "UX Architect", img: img3 },
 ];
 
 export default function TeamSection() {
