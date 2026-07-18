@@ -30,9 +30,16 @@ const limiter = rateLimit({
 });
 app.use('/api', limiter);
 
+const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+const allowedOrigins = [
+  frontendUrl,
+  frontendUrl.endsWith('/') ? frontendUrl.slice(0, -1) : frontendUrl,
+  'http://localhost:5173'
+];
+
 // Middleware
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+  origin: allowedOrigins,
   credentials: true,
 }));
 
