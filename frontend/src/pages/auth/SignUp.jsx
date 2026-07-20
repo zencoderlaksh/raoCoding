@@ -9,7 +9,7 @@ const SignUp = () => {
       <div className="absolute bottom-0 right-0 w-[180px] h-[180px] sm:w-[260px] sm:h-[260px] lg:w-[320px] lg:h-[320px] bg-orange-600/10 blur-[100px] rounded-full"></div>
 
       <div className="relative z-10">
-        <ClerkSignUp routing="path" path="/signup" signInUrl="/login" fallbackRedirectUrl="/onboarding" forceRedirectUrl="/onboarding" />
+        <ClerkSignUp routing="path" path="/signup" signInUrl="/login" />
       </div>
     </div>
   );
