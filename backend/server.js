@@ -22,14 +22,6 @@ const app = express();
 // Security Middleware: Set security HTTP headers
 app.use(helmet());
 
-// Security Middleware: Rate limiting (max 100 requests per 15 mins per IP)
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 100,
-  message: 'Too many requests from this IP, please try again after 15 minutes',
-});
-app.use('/api', limiter);
-
 const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
 const allowedOrigins = [
   frontendUrl,
@@ -37,11 +29,19 @@ const allowedOrigins = [
   'http://localhost:5173'
 ];
 
-// Middleware
+// CORS Middleware MUST be before Rate Limiter
 app.use(cors({
   origin: allowedOrigins,
   credentials: true,
 }));
+
+// Security Middleware: Rate limiting (max 100 requests per 15 mins per IP)
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 100,
+  message: 'Too many requests from this IP, please try again after 15 minutes',
+});
+app.use('/api', limiter);
 
 // Configure express.json to skip the webhook route, and enforce 10kb limit on others
 app.use((req, res, next) => {
