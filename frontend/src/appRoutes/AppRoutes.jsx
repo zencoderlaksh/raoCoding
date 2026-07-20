@@ -37,14 +37,14 @@ const OnboardingGuard = ({ children }) => {
   if (isSignedIn) {
     const hasOnboarded = user?.publicMetadata?.onboardingComplete === true;
     
-    if (!hasOnboarded && location.pathname !== '/onboarding') {
+    if (!hasOnboarded && !location.pathname.startsWith('/onboarding')) {
       return <Navigate to="/onboarding" replace />;
     }
     
-    if (hasOnboarded && (location.pathname === '/onboarding' || location.pathname === '/signup' || location.pathname === '/login')) {
+    if (hasOnboarded && (location.pathname.startsWith('/onboarding') || location.pathname.startsWith('/signup') || location.pathname.startsWith('/login'))) {
       return <Navigate to="/" replace />;
     }
-  } else if (location.pathname === '/onboarding') {
+  } else if (location.pathname.startsWith('/onboarding')) {
     return <Navigate to="/signup" replace />;
   }
 
@@ -75,9 +75,9 @@ const AppRoutes = () => {
           element={<StudentProfile />}
         />
       </Route>
-      <Route path='/login' element={<Login />} />
-      <Route path='/signup' element={<SignUp />} />
-      <Route path='/onboarding' element={<Onboarding />} />
+      <Route path='/login/*' element={<Login />} />
+      <Route path='/signup/*' element={<SignUp />} />
+      <Route path='/onboarding/*' element={<Onboarding />} />
       <Route path='/profile' element={<Profile />} />
       <Route path='/admin' element={<AdminDashboard />} />
       <Route path='/community' element={<Community />} />
