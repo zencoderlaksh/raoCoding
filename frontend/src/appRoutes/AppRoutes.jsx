@@ -41,7 +41,7 @@ const OnboardingGuard = ({ children }) => {
       return <Navigate to="/onboarding" replace />;
     }
     
-    if (hasOnboarded && location.pathname === '/onboarding') {
+    if (hasOnboarded && (location.pathname === '/onboarding' || location.pathname === '/signup' || location.pathname === '/login')) {
       return <Navigate to="/" replace />;
     }
   } else if (location.pathname === '/onboarding') {
