@@ -53,7 +53,7 @@ export default function Courses() {
     </div>
     <div>
       <section className="w-full px-4 py-16 sm:py-20 lg:py-28">
-      <Headings title="Comparison" desc="What sets Rao Coding School different" descrip="from ordinary Coding Schools."/>
+      <Headings title="Comparison" desc="What sets RAO Technologies different" descrip="from ordinary Coding Schools."/>
       </section>
       <Difference />
     </div>

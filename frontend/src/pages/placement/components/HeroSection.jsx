@@ -27,7 +27,7 @@ export default function HeroSection() {
             className="mb-16"
           >
             <span className="uppercase tracking-[0.4em] text-xs text-white/35">
-              {/* Rao Coding School */}
+              {/* RAO Technologies */}
             </span>
           </motion.div>
 

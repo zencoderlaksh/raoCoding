@@ -31,7 +31,7 @@ export default function Difference() {
               {/* BRAND NAME */}
               <div>
                 <h2 className="text-4xl font-semibold tracking-tight text-white">
-                  Rao Coding School
+                  RAO Technologies
                 </h2>
 
                 <p className="mt-1 text-sm text-zinc-400">

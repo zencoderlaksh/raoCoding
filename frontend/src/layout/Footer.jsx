@@ -15,7 +15,7 @@ const Footer = () => {
               <Link to="/">
                 <img
                   src={tiger}
-                  alt="Rao Coding School"
+                  alt="RAO Technologies"
                   className="mb-4 w-24"
                 />
               </Link>
@@ -250,7 +250,7 @@ const Footer = () => {
 
         {/* Bottom */}
         <div className="border-t border-white/10 px-8 py-5 text-center text-sm text-gray-500">
-          © 2026 Rao Coding School. All rights reserved.
+          © 2026 RAO Technologies. All rights reserved.
         </div>
       </div>
     </footer>

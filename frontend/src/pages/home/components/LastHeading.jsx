@@ -90,12 +90,12 @@ const LastHeading = () => {
     {/* GLASS TITLE */}
     <div className="mt-6 inline-block rounded-3xl border border-orange-500/20 bg-white/[0.05] px-10 py-4 backdrop-blur-xl">
       <span className="text-5xl font-light text-white md:text-7xl">
-        Rao Coding School
+        RAO Technologies
       </span>
     </div>
 
     {/* BUTTON */}
-    <div className="mt-10">
+    <div className="mt-10 mb-12">
       <Button />
     </div>
   </div>

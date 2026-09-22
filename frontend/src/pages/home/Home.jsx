@@ -12,21 +12,60 @@ import FAQ from './components/FAQ'
 import LastHeading from './components/LastHeading'
 import TextPressure from "../../components/TextPressure";
 import Magic from './components/Magic'
+import WebThreads from '../../components/WebThreads'
 
 const Home = () => {
   return (
     <>
-      <div className='flex flex-col items-center  justify-center gap-6'>
-        <Heading text="Code . Create . Succeed" color="text-orange-400" />
-        <Heading text="Think Like An Developer." textSize='text-6xl' />
-        <Heading text="Build Like A Founder." textSize='text-6xl' />
-        <p className="text-[D7D7D7] text-2xl font-light text-center max-w-4xl">
-          Start your journey toward a successful tech career with hands-on learning and a thriving student community at Rao Coding School.
-        </p>
+      {/* Hero Section with WebThreads Background */}
+      <div className="relative w-full min-h-[600px] lg:min-h-[680px] flex items-center justify-center overflow-hidden pt-8 pb-16">
+        {/* WebThreads Background Canvas */}
+        <div className="absolute inset-0 z-0 pointer-events-auto">
+          <WebThreads
+            color1="#5227FF"
+            color2="#EAB308"
+            color3="#ef0909"
+            speed={0.2}
+            threadCount={6}
+            frequency={5}
+            spread={0.18}
+            taper={1}
+            position={0.5}
+            fanMode="center"
+            glow={0.02}
+            falloff={0.6}
+            thickness={1.1}
+            brightness={0.6}
+            opacity={1}
+            mirror
+            shimmer={false}
+            grain
+            grainIntensity={0.05}
+            mouseInteraction
+            mouseStrength={0.3}
+          />
+          {/* Subtle bottom fade to blend smoothly into page */}
+          <div className="absolute inset-x-0 bottom-0 h-28 bg-gradient-to-t from-black to-transparent pointer-events-none" />
+        </div>
 
-        <Link to="/login">
-          <Button />
-        </Link>
+        {/* Hero Content */}
+        <div className="relative z-10 flex flex-col items-center justify-center gap-6">
+          <Heading text="Technology • AI • Innovation" color="text-orange-400" />
+          <Heading text="Learn Technology." textSize='text-6xl' />
+          <Heading text="Build What's Next." textSize='text-6xl' />
+          <p className="text-[#D7D7D7] text-2xl font-light text-center max-w-4xl px-4">
+            Empowering students, professionals, colleges, and organizations with practical technology, AI, and industry-focused learning.
+          </p>
+
+          <div className="flex flex-wrap items-center justify-center gap-4 mb-4">
+            <Link to="/courses">
+              <Button text="Explore Our Programs" showIcon={true} />
+            </Link>
+            <Link to="/contact">
+              <Button text="Partner With Us" variant="secondary" showIcon={false} />
+            </Link>
+          </div>
+        </div>
       </div>
       <div className="flex justify-center items-center">
         <Magic />
@@ -53,7 +92,7 @@ const Home = () => {
       </div>
       <div>
         <section className="w-full px-4 py-16 sm:py-20 lg:py-28">
-          <Headings title="Comparison" desc="What sets Rao Coding School different" descrip="from ordinary Coding Schools." />
+          <Headings title="Comparison" desc="What sets RAO Technologies different" descrip="from ordinary Coding Schools." />
         </section>
         <Difference />
       </div>

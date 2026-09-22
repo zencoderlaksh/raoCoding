@@ -2,9 +2,10 @@ import React, { useEffect, useRef } from "react";
 import { useState } from "react";
 import LocomotiveScroll from "locomotive-scroll";
 import "locomotive-scroll/dist/locomotive-scroll.css";
-import { ArrowUpRight, Clock3, BadgeCheck, Headphones } from "lucide-react";
+import { ArrowUpRight, Clock3, BadgeCheck, Headphones, BookOpen, Code2, Sparkles, Globe, ArrowRight, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
 import {dsa,ai,webd} from "../../../assets/images"
+import PixelSwap from "../../../components/PixelSwap";
 
 /* ─────────────────────────────────────────────
    DATA
@@ -600,15 +601,121 @@ const ScrollCourses = () => {
 
       <div data-scroll-container ref={scrollRef} style={{ background: "#070707" }}>
 
-        {/* ── PAGE HEADER ── */}
-        <section data-scroll-section>
-          <div className="sc-header">
-            <p className="sc-header-eyebrow">Our Programs</p>
-            <h1 className="sc-header-title">
-              Choose
-              <br />
-              <span className="sc-header-dim">Your Path.</span>
-            </h1>
+        {/* ── WHY RAO TECHNOLOGIES & PIXEL SWAP SECTION ── */}
+        {/* ── FULL-WIDTH WHITE SECTION (WHY RAO TECHNOLOGIES & PIXEL SWAP) ── */}
+        <section data-scroll-section className="w-full px-4 sm:px-8 lg:px-12 py-12 lg:py-20">
+          <div className="w-full bg-white text-zinc-950 rounded-[36px] sm:rounded-[52px] lg:rounded-[64px] p-6 sm:p-10 lg:p-16 shadow-[0_25px_80px_rgba(0,0,0,0.5)] border border-zinc-200/80 relative overflow-hidden">
+            {/* Top Interactive PixelSwap Component */}
+            <div className="w-full max-w-6xl mx-auto overflow-hidden">
+              <PixelSwap
+                firstContent={
+                  <div className="w-full h-full flex flex-col items-center justify-center bg-white text-zinc-950 p-6 sm:p-12 lg:p-16 text-center select-none">
+                    <span className="text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase text-zinc-400 mb-4 block font-mono">
+                      NOW GO AND
+                    </span>
+                    <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-zinc-950">
+                      Build anything
+                    </h2>
+                  </div>
+                }
+                secondContent={
+                  <div className="w-full h-full flex flex-col items-center justify-center bg-white text-zinc-950 p-6 sm:p-12 lg:p-16 text-center select-none">
+                    <span className="text-xs sm:text-sm font-semibold tracking-[0.25em] uppercase text-orange-600 mb-3 block font-mono">
+                      WHY RAO TECHNOLOGIES
+                    </span>
+                    <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-zinc-950 mb-4">
+                      Technology That Creates Impact.
+                    </h2>
+                    <p className="text-zinc-600 text-base sm:text-lg lg:text-xl max-w-3xl leading-relaxed">
+                      We combine technology, AI, and industry expertise to help people and organizations learn, build, and grow.
+                    </p>
+                  </div>
+                }
+                pixelSize={64}
+                gap={0}
+                pixelRadius={0}
+                pixelSpin={0}
+                pixelScale={0.35}
+                duration={2400}
+                pixelDuration={650}
+                pattern="random"
+                randomness={0}
+                fade
+                trigger="hover"
+                aspectRatio="21 / 9"
+                style={{ width: "100%", background: "#ffffff" }}
+              />
+            </div>
+
+            {/* Subtle Divider */}
+            <div className="w-full h-px bg-zinc-200/80 my-8 sm:my-12 max-w-6xl mx-auto" />
+
+            {/* 4 Concise Capability Blocks Blended with White Canvas */}
+            <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6">
+              {/* Learn */}
+              <div className="group relative p-6 sm:p-7 rounded-[26px] bg-zinc-50/80 hover:bg-white border border-zinc-200/80 hover:border-orange-300 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300">
+                <div className="w-12 h-12 rounded-2xl bg-orange-500/10 border border-orange-200/60 flex items-center justify-center text-orange-600 mb-5 group-hover:scale-110 transition-transform">
+                  <BookOpen size={22} />
+                </div>
+                <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-orange-600 mb-1.5 block">
+                  01 • PROGRAMS
+                </span>
+                <h3 className="text-2xl font-black text-zinc-900 mb-2 group-hover:text-orange-600 transition-colors">
+                  Learn
+                </h3>
+                <p className="text-zinc-600 text-sm leading-relaxed">
+                  Industry-focused technology and AI programs.
+                </p>
+              </div>
+
+              {/* Build */}
+              <div className="group relative p-6 sm:p-7 rounded-[26px] bg-zinc-50/80 hover:bg-white border border-zinc-200/80 hover:border-cyan-300 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300">
+                <div className="w-12 h-12 rounded-2xl bg-cyan-500/10 border border-cyan-200/60 flex items-center justify-center text-cyan-600 mb-5 group-hover:scale-110 transition-transform">
+                  <Code2 size={22} />
+                </div>
+                <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-cyan-600 mb-1.5 block">
+                  02 • ENGINEERING
+                </span>
+                <h3 className="text-2xl font-black text-zinc-900 mb-2 group-hover:text-cyan-600 transition-colors">
+                  Build
+                </h3>
+                <p className="text-zinc-600 text-sm leading-relaxed">
+                  Real-world projects and digital solutions.
+                </p>
+              </div>
+
+              {/* Transform */}
+              <div className="group relative p-6 sm:p-7 rounded-[26px] bg-zinc-50/80 hover:bg-white border border-zinc-200/80 hover:border-purple-300 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300">
+                <div className="w-12 h-12 rounded-2xl bg-purple-500/10 border border-purple-200/60 flex items-center justify-center text-purple-600 mb-5 group-hover:scale-110 transition-transform">
+                  <Sparkles size={22} />
+                </div>
+                <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-purple-600 mb-1.5 block">
+                  03 • ADOPTION
+                </span>
+                <h3 className="text-2xl font-black text-zinc-900 mb-2 group-hover:text-purple-600 transition-colors">
+                  Transform
+                </h3>
+                <p className="text-zinc-600 text-sm leading-relaxed">
+                  AI and technology adoption for organizations.
+                </p>
+              </div>
+
+              {/* Connect */}
+              <div className="group relative p-6 sm:p-7 rounded-[26px] bg-zinc-50/80 hover:bg-white border border-zinc-200/80 hover:border-emerald-300 hover:shadow-xl hover:-translate-y-1.5 transition-all duration-300">
+                <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 border border-emerald-200/60 flex items-center justify-center text-emerald-600 mb-5 group-hover:scale-110 transition-transform">
+                  <Globe size={22} />
+                </div>
+                <span className="text-[11px] font-mono font-bold tracking-wider uppercase text-emerald-600 mb-1.5 block">
+                  04 • ECOSYSTEM
+                </span>
+                <h3 className="text-2xl font-black text-zinc-900 mb-2 group-hover:text-emerald-600 transition-colors">
+                  Connect
+                </h3>
+                <p className="text-zinc-600 text-sm leading-relaxed">
+                  Bridging education, industry, and opportunity.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
 

@@ -89,7 +89,7 @@ export default function WhyRaoCodingSection() {
           >
             <AlertCircle size={18} className="text-orange-400 flex-shrink-0 mt-0.5" />
             <p className="text-sm text-[#A1A1AA] leading-relaxed">
-              At Rao Coding School, we believe in{' '}
+              At RAO Technologies, we believe in{' '}
               <span className="text-orange-400 font-semibold">transparency</span>. We cannot
               guarantee jobs because hiring decisions are made by companies. What we{' '}
               <span className="text-white font-semibold">can</span> guarantee is:

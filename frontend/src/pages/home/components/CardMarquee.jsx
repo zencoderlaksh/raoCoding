@@ -6,7 +6,7 @@ const reviews = [
   {
     name: "Md Shahzad",
     role: "Coding Mentor",
-    body: "We Proudly Share Our Teaching Journey With Rao Coding School, Helping Students Build Future-Ready Skills.",
+    body: "We Proudly Share Our Teaching Journey With RAO Technologies, Helping Students Build Future-Ready Skills.",
     img: "https://i.pravatar.cc/150?img=12",
     rating: "4.2",
   },
