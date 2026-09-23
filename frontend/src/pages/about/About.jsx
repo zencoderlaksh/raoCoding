@@ -1,60 +1,35 @@
-
-
-import HeroSection from "./aboutComponents/HeroSection";
-import JourneySection from "./aboutComponents/JourneySection";
-import AchievementsSection from "./aboutComponents/AchievementsSection";
-import ExperienceSection from "./aboutComponents/ExperienceSection";
-import TechStackSection from "./aboutComponents/TechStackSection";
-import TextPressure from "../../components/TextPressure";
-import LeadersSection from "./aboutComponents/LeadersSection";
-// import TextPressure from "./aboutComponents/TextPressure";
+import React from "react";
+import AboutHero from "./aboutComponents/AboutHero";
+import CorePillarsSection from "./aboutComponents/CorePillarsSection";
+import EnterpriseTechSection from "./aboutComponents/EnterpriseTechSection";
+import CampusWorkshopsSection from "./aboutComponents/CampusWorkshopsSection";
+import MethodologySection from "./aboutComponents/MethodologySection";
+import ScaleVisionSection from "./aboutComponents/ScaleVisionSection";
+import AboutCTASection from "./aboutComponents/AboutCTASection";
 
 export default function AboutPage() {
   return (
-    <>
+    <main className="min-h-screen bg-black text-white selection:bg-orange-500 selection:text-black">
+      {/* 1. Hero Section: Corporate mission, animated metrics & focus pills */}
+      <AboutHero />
 
+      {/* 2. Core Pillars: Client tech solutions, applied AI, campus bootcamps, corporate upskilling */}
+      <CorePillarsSection />
 
-    <main className="min-h-screen bg-black text-white">
+      {/* 3. Tech Stack Section: Modern production architectures & tools */}
+      <EnterpriseTechSection />
 
-      <HeroSection />
+      {/* 4. Campus Workshops Section: College bootcamps, hackathons & corporate training formats */}
+      <CampusWorkshopsSection />
 
-      <div className="w-full h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
+      {/* 5. Methodology Section: 4-stage engineering and delivery engine */}
+      <MethodologySection />
 
-      <JourneySection />
+      {/* 6. Scaling Vision Section: Roadmap to scale higher across enterprise & academia */}
+      <ScaleVisionSection />
 
-      <div className="w-full h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
-
-      <ExperienceSection />
-
-      <div className="w-full h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
-
-      <TechStackSection />
-
-      <div className="w-full h-px bg-gradient-to-r from-transparent via-orange-500/30 to-transparent" />
-
-      <AchievementsSection />
-
-      <LeadersSection />
-
-
-      <div className="w-full flex justify-center items-center py-20">
-        <div className="relative w-full h-[450px] overflow-hidden">
-          <TextPressure
-            text="Rao's"
-            flex
-            width
-            weight
-            italic
-            alpha={false}
-            textColor="#ffffff"
-            strokeColor="#5227FF"
-            minFontSize={36}
-          />
-        </div>
-      </div>
-
-
+      {/* 7. Action CTA Section: Dual call-to-actions for businesses & campuses */}
+      <AboutCTASection />
     </main>
-      </>
   );
 }

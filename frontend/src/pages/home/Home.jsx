@@ -5,12 +5,10 @@ import { Link } from "react-router-dom";
 import ImageMarquee from "./components/ImageMarquee"
 import ScrollCourses from './components/ScrollCourses'
 import CardMarquee from './components/CardMarquee'
-import Masonary from './components/Masonary'
+import WhatWeDoAccordion from './components/WhatWeDoAccordion'
 import Headings from './components/Headings'
-import Difference from './components/Difference'
 import FAQ from './components/FAQ'
 import LastHeading from './components/LastHeading'
-import TextPressure from "../../components/TextPressure";
 import Magic from './components/Magic'
 import WebThreads from '../../components/WebThreads'
 
@@ -82,40 +80,21 @@ const Home = () => {
         </section>
         <CardMarquee />
       </div>
-      <div>
-        <section className="w-full px-4 py-16 sm:py-20 lg:py-28">
-          <Headings title="Our Community" desc="They Came. They Cooked." descrip="They got Placed." />
+      <div className="py-12 sm:py-16 lg:py-20">
+        <section className="w-full px-4 mb-8 sm:mb-12">
+          <Headings
+            title="WHAT WE DO"
+            desc="Technology. Education. Innovation."
+            supportingText="We bring technology expertise, industry-focused learning, and AI-driven solutions together to help organizations and individuals build for what’s next."
+          />
         </section>
-        <div style={{ position: "relative", height: "max-content", }}>
-          <Masonary />
-        </div>
-      </div>
-      <div>
-        <section className="w-full px-4 py-16 sm:py-20 lg:py-28">
-          <Headings title="Comparison" desc="What sets RAO Technologies different" descrip="from ordinary Coding Schools." />
-        </section>
-        <Difference />
+        <WhatWeDoAccordion />
       </div>
       <div>
         <FAQ />
       </div>
       <div>
         <LastHeading />
-      </div>
-      <div className="w-full flex justify-center items-center py-20">
-        <div className="relative w-full h-[450px] overflow-hidden">
-          <TextPressure
-            text="Rao's"
-            flex
-            width
-            weight
-            italic
-            alpha={false}
-            textColor="#ffffff"
-            strokeColor="#5227FF"
-            minFontSize={36}
-          />
-        </div>
       </div>
     </>
 
