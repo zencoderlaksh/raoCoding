@@ -1,190 +1,318 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sun, Code, ShieldCheck, Terminal, Disc, Coffee } from "lucide-react";
-
-const EASE = [0.16, 1, 0.3, 1];
+import {
+  Sun,
+  Code2,
+  ShieldCheck,
+  Terminal,
+  Disc,
+  Copy,
+  Check,
+  Coffee,
+  GitBranch,
+  Sparkles,
+  Layers,
+  ArrowRight,
+} from "lucide-react";
+import SpotlightCard from "../../../components/SpotlightCard";
 
 const TIMELINE_STEPS = [
   {
-    id: "morning",
+    id: "standup",
     time: "09:30 AM",
     title: "The Standup Strategy",
+    subtitle: "Agile Task Triage",
     desc: "Sync up with your dedicated tech lead. Define critical roadblocks, triage open tickets, and map out production micro-sprints.",
     icon: Sun,
     file: "standup_brief.json",
-    glow: "from-amber-500/10 to-transparent",
-    code: `{\n  "session": "Daily Engineering Standup",\n  "lead": "Principal Eng @ Netflix",\n  "current_sprint": "Distributed Database Replication",\n  "blockers": "Resolved cache synchronization mismatch",\n  "status": "GREEN_PATH_PROCEED"\n}`
+    lang: "JSON",
+    tag: "Agile Sync",
+    outcome: "Master daily engineering communication, blocker escalation, and sprint velocity tracking.",
+    code: `{\n  "session": "Daily Engineering Standup",\n  "lead": "Principal Eng @ Netflix",\n  "current_sprint": "Distributed Cache Replication",\n  "blockers": "Resolved cache synchronization mismatch",\n  "status": "GREEN_PATH_PROCEED",\n  "tasks_in_flight": [\n    "Optimize Redis session fallback cluster",\n    "Benchmark latency under 50k concurrent req/s"\n  ]\n}`
   },
   {
-    id: "afternoon",
+    id: "refactor",
     time: "02:00 PM",
-    title: "Deep-Work Core Refactoring",
+    title: "Deep-Work Feature Engineering",
+    subtitle: "Distributed Systems",
     desc: "Dive into deep feature engineering. Optimize bottleneck algorithms, write tests, and submit code reviews to senior staff reviewers.",
-    icon: Code,
+    icon: Code2,
     file: "distributed_cache.rs",
-    glow: "from-orange-500/10 to-transparent",
-    code: `// Optimizing cache read paths to O(1) time complexity\npub async fn get_session(ctx: &Context, key: &str) -> Result<User> {\n    match ctx.redis.get_secure_hash(key).await {\n        Some(token) => Ok(token.parse_identity()),\n        None => {\n            log::warn!("Cache miss on cluster footprint. Dropping to fallback DB.");\n            fetch_from_cold_storage(ctx, key).await\n        }\n    }\n}`
+    lang: "Rust",
+    tag: "Core Engineering",
+    outcome: "Implement low-latency caching, memory safety, async runtimes, and distributed fallbacks.",
+    code: `// Optimizing cache read paths to O(1) time complexity\npub async fn get_session(ctx: &Context, key: &str) -> Result<User> {\n    match ctx.redis.get_secure_hash(key).await {\n        Some(token) => Ok(token.parse_identity()),\n        None => {\n            log::warn!("Cache miss on cluster footprint. Dropping to fallback DB.");\n            let session = fetch_from_cold_storage(ctx, key).await?;\n            ctx.redis.set_secure_hash(key, &session, 3600).await?;\n            Ok(session)\n        }\n    }\n}`
   },
   {
-    id: "evening",
+    id: "review",
     time: "05:30 PM",
-    title: "1-on-1 Code Architecture Review",
+    title: "1-on-1 Architecture & PR Review",
+    subtitle: "Code Quality Gate",
     desc: "Defend your system design blueprints against direct scrutiny. Get brutal line-by-line code feedback from mentors who run enterprise systems.",
     icon: ShieldCheck,
     file: "mentor_pr_review.js",
-    glow: "from-red-500/10 to-transparent",
-    code: `// Code Quality Assessment Matrix\nconst pullRequestReview = {\n  author: "You",\n  reviewer: "Staff Software Engineer @ Meta",\n  verdict: "CHANGES_REQUESTED",\n  feedback: "Your concurrency model leaks open network sockets here.",\n  actionItem: "Wrap line 42 inside a managed mutex lock before deployment."\n};`
+    lang: "JavaScript",
+    tag: "Staff Critique",
+    outcome: "Eliminate race conditions, memory leaks, and unhandled promise rejections before production.",
+    code: `// Senior Staff Architecture PR Assessment\nconst pullRequestReview = {\n  prNumber: 142,\n  author: "You (Associate Software Engineer)",\n  reviewer: "Staff Engineer @ Meta",\n  verdict: "CHANGES_REQUESTED",\n  feedback: "Your concurrency model leaks open network sockets under load.",\n  recommendation: "Wrap line 42 inside a managed mutex lock before deployment.",\n  approvedAfterFix: true\n};`
+  },
+  {
+    id: "algorithms",
+    time: "08:00 PM",
+    title: "Live Algorithmic Mock Drill",
+    subtitle: "Machine Coding",
+    desc: "Timed problem solving under pressure. Implement sliding-window stream processing with optimal space-time complexities.",
+    icon: Terminal,
+    file: "sliding_window_stream.py",
+    lang: "Python",
+    tag: "Interview Prep",
+    outcome: "Develop rapid algorithmic pattern recognition under strict 45-minute live interview conditions.",
+    code: `# Real-time streaming rate limiter with sliding window\ndef max_traffic_window(events: list[int], window_size: int) -> int:\n    left, current_max = 0, 0\n    for right in range(len(events)):\n        while events[right] - events[left] > window_size:\n            left += 1\n        current_max = max(current_max, right - left + 1)\n    return current_max\n\n# Benchmark: O(N) time complexity, O(1) auxiliary space`
   }
 ];
 
 export default function DaySimulator() {
-  const [activeTab, setActiveTab] = useState("morning");
-  const currentStep = TIMELINE_STEPS.find((s) => s.id === activeTab);
+  const [activeTab, setActiveTab] = useState(TIMELINE_STEPS[0].id);
+  const [copied, setCopied] = useState(false);
+
+  const currentStep = TIMELINE_STEPS.find((s) => s.id === activeTab) || TIMELINE_STEPS[0];
+
+  const handleCopyCode = () => {
+    navigator.clipboard.writeText(currentStep.code);
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
+
+  const codeLines = currentStep.code.split("\n");
 
   return (
-    <section className="py-32 bg-[#080808] text-white border-t border-white/5 relative overflow-hidden">
-      {/* Absolute Decorative Grid Pattern Layer */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#121212_1px,transparent_1px),linear-gradient(to_bottom,#121212_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] pointer-events-none" />
+    <section id="day-simulator" className="py-28 sm:py-36 bg-black text-white border-t border-zinc-900 relative overflow-hidden">
+      {/* Background radial ambient glow */}
+      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[600px] h-[600px] bg-[#ff5a28]/5 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-10 left-10 w-[400px] h-[400px] bg-amber-500/5 rounded-full blur-[120px] pointer-events-none" />
 
-      {/* Dynamic Environmental Glow */}
-      <div className="absolute top-1/2 right-0 -translate-y-1/2 w-[500px] h-[500px] bg-orange-500/5 rounded-full blur-[140px] pointer-events-none transition-all duration-700" />
-
-      <div className="max-w-7xl mx-auto px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Heading Typography Grid */}
-        <div className="max-w-3xl mb-20">
-          <span className="text-orange-500 tracking-[0.3em] text-xs uppercase font-bold flex items-center gap-2 mb-4">
-            <Disc size={12} className="animate-pulse" /> ◆ Active Simulator
+        {/* Section Heading - About Page Style */}
+        <div className="text-center max-w-4xl mx-auto mb-16 sm:mb-20">
+          <span className="px-4 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 text-xs sm:text-sm font-semibold tracking-widest uppercase">
+            24-Hour Engineering Cadence
           </span>
-          <h2 
-            className="text-4xl md:text-6xl font-light tracking-[-0.03em] leading-tight"
-            style={{ fontFamily: '"Cormorant Garamond", serif' }}
-          >
-            A typical day in your <span className="italic text-orange-400">engineered life.</span>
+          
+          <h2 className="mt-4 text-3xl sm:text-5xl font-black text-white tracking-tight">
+            A Typical Day in Your{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500">
+              Engineered Life.
+            </span>
           </h2>
-          <p className="text-zinc-500 mt-4 text-base max-w-xl">
-            Toggle through the lifecycle stages of an industry-scale developer. Experience the workflow, documentation templates, and code expectations directly.
+          
+          <p className="mt-4 text-base sm:text-lg text-neutral-400 font-light leading-relaxed max-w-2xl mx-auto">
+            Experience the daily engineering cadence of an industry-scale developer. Toggle through the workflow stages to inspect production templates, real code reviews, and architecture expectations.
           </p>
         </div>
 
-        {/* Core Layout Interface Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 items-start">
+        {/* Simulator Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* Interactive Steps Left Container Layout */}
-          <div className="lg:col-span-5 relative space-y-3">
-            
-            {/* Structural Center-Left Connected Timeline Beam */}
-            <div className="absolute top-3 left-8 bottom-3 w-px bg-gradient-to-b from-white/10 via-white/5 to-transparent pointer-events-none hidden sm:block" />
+          {/* Left Column: Interactive Timeline Steps using SpotlightCard */}
+          <div className="lg:col-span-5 space-y-4">
+            <div className="flex items-center justify-between px-2 mb-3">
+              <span className="text-xs uppercase tracking-widest text-neutral-400 font-semibold">
+                Daily Engineering Lifecycle
+              </span>
+              <span className="font-mono text-xs text-orange-400">
+                // 04 Milestones
+              </span>
+            </div>
 
             {TIMELINE_STEPS.map((step) => {
               const Icon = step.icon;
               const isActive = activeTab === step.id;
 
               return (
-                <button
+                <SpotlightCard
                   key={step.id}
+                  spotlightColor="rgba(249, 115, 22, 0.2)"
                   onClick={() => setActiveTab(step.id)}
-                  className={`w-full text-left p-6 rounded-2xl border transition-all duration-300 flex gap-6 relative group overflow-hidden ${
-                    isActive 
-                      ? "bg-zinc-900/40 border-orange-500/30 shadow-xl shadow-black/50" 
-                      : "border-white/0 hover:bg-zinc-900/10 opacity-40 hover:opacity-70"
+                  className={`cursor-pointer transition-all duration-300 !p-4 sm:!p-6 rounded-2xl sm:rounded-3xl border text-left relative overflow-hidden select-none ${
+                    isActive
+                      ? "!border-orange-500/60 !bg-[#111113] shadow-[0_12px_36px_rgba(0,0,0,0.8),0_0_30px_rgba(249,115,22,0.2)] ring-1 ring-orange-500/30 scale-[1.01]"
+                      : "!border-white/10 !bg-[#090909] shadow-[0_6px_20px_rgba(0,0,0,0.6)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.85),0_0_20px_rgba(249,115,22,0.1)] hover:!border-orange-500/40 opacity-80 hover:opacity-100"
                   }`}
                 >
-                  {/* Internal Glow Pulse Background for Selected Items */}
+                  <div className="flex items-start gap-3 sm:gap-4">
+                    {/* Icon Indicator Orb */}
+                    <div
+                      className={`w-9 h-9 sm:w-11 sm:h-11 rounded-xl border flex items-center justify-center shrink-0 transition-transform duration-300 ${
+                        isActive
+                          ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white border-orange-400 shadow-[0_0_15px_rgba(249,115,22,0.4)] scale-105"
+                          : "bg-white/[0.03] text-neutral-400 border-white/10 group-hover:scale-105"
+                      }`}
+                    >
+                      <Icon size={17} className={isActive ? "stroke-[2.5]" : "stroke-[2]"} />
+                    </div>
+
+                    {/* Step Information */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center justify-between gap-2 mb-1.5 flex-wrap">
+                        <span
+                          className={`font-mono text-xs font-bold tracking-wider ${
+                            isActive ? "text-orange-400" : "text-neutral-400"
+                          }`}
+                        >
+                          {step.time}
+                        </span>
+                        <span className="font-mono text-[10px] sm:text-xs uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-neutral-300">
+                          {step.tag}
+                        </span>
+                      </div>
+
+                      <h4 className="text-white text-base sm:text-lg font-bold tracking-tight mb-1 group-hover:text-orange-400 transition-colors">
+                        {step.title}
+                      </h4>
+                      
+                      <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed line-clamp-2 font-light">
+                        {step.desc}
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Active highlight progress line */}
                   {isActive && (
-                    <div className={`absolute inset-0 bg-gradient-to-r ${step.glow} pointer-events-none`} />
+                    <motion.div
+                      layoutId="active-timeline-indicator"
+                      className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#ff5a28] to-amber-500"
+                      transition={{ duration: 0.3 }}
+                    />
                   )}
-
-                  {/* Icon Indicator Orb */}
-                  <div className={`h-5 w-5 rounded-full border flex items-center justify-center shrink-0 z-10 relative transition-transform duration-300 group-hover:scale-105 hidden sm:flex ${
-                    isActive 
-                      ? "bg-orange-500 text-black border-orange-400 shadow-[0_0_15px_rgba(249,115,22,0.4)]" 
-                      : "bg-zinc-900 text-zinc-500 border-white/10"
-                  }`}>
-                    <Icon size={11} className="stroke-[2.5]" />
-                  </div>
-
-                  {/* Copy Block Information Area */}
-                  <div className="relative z-10 space-y-1">
-                    <span className={`font-mono text-xs font-semibold tracking-wider block ${isActive ? "text-orange-400" : "text-zinc-500"}`}>
-                      {step.time}
-                    </span>
-                    <h4 className="text-white text-lg font-medium tracking-tight">
-                      {step.title}
-                    </h4>
-                    <p className="text-zinc-400 text-sm leading-relaxed pt-1">
-                      {step.desc}
-                    </p>
-                  </div>
-                </button>
+                </SpotlightCard>
               );
             })}
           </div>
 
-          {/* IDE Console / Terminal Right Container Layout */}
-          <div className="lg:col-span-7 h-full w-full">
-            <div className="bg-[#0b0b0d] border border-white/10 rounded-2xl shadow-2xl relative overflow-hidden flex flex-col min-h-[440px] w-full max-w-[720px] mx-auto lg:mx-0">
-              
-              {/* Terminal Title Header Bar */}
-              <div className="flex items-center justify-between px-5 py-4 border-b border-white/5 bg-zinc-900/30 backdrop-blur-sm shrink-0">
-                <div className="flex items-center gap-6">
-                  {/* Decorative Mac Window Control Beads */}
-                  <div className="flex gap-1.5">
-                    <div className="w-3 h-3 rounded-full bg-red-500/20 border border-red-500/30" />
-                    <div className="w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500/30" />
-                    <div className="w-3 h-3 rounded-full bg-green-500/20 border border-green-500/30" />
+          {/* Right Column: IDE Console / Terminal Workspace using React Bits SpotlightCard */}
+          <div className="lg:col-span-7 w-full min-w-0">
+            <SpotlightCard
+              spotlightColor="rgba(249, 115, 22, 0.15)"
+              className="!p-0 rounded-2xl sm:rounded-3xl border border-neutral-800/90 !bg-[#0b0b0d] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.95),0_0_50px_rgba(249,115,22,0.12)] overflow-hidden flex flex-col min-h-[440px] sm:min-h-[500px] w-full"
+            >
+              {/* Terminal Title Bar */}
+              <div className="flex items-center justify-between px-3 sm:px-5 py-3 sm:py-4 border-b border-white/10 bg-neutral-950/80 backdrop-blur-md shrink-0 gap-2">
+                <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
+                  {/* Decorative Mac Window Controls */}
+                  <div className="hidden sm:flex gap-1.5 shrink-0">
+                    <span className="w-2.5 h-2.5 rounded-full bg-red-500/60 border border-red-500/80" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/60 border border-yellow-500/80" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-green-500/60 border border-green-500/80" />
                   </div>
-                  
-                  {/* Dynamic Active File Attachment Name Indicator */}
-                  <div className="flex items-center gap-2 text-zinc-500 font-mono text-[11px] tracking-wide bg-zinc-900/50 px-3 py-1 rounded border border-white/5">
-                    <Terminal size={12} className="text-orange-500/80" />
-                    <AnimatePresence mode="wait">
-                      <motion.span
-                        key={currentStep.file}
-                        initial={{ opacity: 0, y: -4 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: 4 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        {currentStep.file}
-                      </motion.span>
-                    </AnimatePresence>
+
+                  {/* File Tabs Strip */}
+                  <div className="flex items-center gap-1 overflow-x-auto py-0.5 min-w-0 flex-1 no-scrollbar">
+                    {TIMELINE_STEPS.map((step) => {
+                      const isCurrent = step.id === activeTab;
+                      return (
+                        <button
+                          key={step.id}
+                          onClick={() => setActiveTab(step.id)}
+                          className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-lg text-[11px] sm:text-xs font-mono transition-all cursor-pointer shrink-0 ${
+                            isCurrent
+                              ? "bg-white/10 text-orange-400 border border-orange-500/30 font-semibold"
+                              : "text-neutral-500 hover:text-neutral-300 hover:bg-white/5 border border-transparent"
+                          }`}
+                        >
+                          <Terminal size={11} className={isCurrent ? "text-orange-400" : "text-neutral-500"} />
+                          <span className="truncate max-w-[120px] sm:max-w-none">{step.file}</span>
+                        </button>
+                      );
+                    })}
                   </div>
                 </div>
 
-                <div className="flex items-center gap-1.5 text-zinc-600 text-[10px] font-mono uppercase tracking-wider hidden sm:flex">
-                  <Coffee size={12} />
-                  <span>Production Environment</span>
-                </div>
+                {/* Copy Code Action Button */}
+                <button
+                  onClick={handleCopyCode}
+                  className="flex items-center gap-1.5 text-xs text-neutral-400 hover:text-white px-2 sm:px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors cursor-pointer shrink-0"
+                  title="Copy code to clipboard"
+                >
+                  {copied ? (
+                    <>
+                      <Check size={13} className="text-emerald-400" />
+                      <span className="text-emerald-400 font-mono text-[10px] sm:text-[11px]">Copied</span>
+                    </>
+                  ) : (
+                    <>
+                      <Copy size={13} />
+                      <span className="font-mono text-[10px] sm:text-[11px] hidden sm:inline">Copy</span>
+                    </>
+                  )}
+                </button>
               </div>
 
-              {/* Terminal Workspace Interactive Output Pre Block */}
-              <div className="p-6 font-mono text-[11px] sm:text-xs leading-relaxed overflow-x-auto overflow-y-auto flex-grow h-0 custom-scrollbar">
+              {/* Terminal Code Workspace with Line Numbers */}
+              <div className="p-6 font-mono text-xs sm:text-sm leading-relaxed overflow-x-auto min-h-[340px] flex-1 bg-black/40">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={activeTab}
-                    initial={{ opacity: 0, x: 15 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -15 }}
-                    transition={{ duration: 0.4, ease: EASE }}
-                    className="w-full h-full"
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -8 }}
+                    transition={{ duration: 0.25 }}
+                    className="flex gap-4 font-mono"
                   >
-                    <pre className="text-zinc-300 bg-transparent selection:bg-orange-500 selection:text-black">
+                    {/* Line numbers column */}
+                    <div className="select-none text-neutral-600 text-right pr-3 border-r border-white/10 space-y-1">
+                      {codeLines.map((_, i) => (
+                        <div key={i} className="text-[11px] sm:text-xs">
+                          {i + 1}
+                        </div>
+                      ))}
+                    </div>
+
+                    {/* Code content */}
+                    <pre className="text-neutral-200 selection:bg-orange-500 selection:text-black overflow-x-auto flex-1 space-y-1">
                       <code>{currentStep.code}</code>
                     </pre>
                   </motion.div>
                 </AnimatePresence>
               </div>
 
-              {/* Console Status System Footer Bar Indicator */}
-              <div className="px-5 py-3.5 border-t border-white/5 bg-zinc-900/20 flex items-center justify-between font-mono text-[10px] text-zinc-500 shrink-0">
-                <span className="flex items-center gap-2">
-                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping" />
-                  SYSTEM: STANDBY_READY
-                </span>
-                <span>UTF-8 // LANG_CONFIG</span>
+              {/* Takeaway Insight Callout Bar */}
+              <div className="px-6 py-4 border-t border-white/10 bg-orange-500/5 flex items-start gap-3">
+                <Sparkles size={16} className="text-orange-400 shrink-0 mt-0.5" />
+                <div className="text-xs">
+                  <span className="font-bold text-orange-400 uppercase tracking-wider block mb-0.5">
+                    Engineering Takeaway ({currentStep.subtitle}):
+                  </span>
+                  <p className="text-neutral-300 leading-relaxed">
+                    {currentStep.outcome}
+                  </p>
+                </div>
               </div>
-            </div>
+
+              {/* Terminal System Status Bar */}
+              <div className="px-6 py-3 border-t border-white/10 bg-neutral-950 flex flex-wrap items-center justify-between text-[11px] font-mono text-neutral-500 gap-2 shrink-0">
+                <div className="flex items-center gap-4">
+                  <span className="flex items-center gap-1.5 text-neutral-400">
+                    <GitBranch size={12} className="text-orange-400" />
+                    <span>git:(main)</span>
+                  </span>
+                  <span className="flex items-center gap-1.5 text-emerald-400">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+                    <span>SYSTEM: READY</span>
+                  </span>
+                </div>
+
+                <div className="flex items-center gap-3 text-neutral-500">
+                  <span>LANG: {currentStep.lang}</span>
+                  <span>•</span>
+                  <span>UTF-8</span>
+                  <span>•</span>
+                  <span className="text-orange-400/80 flex items-center gap-1">
+                    <Coffee size={11} /> Sandbox
+                  </span>
+                </div>
+              </div>
+            </SpotlightCard>
           </div>
 
         </div>

@@ -18,9 +18,10 @@ import BookMeeting from '@/pages/bookMeeting/BookMeeting';
 
 
 import StudentCareer from '@/pages/career/StudentCareer';
-
 import Students from '@/pages/students/Students';
 import StudentProfile from '@/pages/students/StudentProfile';
+import CollegeBootcamp from '@/pages/bootcamp/CollegeBootcamp';
+import Placement from '@/pages/placement/Placement';
 
 
 
@@ -60,6 +61,8 @@ const AppRoutes = () => {
       <Route element={<Layout />}>
         <Route path="/" element={<Home />} />
         <Route path="/about" element={<About />} />
+        <Route path="/college-bootcamp" element={<CollegeBootcamp />} />
+        <Route path="/placement" element={<Placement />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/meeting" element={<BookMeeting />} />
         <Route path="/courses" element={<Courses />} />

@@ -11,6 +11,7 @@ import FAQ from './components/FAQ'
 import LastHeading from './components/LastHeading'
 import Magic from './components/Magic'
 import WebThreads from '../../components/WebThreads'
+import CampusAndCareerSection from './components/CampusAndCareerSection'
 
 const Home = () => {
   return (
@@ -73,6 +74,9 @@ const Home = () => {
       </div>
       <div>
         <ScrollCourses />
+      </div>
+      <div>
+        <CampusAndCareerSection />
       </div>
       <div>
         <section className="w-full px-4 py-16 sm:py-20 lg:py-28">
