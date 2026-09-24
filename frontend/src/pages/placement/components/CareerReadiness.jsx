@@ -65,18 +65,18 @@ export default function CareerReadiness() {
   return (
     <section className="relative py-28 sm:py-36 bg-black px-4 sm:px-6 lg:px-8 border-t border-zinc-900">
       <div className="max-w-7xl mx-auto">
-        {/* Section Heading - Client Page Style */}
+        {/* Section Heading - About Page Style */}
         <div className="text-center max-w-4xl mx-auto mb-16 sm:mb-20">
-          <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#ff5a28] inline-flex items-center gap-2 mb-3">
-            ▣ MILESTONES // 01-05
+          <span className="px-4 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 text-xs sm:text-sm font-semibold tracking-widest uppercase">
+            Milestones of Transformation
           </span>
-          <h2 className="text-[clamp(28px,4.5vw,68px)] font-light text-white tracking-[-0.03em] leading-tight px-1">
+          <h2 className="mt-4 text-3xl sm:text-5xl font-black text-white tracking-tight">
             The Transformation From{" "}
-            <em className="font-serif italic font-light text-zinc-400 not-italic">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500">
               Student to Industry Engineer.
-            </em>
+            </span>
           </h2>
-          <p className="mt-4 sm:mt-5 text-sm sm:text-base md:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto px-2">
+          <p className="mt-4 text-base sm:text-lg text-neutral-400 font-light leading-relaxed max-w-2xl mx-auto">
             Becoming an engineer isn’t an overnight trick. It’s an intentional, milestone-driven evolution. Click or hover any card to inspect the capability milestones.
           </p>
         </div>
@@ -111,86 +111,77 @@ export default function CareerReadiness() {
                   shadowOpacity={0.2}
                   className="w-full"
                   front={
-                    <div className="h-full p-5 sm:p-6 flex flex-col justify-between border border-zinc-900 rounded-[24px] bg-[#0a0a0a] relative overflow-hidden group">
+                    <div className="h-full p-5 sm:p-6 flex flex-col justify-between border border-white/10 rounded-3xl bg-[#090909] relative overflow-hidden group">
                       <div className="relative z-10">
-                        <div className="w-6 h-[2px] bg-zinc-800 group-hover:bg-[#ff5a28] transition-colors duration-500 mb-4" />
-
                         <div className="flex items-center justify-between mb-4">
-                          <span className="font-mono text-xs tracking-widest text-[#ff5a28]/80">
+                          <span className="text-lg font-black text-white/30 group-hover:text-orange-400/80 transition-colors">
                             // 0{idx + 1}
                           </span>
-                          <div className="w-9 h-9 rounded-xl bg-white/[0.04] border border-white/10 flex items-center justify-center text-[#ff5a28] group-hover:scale-110 group-hover:bg-[#ff5a28]/10 transition-transform">
-                            <Icon className="w-4 h-4" />
+                          <div className="w-10 h-10 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 group-hover:scale-110 group-hover:bg-orange-500 group-hover:text-black transition-all duration-300">
+                            <Icon className="w-5 h-5" />
                           </div>
                         </div>
 
-                        <h3 className="text-xl font-serif font-light text-white mb-1 tracking-tight group-hover:text-[#ff5a28] transition-colors">
+                        <h3 className="text-xl font-bold text-white mb-1 tracking-tight group-hover:text-orange-400 transition-colors">
                           {st.title}
                         </h3>
-                        <p className="font-mono text-[11px] uppercase tracking-wider text-zinc-500 mb-4">
+                        <p className="text-xs sm:text-sm font-semibold text-orange-400 uppercase tracking-wider mb-4">
                           {st.subtitle}
                         </p>
 
-                        <div className="border-t border-zinc-900 pt-3">
-                          <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-500 block mb-1">
+                        <div className="border-t border-white/10 pt-3">
+                          <span className="text-xs uppercase tracking-wider text-neutral-400 font-medium block mb-1">
                             Current Capability
                           </span>
-                          <p className="text-xs text-zinc-400 font-light leading-relaxed">
+                          <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
                             {st.capabilities}
                           </p>
                         </div>
                       </div>
 
-                      {/* Subtle Corner Watermark */}
-                      <div className="absolute -bottom-6 -right-2 font-serif text-[80px] font-bold text-white/[0.015] pointer-events-none group-hover:text-[#ff5a28]/[0.03] select-none transition-all duration-700">
-                        //
-                      </div>
-
-                      <div className="relative z-10 pt-3 border-t border-zinc-900 flex items-center justify-between text-[11px] font-mono text-zinc-500">
+                      <div className="relative z-10 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-mono text-neutral-400">
                         <span className="flex items-center gap-1.5">
-                          <RotateCw className="w-3 h-3 text-[#ff5a28]" /> Click to Flip
+                          <RotateCw className="w-3.5 h-3.5 text-orange-400" /> Click to Flip
                         </span>
-                        <span className="text-[#ff5a28]">→</span>
+                        <span className="text-orange-400 font-bold">→</span>
                       </div>
                     </div>
                   }
                   back={
-                    <div className="h-full p-5 sm:p-6 flex flex-col justify-between border border-[#ff5a28]/40 rounded-[24px] bg-gradient-to-b from-[#140a05] via-[#0c0c0c] to-black relative overflow-hidden group">
+                    <div className="h-full p-5 sm:p-6 flex flex-col justify-between border border-orange-500/40 rounded-3xl bg-gradient-to-b from-[#140a05] via-[#0c0c0c] to-black relative overflow-hidden group">
                       <div className="relative z-10">
-                        <div className="w-6 h-[2px] bg-[#ff5a28] mb-4" />
-
-                        <span className="font-mono text-[10px] uppercase tracking-wider text-[#ff5a28] block mb-1">
+                        <span className="text-xs uppercase tracking-wider text-orange-400 font-semibold block mb-1">
                           Milestone Focus
                         </span>
-                        <h4 className="text-lg font-serif font-light text-white mb-3 tracking-tight">
+                        <h4 className="text-lg sm:text-xl font-bold text-white mb-3 tracking-tight">
                           {st.title} Objectives
                         </h4>
 
-                        <div className="space-y-3 pt-3 border-t border-zinc-900">
+                        <div className="space-y-3 pt-3 border-t border-white/10">
                           <div>
-                            <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-500 block mb-1">
+                            <span className="text-xs uppercase tracking-wider text-neutral-400 font-medium block mb-1">
                               Target Focus
                             </span>
-                            <p className="text-xs text-zinc-300 font-light leading-relaxed">
+                            <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
                               {st.focus}
                             </p>
                           </div>
 
                           <div>
-                            <span className="font-mono text-[10px] uppercase tracking-wider text-[#ff5a28] block mb-1">
+                            <span className="text-xs uppercase tracking-wider text-orange-400 font-semibold block mb-1">
                               Capability Unlocked
                             </span>
-                            <div className="p-2.5 rounded-xl bg-white/[0.03] border border-white/5 text-xs text-[#ff5a28] font-medium flex items-center gap-2">
-                              <CheckCircle2 className="w-3.5 h-3.5 flex-shrink-0" />
+                            <div className="p-2.5 rounded-xl bg-orange-500/10 border border-orange-500/20 text-xs sm:text-sm text-orange-400 font-medium flex items-center gap-2">
+                              <CheckCircle2 className="w-4 h-4 flex-shrink-0" />
                               <span>{st.unlocked}</span>
                             </div>
                           </div>
                         </div>
                       </div>
 
-                      <div className="relative z-10 pt-3 border-t border-zinc-900 flex items-center justify-between text-[11px] font-mono text-zinc-500">
-                        <span>3D Interactive Card</span>
-                        <span className="text-[#ff5a28]">Flip Back ↺</span>
+                      <div className="relative z-10 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-mono text-neutral-400">
+                        <span>Interactive Card</span>
+                        <span className="text-orange-400 font-bold">Flip Back ↺</span>
                       </div>
                     </div>
                   }

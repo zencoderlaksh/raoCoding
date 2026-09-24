@@ -1,7 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Building2 } from "lucide-react";
+import { Building2, Sparkles } from "lucide-react";
 import Button from "../../../components/Button";
 
 const EASE = [0.22, 1, 0.36, 1];
@@ -34,35 +34,31 @@ export default function BootcampCTA() {
           viewport={{ once: true }}
           transition={{ duration: 0.8, ease: EASE }}
           onMouseMove={onMouseMove}
-          className="group relative p-6 sm:p-10 md:p-16 rounded-2xl sm:rounded-[32px] md:rounded-[36px] border border-zinc-900 bg-[#0a0a0a]/90 backdrop-blur-xl hover:border-zinc-800 transition-colors duration-500 overflow-hidden shadow-2xl"
+          className="group relative p-6 sm:p-10 md:p-16 rounded-2xl sm:rounded-3xl border border-white/10 bg-[#090909] backdrop-blur-xl hover:border-orange-500/40 hover:bg-[#0c0c0c] transition-all duration-300 overflow-hidden shadow-2xl"
         >
           {/* Spotlight Glow */}
           <div
             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"
             style={{
               background:
-                "radial-gradient(500px circle at var(--mx,0px) var(--my,0px), rgba(255,90,40,0.1), transparent 75%)",
+                "radial-gradient(500px circle at var(--mx,0px) var(--my,0px), rgba(255,90,40,0.12), transparent 75%)",
             }}
           />
 
-          {/* Watermark */}
-          <span className="pointer-events-none absolute -bottom-8 -right-6 select-none font-serif text-[100px] sm:text-[120px] font-bold text-white/[0.015] transition-transform duration-700 group-hover:scale-110">
-            //
-          </span>
-
           <div className="relative z-10">
-            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[#ff5a28] inline-flex items-center gap-2 mb-4 sm:mb-6">
-              ● INSTITUTIONAL PARTNERSHIP // CAMPUS TALENT
-            </span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 text-xs sm:text-sm font-semibold tracking-widest uppercase mb-6 shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-orange-400" />
+              <span>Campus Talent Partnership</span>
+            </div>
 
-            <h2 className="text-[clamp(28px,5vw,68px)] font-light text-white tracking-[-0.03em] leading-tight mb-5 sm:mb-6 px-1">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-tight mb-5 sm:mb-6 px-1">
               Let’s Build Industry-Ready{" "}
-              <em className="font-serif italic font-light text-zinc-400 not-italic block mt-1">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 block mt-1">
                 Tech Talent Together.
-              </em>
+              </span>
             </h2>
 
-            <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-zinc-400 font-light leading-relaxed mb-8 sm:mb-10 px-2">
+            <p className="max-w-2xl mx-auto text-base sm:text-lg text-neutral-300 font-light leading-relaxed mb-8 sm:mb-10 px-2">
               Partner with RAO Technologies to bring modern, experiential software engineering bootcamps directly to your students. Let’s co-create the next generation of engineers.
             </p>
 
@@ -72,9 +68,9 @@ export default function BootcampCTA() {
               </Link>
               <Link
                 to="/meeting"
-                className="w-full sm:w-auto px-6 sm:px-7 py-3.5 rounded-full border border-zinc-800 bg-white/[0.03] hover:bg-white/[0.08] text-white font-medium text-sm sm:text-base backdrop-blur-md hover:border-zinc-700 transition-all duration-300 flex items-center justify-center gap-2 text-center"
+                className="w-full sm:w-auto px-6 sm:px-8 py-3.5 sm:py-4 rounded-full border border-white/15 bg-white/[0.04] hover:bg-white/[0.08] text-white font-semibold text-sm sm:text-base backdrop-blur-md hover:border-white/30 transition-all duration-300 flex items-center justify-center gap-2 text-center"
               >
-                <Building2 className="w-4 h-4 text-[#ff5a28]" />
+                <Building2 className="w-4 h-4 text-orange-400" />
                 <span>Schedule Campus Demo</span>
               </Link>
             </div>

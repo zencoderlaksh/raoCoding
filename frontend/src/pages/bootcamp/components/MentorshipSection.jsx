@@ -49,14 +49,14 @@ export default function MentorshipSection() {
               <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent pointer-events-none" />
 
               {/* Float Glass Pill */}
-              <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 p-4 sm:p-6 rounded-2xl sm:rounded-[24px] bg-black/85 backdrop-blur-xl border border-zinc-800">
+              <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 p-4 sm:p-6 rounded-2xl sm:rounded-3xl bg-black/90 backdrop-blur-xl border border-white/10 shadow-2xl">
                 <div className="flex items-center gap-2.5 sm:gap-3 mb-1.5 sm:mb-2">
                   <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-500 animate-ping" />
-                  <span className="font-mono text-[11px] sm:text-xs uppercase tracking-wider text-emerald-400">
+                  <span className="text-xs uppercase tracking-wider text-emerald-400 font-semibold">
                     Live Mentor Availability
                   </span>
                 </div>
-                <p className="text-xs sm:text-sm md:text-base text-zinc-300 font-serif italic font-light leading-relaxed">
+                <p className="text-xs sm:text-sm md:text-base text-neutral-300 font-normal leading-relaxed">
                   "We don't teach from slides. We pair program, review pull requests, and solve bugs together like a real engineering team."
                 </p>
               </div>
@@ -65,16 +65,17 @@ export default function MentorshipSection() {
 
           {/* Right Column: Pillars Content */}
           <div>
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#ff5a28] inline-flex items-center gap-2 mb-3">
-              ▣ MENTORSHIP // PRODUCTION STANDARDS
-            </span>
-            <h2 className="text-[clamp(28px,4vw,60px)] font-light text-white tracking-[-0.03em] leading-tight mb-4 sm:mb-6 px-1">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 text-xs sm:text-sm font-semibold tracking-widest uppercase mb-4 shadow-sm">
+              <Sparkles className="w-3.5 h-3.5 text-orange-400" />
+              <span>Mentorship & Standards</span>
+            </div>
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-tight mb-4 sm:mb-6 px-1">
               Mentorship From Engineers,{" "}
-              <em className="font-serif italic font-light text-zinc-400 not-italic block sm:inline">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 block sm:inline">
                 Not Just Instructors.
-              </em>
+              </span>
             </h2>
-            <p className="text-zinc-400 text-sm sm:text-base md:text-lg font-light leading-relaxed mb-8 sm:mb-10 px-1">
+            <p className="text-neutral-300 text-base sm:text-lg font-light leading-relaxed mb-8 sm:mb-10 px-1">
               The difference between following online tutorials and building real engineering instincts is feedback. Our mentors guide students step-by-step through professional code reviews and industry habits.
             </p>
 
@@ -98,30 +99,30 @@ export default function MentorshipSection() {
                       e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
                       e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
                     }}
-                    className="group relative p-5 sm:p-6 md:p-7 rounded-2xl sm:rounded-[26px] bg-[#0a0a0a]/90 border border-zinc-900 hover:border-zinc-800 transition-colors duration-500 overflow-hidden shadow-xl"
+                    className="group relative p-5 sm:p-6 md:p-7 rounded-2xl sm:rounded-3xl bg-[#090909] border border-white/10 hover:border-orange-500/40 hover:bg-[#0c0c0c] transition-all duration-300 overflow-hidden shadow-xl"
                   >
                     {/* Cursor Spotlight Glow */}
                     <div
                       className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"
                       style={{
                         background:
-                          "radial-gradient(220px circle at var(--mx,0px) var(--my,0px), rgba(255,90,40,0.08), transparent 80%)",
+                          "radial-gradient(220px circle at var(--mx,0px) var(--my,0px), rgba(255,90,40,0.12), transparent 80%)",
                       }}
                     />
 
                     <div className="relative z-10">
                       <div className="flex items-center justify-between mb-4">
-                        <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-[#ff5a28] group-hover:scale-110 group-hover:bg-[#ff5a28]/10 group-hover:border-[#ff5a28]/30 transition-all duration-300">
+                        <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 group-hover:scale-110 group-hover:bg-orange-500 group-hover:text-black transition-all duration-300">
                           <Icon className="w-5 h-5" />
                         </div>
-                        <span className="font-mono text-xs text-zinc-600 group-hover:text-[#ff5a28]/70 transition-colors">
+                        <span className="font-black text-xs text-white/30 group-hover:text-orange-400/80 transition-colors">
                           // 0{idx + 1}
                         </span>
                       </div>
-                      <h4 className="text-lg font-serif font-light text-white mb-2 tracking-tight group-hover:text-[#ff5a28] transition-colors">
+                      <h4 className="text-lg sm:text-xl font-bold text-white mb-2 tracking-tight group-hover:text-orange-400 transition-colors">
                         {item.title}
                       </h4>
-                      <p className="text-zinc-400 font-light text-xs sm:text-sm leading-relaxed group-hover:text-zinc-300 transition-colors">
+                      <p className="text-neutral-300 font-light text-sm leading-relaxed">
                         {item.desc}
                       </p>
                     </div>

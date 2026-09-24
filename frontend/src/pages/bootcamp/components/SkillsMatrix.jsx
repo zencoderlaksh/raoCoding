@@ -111,39 +111,38 @@ export default function SkillsMatrix() {
   return (
     <section id="skills" className="relative py-24 sm:py-32 bg-black px-4 sm:px-6 lg:px-8 border-t border-white/5">
       <div className="max-w-7xl mx-auto">
-        {/* Section Heading */}
-        {/* Section Heading - Client Page Style */}
+        {/* Section Heading - About Page Style */}
         <div className="text-center max-w-4xl mx-auto mb-16 sm:mb-20">
-          <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#ff5a28] inline-flex items-center gap-2 mb-3">
-            ▣ CURRICULUM // CORE MATRIX
+          <span className="px-4 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 text-xs sm:text-sm font-semibold tracking-widest uppercase">
+            Core Curriculum Matrix
           </span>
-          <h2 className="text-[clamp(28px,4.5vw,68px)] font-light text-white tracking-[-0.03em] leading-tight px-1">
+          <h2 className="mt-4 text-3xl sm:text-5xl font-black text-white tracking-tight">
             What Your Students{" "}
-            <em className="font-serif italic font-light text-zinc-400 not-italic">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500">
               Will Actually Master.
-            </em>
+            </span>
           </h2>
-          <p className="mt-4 sm:mt-5 text-sm sm:text-base md:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto px-2">
+          <p className="mt-4 text-base sm:text-lg text-neutral-400 font-light leading-relaxed max-w-2xl mx-auto">
             Our curriculum is built around the modern software engineering ecosystem. We teach the tools, patterns, and architectural practices companies expect from Day 1 hires.
           </p>
         </div>
 
         {/* Category Tabs */}
         <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10 sm:mb-14">
-          {skillCategories.map((cat, idx) => {
+          {skillCategories.map((cat) => {
             const Icon = cat.icon;
             const isActive = cat.id === activeTab;
             return (
               <button
                 key={cat.id}
                 onClick={() => setActiveTab(cat.id)}
-                className={`flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-mono tracking-wider uppercase transition-all duration-300 cursor-pointer ${
+                className={`flex items-center gap-2.5 px-4 sm:px-5 py-2.5 sm:py-3 rounded-2xl text-xs sm:text-sm font-semibold transition-all duration-300 cursor-pointer ${
                   isActive
-                    ? "bg-[#ff5a28] text-white shadow-[0_0_25px_rgba(255,90,40,0.35)] scale-105"
-                    : "bg-white/[0.03] border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700"
+                    ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white shadow-[0_0_20px_rgba(249,115,22,0.4)] scale-105"
+                    : "bg-white/[0.03] border border-white/10 text-neutral-400 hover:text-white hover:bg-white/[0.07]"
                 }`}
               >
-                <Icon className={`w-3.5 h-3.5 ${isActive ? "text-white" : "text-[#ff5a28]"}`} />
+                <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-orange-400"}`} />
                 <span>{cat.title}</span>
               </button>
             );
@@ -158,42 +157,40 @@ export default function SkillsMatrix() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="p-5 sm:p-8 md:p-12 rounded-2xl sm:rounded-[32px] border border-zinc-900 bg-[#0a0a0a]/95 backdrop-blur-xl shadow-2xl relative overflow-hidden"
+              transition={{ duration: 0.4 }}
+              className="p-6 sm:p-8 md:p-12 rounded-3xl border border-white/10 bg-[#090909] backdrop-blur-xl shadow-[0_10px_30px_rgba(0,0,0,0.5)] relative overflow-hidden"
             >
               {/* Subtle Ambient Radial Glow */}
               <div
                 className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-[140px] opacity-15 pointer-events-none"
                 style={{
                   background:
-                    "radial-gradient(circle, rgba(255,90,40,0.8) 0%, transparent 70%)",
+                    "radial-gradient(circle, rgba(249,115,22,0.8) 0%, transparent 70%)",
                 }}
               />
 
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start relative z-10">
                 {/* Left Overview Column */}
-                <div className="lg:col-span-1 border-b lg:border-b-0 lg:border-r border-zinc-900 pb-8 lg:pb-0 lg:pr-8">
-                  <div className="w-6 h-[2px] bg-[#ff5a28] mb-6" />
-
-                  <div className="w-14 h-14 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-[#ff5a28] mb-6 shadow-[0_0_15px_rgba(255,90,40,0.2)]">
-                    <activeCategory.icon className="w-7 h-7" />
+                <div className="lg:col-span-1 border-b lg:border-b-0 lg:border-r border-white/10 pb-8 lg:pb-0 lg:pr-8">
+                  <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 mb-6 shadow-[0_0_15px_rgba(249,115,22,0.2)]">
+                    <activeCategory.icon className="w-6 h-6 sm:w-7 sm:h-7" />
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-serif font-light tracking-tight text-white mb-4">
+                  <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-4">
                     {activeCategory.title}
                   </h3>
-                  <p className="text-zinc-400 font-light text-sm sm:text-base leading-relaxed mb-8">
+                  <p className="text-neutral-300 font-light text-sm sm:text-base leading-relaxed mb-8">
                     {activeCategory.description}
                   </p>
 
                   <div>
-                    <span className="font-mono text-[11px] uppercase tracking-wider text-zinc-500 block mb-3">
+                    <span className="text-xs uppercase tracking-wider text-orange-400 font-semibold block mb-3">
                       Technologies & Libraries
                     </span>
                     <div className="flex flex-wrap gap-2">
                       {activeCategory.tools.map((tool, idx) => (
                         <span
                           key={idx}
-                          className="px-3 py-1 rounded-full text-xs font-mono bg-white/[0.04] border border-zinc-800 text-zinc-300 shadow-sm"
+                          className="px-3.5 py-1.5 rounded-xl text-xs font-medium bg-white/[0.04] border border-white/10 text-neutral-300 shadow-sm"
                         >
                           {tool}
                         </span>
@@ -204,18 +201,18 @@ export default function SkillsMatrix() {
 
                 {/* Right Competencies List Column */}
                 <div className="lg:col-span-2">
-                  <h4 className="text-lg font-serif font-light text-white mb-6 flex items-center gap-2 tracking-tight">
-                    <Sparkles className="w-4 h-4 text-[#ff5a28]" />
+                  <h4 className="text-lg sm:text-xl font-bold text-white mb-6 flex items-center gap-2 tracking-tight">
+                    <Sparkles className="w-4 h-4 text-orange-400" />
                     Key Competencies Mastered
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {activeCategory.skills.map((skill, idx) => (
                       <div
                         key={idx}
-                        className="flex items-start gap-3 p-5 rounded-2xl bg-white/[0.02] border border-zinc-900 hover:border-zinc-800 transition-colors"
+                        className="flex items-start gap-3 p-5 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-orange-500/30 transition-all duration-300"
                       >
-                        <CheckCircle2 className="w-4 h-4 text-[#ff5a28] flex-shrink-0 mt-0.5" />
-                        <span className="text-zinc-300 text-sm font-light">
+                        <CheckCircle2 className="w-4 h-4 text-orange-400 flex-shrink-0 mt-0.5" />
+                        <span className="text-neutral-300 text-xs sm:text-sm font-light">
                           {skill}
                         </span>
                       </div>

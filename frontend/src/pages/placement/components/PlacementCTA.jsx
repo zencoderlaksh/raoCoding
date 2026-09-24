@@ -30,30 +30,31 @@ export default function PlacementCTA() {
             e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
             e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
           }}
-          className="group relative p-6 sm:p-10 md:p-16 rounded-2xl sm:rounded-[32px] md:rounded-[36px] border border-zinc-900 bg-[#0a0a0a]/90 backdrop-blur-xl hover:border-zinc-800 transition-colors duration-500 overflow-hidden shadow-2xl"
+          className="group relative p-6 sm:p-10 md:p-16 rounded-3xl border border-white/10 bg-[#090909] backdrop-blur-xl hover:border-orange-500/40 transition-all duration-300 overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.5)]"
         >
           {/* Spotlight Glow */}
           <div
             className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"
             style={{
               background:
-                "radial-gradient(400px circle at var(--mx,0px) var(--my,0px), rgba(255,90,40,0.08), transparent 80%)",
+                "radial-gradient(400px circle at var(--mx,0px) var(--my,0px), rgba(249,115,22,0.12), transparent 80%)",
             }}
           />
 
           <div className="relative z-10">
-            <span className="font-mono text-[10px] sm:text-xs uppercase tracking-[0.15em] sm:tracking-[0.2em] text-[#ff5a28] inline-flex items-center gap-2 mb-4 sm:mb-6">
-              ● RAO CAREERS // TAKE ACTION
-            </span>
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 text-xs sm:text-sm font-semibold tracking-widest uppercase mb-8">
+              <Sparkles className="w-3.5 h-3.5" />
+              <span>Let's Build Your Career</span>
+            </div>
 
-            <h2 className="text-[clamp(28px,5vw,72px)] font-light text-white tracking-[-0.03em] leading-tight mb-5 sm:mb-6 px-1">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-black text-white tracking-tight leading-tight mb-6 px-1">
               Your Skills Can Open The Door.{" "}
-              <em className="font-serif italic font-light text-zinc-400 not-italic block mt-1">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500 block mt-2">
                 We Prepare You To Walk Through It.
-              </em>
+              </span>
             </h2>
 
-            <p className="max-w-2xl mx-auto text-sm sm:text-base md:text-lg text-zinc-400 font-light leading-relaxed mb-8 sm:mb-10 px-2">
+            <p className="max-w-2xl mx-auto text-base sm:text-lg text-neutral-300 font-light leading-relaxed mb-10 px-2">
               Join our intensive engineering programs, build high-impact production capstones, and get mentored directly by working software engineers.
             </p>
 
@@ -63,9 +64,9 @@ export default function PlacementCTA() {
               </Link>
               <Link
                 to="/meeting"
-                className="w-full sm:w-auto px-6 sm:px-7 py-3.5 rounded-full border border-zinc-800 bg-white/[0.03] hover:bg-white/[0.08] text-white font-medium text-sm sm:text-base backdrop-blur-md hover:border-zinc-700 transition-all duration-300 flex items-center justify-center gap-2 text-center"
+                className="w-full sm:w-auto px-8 py-4 rounded-full border border-white/20 bg-white/5 hover:bg-white/10 text-white font-medium text-sm sm:text-base backdrop-blur-md hover:scale-105 transition-all duration-300 flex items-center justify-center gap-2 text-center"
               >
-                <Compass className="w-4 h-4 text-[#ff5a28]" />
+                <Compass className="w-4 h-4 text-orange-400" />
                 <span>Book Free Career Consultation</span>
               </Link>
             </div>

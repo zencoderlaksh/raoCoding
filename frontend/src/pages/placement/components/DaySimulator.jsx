@@ -93,20 +93,20 @@ export default function DaySimulator() {
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Heading - Client Page Style */}
-        <div className="text-center max-w-4xl mx-auto mb-20">
-          <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#ff5a28] inline-flex items-center gap-2 mb-3">
-            ▣ CADENCE // 24-HOUR SIMULATOR
+        {/* Section Heading - About Page Style */}
+        <div className="text-center max-w-4xl mx-auto mb-16 sm:mb-20">
+          <span className="px-4 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 text-xs sm:text-sm font-semibold tracking-widest uppercase">
+            24-Hour Engineering Cadence
           </span>
           
-          <h2 className="text-[clamp(34px,4.5vw,68px)] font-light text-white tracking-[-0.03em] leading-tight">
+          <h2 className="mt-4 text-3xl sm:text-5xl font-black text-white tracking-tight">
             A Typical Day in Your{" "}
-            <em className="font-serif italic font-light text-zinc-400 not-italic">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500">
               Engineered Life.
-            </em>
+            </span>
           </h2>
           
-          <p className="mt-5 text-base sm:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto">
+          <p className="mt-4 text-base sm:text-lg text-neutral-400 font-light leading-relaxed max-w-2xl mx-auto">
             Experience the daily engineering cadence of an industry-scale developer. Toggle through the workflow stages to inspect production templates, real code reviews, and architecture expectations.
           </p>
         </div>
@@ -114,13 +114,13 @@ export default function DaySimulator() {
         {/* Simulator Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* Left Column: Interactive Timeline Steps using Client-Page SpotlightCard */}
+          {/* Left Column: Interactive Timeline Steps using SpotlightCard */}
           <div className="lg:col-span-5 space-y-4">
             <div className="flex items-center justify-between px-2 mb-3">
-              <span className="font-mono text-xs uppercase tracking-widest text-zinc-400">
+              <span className="text-xs uppercase tracking-widest text-neutral-400 font-semibold">
                 Daily Engineering Lifecycle
               </span>
-              <span className="font-mono text-xs text-[#ff5a28]">
+              <span className="font-mono text-xs text-orange-400">
                 // 04 Milestones
               </span>
             </div>
@@ -132,12 +132,12 @@ export default function DaySimulator() {
               return (
                 <SpotlightCard
                   key={step.id}
-                  spotlightColor="rgba(255, 90, 40, 0.2)"
+                  spotlightColor="rgba(249, 115, 22, 0.2)"
                   onClick={() => setActiveTab(step.id)}
-                  className={`cursor-pointer transition-all duration-300 !p-4 sm:!p-6 rounded-2xl sm:rounded-[24px] border text-left relative overflow-hidden select-none ${
+                  className={`cursor-pointer transition-all duration-300 !p-4 sm:!p-6 rounded-2xl sm:rounded-3xl border text-left relative overflow-hidden select-none ${
                     isActive
-                      ? "!border-[#ff5a28]/60 !bg-[#111113] shadow-[0_12px_36px_rgba(0,0,0,0.8),0_0_30px_rgba(255,90,40,0.2)] ring-1 ring-[#ff5a28]/30 scale-[1.01]"
-                      : "!border-zinc-900 !bg-[#0a0a0c] shadow-[0_6px_20px_rgba(0,0,0,0.6)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.85),0_0_20px_rgba(255,90,40,0.1)] hover:!border-zinc-800 opacity-80 hover:opacity-100"
+                      ? "!border-orange-500/60 !bg-[#111113] shadow-[0_12px_36px_rgba(0,0,0,0.8),0_0_30px_rgba(249,115,22,0.2)] ring-1 ring-orange-500/30 scale-[1.01]"
+                      : "!border-white/10 !bg-[#090909] shadow-[0_6px_20px_rgba(0,0,0,0.6)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.85),0_0_20px_rgba(249,115,22,0.1)] hover:!border-orange-500/40 opacity-80 hover:opacity-100"
                   }`}
                 >
                   <div className="flex items-start gap-3 sm:gap-4">
@@ -145,8 +145,8 @@ export default function DaySimulator() {
                     <div
                       className={`w-9 h-9 sm:w-11 sm:h-11 rounded-xl border flex items-center justify-center shrink-0 transition-transform duration-300 ${
                         isActive
-                          ? "bg-[#ff5a28] text-white border-orange-400 shadow-[0_0_15px_rgba(255,90,40,0.4)] scale-105"
-                          : "bg-white/[0.03] text-zinc-400 border-white/10 group-hover:scale-105"
+                          ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white border-orange-400 shadow-[0_0_15px_rgba(249,115,22,0.4)] scale-105"
+                          : "bg-white/[0.03] text-neutral-400 border-white/10 group-hover:scale-105"
                       }`}
                     >
                       <Icon size={17} className={isActive ? "stroke-[2.5]" : "stroke-[2]"} />
@@ -157,21 +157,21 @@ export default function DaySimulator() {
                       <div className="flex items-center justify-between gap-2 mb-1.5 flex-wrap">
                         <span
                           className={`font-mono text-xs font-bold tracking-wider ${
-                            isActive ? "text-[#ff5a28]" : "text-zinc-500"
+                            isActive ? "text-orange-400" : "text-neutral-400"
                           }`}
                         >
                           {step.time}
                         </span>
-                        <span className="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-zinc-400">
+                        <span className="font-mono text-[10px] sm:text-xs uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-neutral-300">
                           {step.tag}
                         </span>
                       </div>
 
-                      <h4 className="text-white text-sm sm:text-base md:text-lg font-serif font-light tracking-tight mb-1">
+                      <h4 className="text-white text-base sm:text-lg font-bold tracking-tight mb-1 group-hover:text-orange-400 transition-colors">
                         {step.title}
                       </h4>
                       
-                      <p className="text-zinc-400 text-xs leading-relaxed line-clamp-2 font-light">
+                      <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed line-clamp-2 font-light">
                         {step.desc}
                       </p>
                     </div>

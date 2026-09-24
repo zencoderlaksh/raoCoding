@@ -103,18 +103,18 @@ export default function MockInterviews() {
   return (
     <section className="relative py-28 sm:py-36 bg-black px-4 sm:px-6 lg:px-8 border-t border-zinc-900">
       <div className="max-w-7xl mx-auto">
-        {/* Section Heading - Client Page Style */}
+        {/* Section Heading - About Page Style */}
         <div className="text-center max-w-4xl mx-auto mb-16 sm:mb-20">
-          <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#ff5a28] inline-flex items-center gap-2 mb-3">
-            ▣ SIMULATION // 1-ON-1 SESSIONS
+          <span className="px-4 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 text-xs sm:text-sm font-semibold tracking-widest uppercase">
+            1-on-1 Simulations
           </span>
-          <h2 className="text-[clamp(28px,4.5vw,68px)] font-light text-white tracking-[-0.03em] leading-tight px-1">
+          <h2 className="mt-4 text-3xl sm:text-5xl font-black text-white tracking-tight">
             Comprehensive Mock{" "}
-            <em className="font-serif italic font-light text-zinc-400 not-italic">
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500">
               Interview Ecosystem.
-            </em>
+            </span>
           </h2>
-          <p className="mt-4 sm:mt-5 text-sm sm:text-base md:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto px-2">
+          <p className="mt-4 text-base sm:text-lg text-neutral-400 font-light leading-relaxed max-w-2xl mx-auto">
             Eliminate interview anxiety before you sit in front of real hiring managers. We simulate every round with industry veterans and provide exhaustive feedback scorecards.
           </p>
         </div>
@@ -128,31 +128,31 @@ export default function MockInterviews() {
               <button
                 key={type.id}
                 onClick={() => setActiveTab(type.id)}
-                className={`p-4 sm:p-6 lg:p-7 rounded-2xl sm:rounded-[26px] text-left transition-all duration-300 cursor-pointer flex flex-col justify-between relative overflow-hidden group ${
+                className={`p-4 sm:p-6 lg:p-7 rounded-2xl sm:rounded-3xl text-left transition-all duration-300 cursor-pointer flex flex-col justify-between relative overflow-hidden group ${
                   isSelected
-                    ? "bg-[#121212] border border-[#ff5a28] shadow-[0_0_30px_rgba(255,90,40,0.2)] scale-[1.01]"
-                    : "bg-[#0a0a0a] border border-zinc-900 hover:border-zinc-800 hover:bg-[#0f0f0f]"
+                    ? "bg-[#121212] border-2 border-orange-500 shadow-[0_0_30px_rgba(249,115,22,0.25)] scale-[1.01]"
+                    : "bg-[#090909] border border-white/10 hover:border-orange-500/40 hover:bg-[#0c0c0c]"
                 }`}
               >
                 <div>
                   <div className="flex items-center justify-between mb-3 sm:mb-4">
                     <div
-                      className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center transition-colors ${
+                      className={`w-9 h-9 sm:w-11 sm:h-11 rounded-xl flex items-center justify-center transition-colors ${
                         isSelected
-                          ? "bg-[#ff5a28] text-white"
-                          : "bg-white/[0.04] text-[#ff5a28] group-hover:bg-[#ff5a28]/10"
+                          ? "bg-gradient-to-r from-orange-500 to-amber-500 text-white"
+                          : "bg-orange-500/10 text-orange-400 group-hover:bg-orange-500 group-hover:text-black"
                       }`}
                     >
                       <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
                     </div>
-                    <span className="font-mono text-[10px] sm:text-xs text-zinc-600 group-hover:text-zinc-400 transition-colors">
+                    <span className="font-mono text-xs text-neutral-400 group-hover:text-orange-400 transition-colors">
                       // 0{idx + 1}
                     </span>
                   </div>
-                  <h4 className="text-sm sm:text-base lg:text-lg font-serif font-light text-white mb-1 tracking-tight group-hover:text-[#ff5a28] transition-colors line-clamp-2">
+                  <h4 className="text-sm sm:text-base lg:text-lg font-bold text-white mb-1 tracking-tight group-hover:text-orange-400 transition-colors line-clamp-2">
                     {type.title}
                   </h4>
-                  <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-zinc-500">
+                  <span className="font-mono text-[10px] sm:text-xs uppercase tracking-wider text-neutral-400">
                     {type.duration}
                   </span>
                 </div>
@@ -169,59 +169,58 @@ export default function MockInterviews() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-              className="p-5 sm:p-8 md:p-12 rounded-2xl sm:rounded-[32px] border border-zinc-900 bg-[#0a0a0a]/95 backdrop-blur-xl mb-10 sm:mb-12 shadow-2xl relative overflow-hidden"
+              transition={{ duration: 0.4 }}
+              className="p-6 sm:p-8 md:p-12 rounded-3xl border border-white/10 bg-[#090909] backdrop-blur-xl mb-10 sm:mb-12 shadow-[0_10px_30px_rgba(0,0,0,0.5)] relative overflow-hidden"
             >
               {/* Dynamic corner ambient glow */}
               <div
                 className="absolute top-0 right-0 w-96 h-96 rounded-full blur-[110px] opacity-15 pointer-events-none"
                 style={{
-                  background: "radial-gradient(circle, rgba(255,90,40,0.8) 0%, transparent 70%)",
+                  background: "radial-gradient(circle, rgba(249,115,22,0.8) 0%, transparent 70%)",
                 }}
               />
 
               <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start relative z-10">
                 {/* Left Column: Format Details */}
-                <div className="lg:col-span-4 border-b lg:border-b-0 lg:border-r border-zinc-900 pb-8 lg:pb-0 lg:pr-8">
-                  <div className="w-6 h-[2px] bg-[#ff5a28] mb-6" />
-                  <span className="font-mono text-[11px] uppercase tracking-widest text-[#ff5a28] block mb-2">
+                <div className="lg:col-span-4 border-b lg:border-b-0 lg:border-r border-white/10 pb-8 lg:pb-0 lg:pr-8">
+                  <span className="text-xs uppercase tracking-widest text-orange-400 font-semibold block mb-2">
                     Round Specification
                   </span>
-                  <h3 className="text-2xl sm:text-3xl font-serif font-light tracking-tight text-white mb-4">
+                  <h3 className="text-2xl sm:text-3xl font-bold tracking-tight text-white mb-4">
                     {active.title}
                   </h3>
-                  <div className="space-y-2 text-xs sm:text-sm text-zinc-400 font-light mb-6">
+                  <div className="space-y-2 text-xs sm:text-sm text-neutral-400 font-light mb-6">
                     <p>Duration: <strong className="text-white font-mono">{active.duration}</strong></p>
-                    <p>Conducted by: <strong className="text-zinc-200">{active.interviewer}</strong></p>
+                    <p>Conducted by: <strong className="text-neutral-200">{active.interviewer}</strong></p>
                   </div>
-                  <p className="text-zinc-400 font-light text-sm leading-relaxed mb-6">
+                  <p className="text-neutral-300 font-light text-sm sm:text-base leading-relaxed mb-6">
                     {active.focus}
                   </p>
 
-                  <div className="p-5 rounded-2xl bg-black/60 border border-zinc-800/80">
-                    <div className="flex items-center gap-2 font-mono text-[11px] text-[#ff5a28] uppercase tracking-widest mb-2">
+                  <div className="p-5 rounded-2xl bg-white/[0.02] border border-white/10">
+                    <div className="flex items-center gap-2 font-mono text-xs text-orange-400 uppercase tracking-widest mb-2 font-semibold">
                       <Award className="w-4 h-4" />
                       Passing Standard
                     </div>
-                    <p className="text-xs text-zinc-400 font-light leading-relaxed">
+                    <p className="text-xs text-neutral-300 font-light leading-relaxed">
                       Must score at least 85% across all rubric categories to receive RAO Interview-Cleared endorsement.
                     </p>
                   </div>
                 </div>
 
                 {/* Middle Column: Evaluation Rubric */}
-                <div className="lg:col-span-4 border-b lg:border-b-0 lg:border-r border-zinc-900 pb-8 lg:pb-0 lg:pr-8">
-                  <h4 className="text-base font-serif font-light text-white mb-5 flex items-center gap-2 tracking-tight">
-                    <ClipboardList className="w-4 h-4 text-[#ff5a28]" />
+                <div className="lg:col-span-4 border-b lg:border-b-0 lg:border-r border-white/10 pb-8 lg:pb-0 lg:pr-8">
+                  <h4 className="text-base sm:text-lg font-bold text-white mb-5 flex items-center gap-2 tracking-tight">
+                    <ClipboardList className="w-4 h-4 text-orange-400" />
                     Evaluation Checklist:
                   </h4>
                   <div className="space-y-3">
                     {active.rubric.map((item, idx) => (
                       <div
                         key={idx}
-                        className="p-4 rounded-2xl bg-white/[0.02] border border-zinc-900 flex items-start gap-3 text-xs sm:text-sm text-zinc-300 font-light"
+                        className="p-4 rounded-2xl bg-white/[0.02] border border-white/5 flex items-start gap-3 text-xs sm:text-sm text-neutral-300 font-light"
                       >
-                        <CheckCircle className="w-4 h-4 text-[#ff5a28] flex-shrink-0 mt-0.5" />
+                        <CheckCircle className="w-4 h-4 text-orange-400 flex-shrink-0 mt-0.5" />
                         <span>{item}</span>
                       </div>
                     ))}
@@ -230,23 +229,23 @@ export default function MockInterviews() {
 
                 {/* Right Column: Animated Scorecard Radar/Bar Preview */}
                 <div className="lg:col-span-4">
-                  <h4 className="text-base font-serif font-light text-white mb-5 flex items-center gap-2 tracking-tight">
-                    <BarChart3 className="w-4 h-4 text-[#ff5a28]" />
+                  <h4 className="text-base sm:text-lg font-bold text-white mb-5 flex items-center gap-2 tracking-tight">
+                    <BarChart3 className="w-4 h-4 text-orange-400" />
                     Target Competency Benchmark:
                   </h4>
                   <div className="space-y-4">
                     {active.metrics.map((m, mIdx) => (
                       <div key={mIdx}>
                         <div className="flex justify-between text-xs font-mono mb-2">
-                          <span className="text-zinc-300">{m.label}</span>
-                          <span className="text-[#ff5a28] font-bold">{m.score}%</span>
+                          <span className="text-neutral-300">{m.label}</span>
+                          <span className="text-orange-400 font-bold">{m.score}%</span>
                         </div>
-                        <div className="w-full h-2 rounded-full bg-zinc-900 overflow-hidden">
+                        <div className="w-full h-2 rounded-full bg-white/10 overflow-hidden">
                           <motion.div
                             initial={{ width: 0 }}
                             animate={{ width: `${m.score}%` }}
                             transition={{ duration: 1, delay: mIdx * 0.12, ease: [0.22, 1, 0.36, 1] }}
-                            className="h-full rounded-full bg-gradient-to-r from-[#ff5a28] to-amber-400"
+                            className="h-full rounded-full bg-gradient-to-r from-orange-500 to-amber-400"
                           />
                         </div>
                       </div>
@@ -259,7 +258,7 @@ export default function MockInterviews() {
         )}
 
         {/* Feedback Loop Feature Bar */}
-        <div className="p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-[32px] border border-zinc-900 bg-[#0a0a0a]/80 grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 text-left">
+        <div className="p-6 sm:p-8 md:p-10 rounded-3xl border border-white/10 bg-[#090909] grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8 text-left shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
           {[
             {
               icon: Video,
@@ -284,17 +283,17 @@ export default function MockInterviews() {
             return (
               <div key={cIdx} className="group relative">
                 <div className="flex items-center justify-between mb-4">
-                  <div className="w-11 h-11 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-[#ff5a28] group-hover:scale-110 group-hover:bg-[#ff5a28]/10 group-hover:border-[#ff5a28]/30 transition-all duration-300">
-                    <Icon className="w-5 h-5" />
+                  <div className="w-12 h-12 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 group-hover:scale-110 group-hover:bg-orange-500 group-hover:text-black transition-all duration-300">
+                    <Icon className="w-6 h-6" />
                   </div>
-                  <span className="font-mono text-xs text-zinc-600 group-hover:text-[#ff5a28]/70 transition-colors">
+                  <span className="font-mono text-xs text-neutral-400 group-hover:text-orange-400 transition-colors">
                     {card.num}
                   </span>
                 </div>
-                <h5 className="text-lg font-serif font-light text-white mb-2 tracking-tight group-hover:text-[#ff5a28] transition-colors">
+                <h5 className="text-lg sm:text-xl font-bold text-white mb-2 tracking-tight group-hover:text-orange-400 transition-colors">
                   {card.title}
                 </h5>
-                <p className="text-xs sm:text-sm text-zinc-400 font-light leading-relaxed">
+                <p className="text-xs sm:text-sm text-neutral-300 font-light leading-relaxed">
                   {card.desc}
                 </p>
               </div>
