@@ -37,20 +37,23 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="w-full relative top-0 left-0 z-50 px-4 sm:px-6 lg:px-8">
+    <nav className="w-full relative top-0 left-0 z-50 px-4 sm:px-6 lg:px-10 pt-4 sm:pt-6 pb-2">
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 lg:gap-4">
         
         {/* Logo */}
-        <div className="flex items-center flex-shrink-0 cursor-pointer" onClick={() => navigate("/")}>
+        <div
+          className="flex items-center flex-shrink-0 cursor-pointer min-w-[160px] lg:min-w-[200px]"
+          onClick={() => navigate("/")}
+        >
           <img
             src={logo}
-            alt="Logo"
-            className="h-20 sm:h-24 lg:h-28 mt-2 sm:mt-4 object-contain"
+            alt="RAO Technologies"
+            className="h-9 sm:h-10 md:h-11 w-auto object-contain hover:opacity-90 transition-opacity"
           />
         </div>
 
-        {/* Glass Navbar for Desktop (lg+) */}
-        <div className="hidden lg:flex items-center justify-center gap-1.5 xl:gap-3 px-3 xl:px-5 py-2.5 rounded-xl border border-white/20 bg-white/10 backdrop-blur-2xl shadow-2xl flex-shrink">
+        {/* Glass Navbar */}
+        <div className="hidden lg:flex items-center justify-center gap-2 xl:gap-4 px-4 xl:px-6 py-2.5 rounded-full border border-white/20 bg-white/10 backdrop-blur-2xl shadow-2xl flex-shrink">
           {navLinks.map((link) => (
             <motion.a
               key={link.name}
@@ -98,7 +101,7 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Buttons */}
-        <div className="hidden lg:flex items-center gap-3">
+        <div className="hidden lg:flex items-center justify-end gap-3 min-w-[160px] lg:min-w-[180px]">
           {!isSignedIn ? (
             <motion.a
               onClick={(e) => {

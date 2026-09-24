@@ -1,5 +1,5 @@
 import instagram from '../assets/instagram-fill.svg'
-import logo from '../assets/Logo.png'
+import logo from '../assets/RAO-logo.png'
 import tiger from '../assets/tiger.png'
 import youtube from '../assets/youtube-fill.svg'
 import linkedin from '../assets/linkedin-box-fill.svg'
@@ -15,7 +15,7 @@ import companies from '../assets/companies.png'
 import webd from "../assets/webd.webp"
 import ai from "../assets/ai.png"
 import dsa from "../assets/dsa.avif"
-import img from "../assets/k1.jpeg"
+import img from "../assets/k1.PNG"
 import indexMoney from '../assets/index_money_project.png'
 import portraitIndexMoney from '../assets/portrai_index_money.png'
 export { youtube, linkedin, x, instagram, logo, tiger, computer, two, three, four, five, six, companies, course, dsa, ai, webd, img, indexMoney, portraitIndexMoney };

@@ -7,11 +7,12 @@ const ARCHIVE = [
   // { id: "01", title: "FinTech", category: "Web Design / Next.js", year: "2025", img: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=600&auto=format&fit=crop" },
   { id: "01", title: "Fresh Belly", category: "Web Design / Next.js", year: "2025", img: "https://freshbelly.netlify.app/assets/Glass-me40kAFO.png", projectLink: "https://freshbelly.netlify.app/" },
   // { id: "02", title: "Nova Wearable", category: "E-Commerce / Shopify", year: "2025", img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?q=80&w=600&auto=format&fit=crop" },
-  { id: "02", title: "Sucha", category: "E-Commerce / Shopify", year: "2025", img: "https://sucha.netlify.app/assets/l1-DsGXrqKZ.png", projectLink: "https://sucha.netlify.app/" },
+  { id: "02", title: "SuchaMojo", category: "E-Commerce / Shopify", year: "2025", img: "https://sucha.netlify.app/assets/l1-DsGXrqKZ.png", projectLink: "https://sucha.netlify.app/" },
   // { id: "03", title: "Quantum AI", category: "SaaS Dashboard Development", year: "2024", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=600&auto=format&fit=crop" },
   { id: "03", title: "Mini Me Clothing", category: "E-Commerce ", year: "2024", img: "https://theminimeclothing.netlify.app/assets/home-DuCpc2eD.avif", projectLink: "https://theminimeclothing.netlify.app/" },
   // { id: "04", title: "Vortex Agency", category: "Creative Branding Portfolio", year: "2024", img: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?q=80&w=600&auto=format&fit=crop" },
   { id: "04", title: "Index Money", category: "Creative Branding Portfolio", year: "2024", img: portraitIndexMoney, projectLink: "https://indexmoney.in/" },
+  { id: "05", title: "Third Eye Computer Classes", category: "Web App / React + Node.js", year: "2025", img: "https://thirdeyecomputerclasses.netlify.app/assets/logo-C0Y020eR.webp", projectLink: "https://thirdeyecomputerclasses.netlify.app/" },
 ];
 
 export default function PreviousProjects() {

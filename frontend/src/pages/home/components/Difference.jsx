@@ -3,7 +3,7 @@ import {
   XCircle,
   Layers3,
 } from "lucide-react"
-import {tiger} from "../../../assets/images"
+import {logo} from "../../../assets/images"
 export default function Difference() {
   return (
     <section className="w-full px-6 py-14 flex items-center justify-center">
@@ -19,13 +19,13 @@ export default function Difference() {
             <div className="absolute inset-0 bg-gradient-to-br from-green-500/10 via-transparent to-transparent"></div>
 
             {/* Header */}
-            <div className="relative z-10 flex items-center">
+            <div className="relative z-10 flex items-center gap-4">
               
               {/* YOUR LOGO */}
                 <img
-                  src={tiger}
-                  alt="logo"
-                  className="h-24"
+                  src={logo}
+                  alt="RAO Technologies Logo"
+                  className="h-12 sm:h-14 w-auto object-contain"
                 />
 
               {/* BRAND NAME */}
