@@ -109,23 +109,30 @@ import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
 const DATA = [
   {
     num: "// 01",
-    quote: "RAO transformed our entire product experience, altering how our global ecosystem interfaces with data.",
-    author: "Maya Iyer",
-    role: "Head of Product, FinTech Core",
+    quote: "Working with RAO was an absolute breeze. They understood exactly what we wanted for our kids wear store—from the clean catalog layout to the checkout experience. Our customers find it super easy to shop on mobile, and the project was delivered right on schedule.",
+    author: "Nidhi Vijayvergiya",
+    role: "Founder, The Mini Me Clothing",
     align: "start"
   },
   {
     num: "// 02",
-    quote: "Incredible architectural execution. Their team engineered a design system that feels alive, fluid, and unmatched.",
-    author: "Leon Hart",
-    role: "Founder, Nova Ecosystems",
+    quote: "We needed a clean, dependable web platform for Index Money that presents our financial services clearly without feeling cluttered. The team delivered exactly that—fast, modern, and responsive across every screen.",
+    author: "Mohit Soni",
+    role: "Founder, Index Money",
     align: "center"
   },
   {
     num: "// 03",
-    quote: "One of the most visually dominant design studios operating today. Absolute mastery over digital engineering.",
-    author: "Sara Okwu",
-    role: "CMO, Quantum Systems",
+    quote: "The new website has made it effortless for students to check out our IT and coding courses, batch schedules, and enroll online. The React and Node.js setup is fast, reliable, and straightforward to manage.",
+    author: "Sumit Sharma",
+    role: "Director, Third Eye Computer Classes",
+    align: "center"
+  },
+  {
+    num: "// 04",
+    quote: "RAO helped us build and launch SuchaMojo smoothly. The website is quick, browsing products feels natural, and our checkout flow works seamlessly. A genuine team that truly cares about bringing your vision to life.",
+    author: "Shubham Gupta",
+    role: "Founder, SuchaMojo",
     align: "end"
   },
 ];
@@ -204,13 +211,13 @@ export default function HyperSpatialStage() {
           <div>
           
             <h2 className="text-[clamp(32px,4vw,64px)] font-light font-serif tracking-tight leading-none text-zinc-400">
-              Selected <em className="text-white not-italic font-sans font-normal font-light">Ecosystem Voices.</em>
+              Selected <em className="text-white not-italic font-sans font-normal font-light">Client Voices.</em>
             </h2>
           </div>
         </div>
 
         {/* ASYMMETRICAL COLUMN TESTIMONIAL LAYOUT */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-12 lg:gap-8 items-start w-full">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 items-stretch w-full">
           {DATA.map((item, idx) => (
             <motion.div
               key={idx}
@@ -220,7 +227,7 @@ export default function HyperSpatialStage() {
               transition={{ duration: 1.4, delay: idx * 0.2, ease: [0.16, 1, 0.3, 1] }}
               whileHover={{ translateZ: 50, scale: 1.02 }}
               style={{ transformStyle: "preserve-3d" }}
-              className={`group flex flex-col w-full bg-[#0a0a0a]/60 border border-zinc-900/60 rounded-[32px] p-8 md:p-10 min-h-[400px] justify-between relative overflow-hidden transition-all duration-700 hover:border-zinc-800 hover:bg-[#0e0e0e]/90`}
+              className={`group flex flex-col w-full bg-[#0a0a0a]/60 border border-zinc-900/60 rounded-[32px] p-7 md:p-8 min-h-[380px] justify-between relative overflow-hidden transition-all duration-700 hover:border-zinc-800 hover:bg-[#0e0e0e]/90`}
             >
               {/* Dynamic Prismatic Backlighting inside card */}
               <div className="absolute inset-0 bg-[radial-gradient(250px_circle_at_var(--mx,0px)_var(--my,0px),rgba(255,90,40,0.04),transparent_100%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" 
@@ -240,18 +247,18 @@ export default function HyperSpatialStage() {
               </div>
 
               {/* TESTIMONIAL VERBIAGE LAYER */}
-              <div className="my-10" style={{ transform: "translateZ(60px)" }}>
-                <p className="text-[20px] md:text-[23px] font-light leading-[1.65] tracking-tight text-zinc-400 group-hover:text-zinc-100 transition-colors duration-500 font-sans">
+              <div className="my-8" style={{ transform: "translateZ(60px)" }}>
+                <p className="text-[16px] md:text-[17px] font-light leading-[1.65] tracking-tight text-zinc-300 group-hover:text-zinc-100 transition-colors duration-500 font-sans">
                   “{item.quote}”
                 </p>
               </div>
 
               {/* SIGNATURE PANEL */}
               <div className="border-t border-zinc-900/80 pt-6 flex flex-col gap-1" style={{ transform: "translateZ(40px)" }}>
-                <strong className="text-base font-normal tracking-tight text-zinc-300 group-hover:text-white transition-colors duration-300">
+                <strong className="text-base font-normal tracking-tight text-zinc-200 group-hover:text-white transition-colors duration-300">
                   {item.author}
                 </strong>
-                <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-zinc-600 group-hover:text-zinc-500 transition-colors duration-300">
+                <span className="font-mono text-[11px] uppercase tracking-[0.12em] text-zinc-500 group-hover:text-zinc-400 transition-colors duration-300">
                   {item.role}
                 </span>
               </div>
