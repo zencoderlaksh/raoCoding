@@ -11,6 +11,8 @@ import courseRoutes from './routes/courseRoutes.js';
 import adminRoutes from './routes/adminRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 import studentRoutes from './routes/studentRoutes.js';
+import placementRoutes from './routes/placementRoutes.js';
+import bootcampRoutes from './routes/bootcampRoutes.js';
 
 import helmet from 'helmet';
 
@@ -70,6 +72,8 @@ app.use('/api/courses', courseRoutes);
 app.use('/api/admin', adminRoutes);
 app.use('/api/upload', uploadRoutes);
 app.use('/api/students', studentRoutes);
+app.use('/api/placements', placementRoutes);
+app.use('/api/bootcamp', bootcampRoutes);
 
 // Error Handling Middleware
 app.use(notFound);

@@ -16,8 +16,8 @@ const Navbar = () => {
 
   // Dynamic class for desktop links
   const getDesktopLinkClass = (path) =>
-    `relative text-sm lg:text-lg font-medium overflow-hidden px-2 py-1 cursor-pointer ${
-      isActive(path) ? "text-white" : "text-[#b3b2b3]"
+    `relative text-xs xl:text-sm font-medium whitespace-nowrap overflow-hidden px-2 xl:px-3 py-1 cursor-pointer ${
+      isActive(path) ? "text-white font-semibold" : "text-[#b3b2b3] hover:text-white"
     }`;
 
   // Dynamic class for mobile links
@@ -29,26 +29,28 @@ const Navbar = () => {
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
+    { name: "College Bootcamp", path: "/college-bootcamp" },
+    { name: "Placement", path: "/placement" },
     { name: "Courses", path: "/courses" },
     { name: "Book a Meeting", path: "/meeting" },
-    {name:"Client",path:"/client"}
+    { name: "Client", path: "/client" },
   ];
 
   return (
-    <nav className="w-full relative top-0 left-0 z-50 px-4 sm:px-6 lg:px-10">
-      <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
+    <nav className="w-full relative top-0 left-0 z-50 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 lg:gap-4">
         
         {/* Logo */}
         <div className="flex items-center flex-shrink-0 cursor-pointer" onClick={() => navigate("/")}>
           <img
             src={logo}
             alt="Logo"
-            className="h-28 mt-4 object-contain"
+            className="h-20 sm:h-24 lg:h-28 mt-2 sm:mt-4 object-contain"
           />
         </div>
 
-        {/* Glass Navbar */}
-        <div className="hidden md:flex items-center justify-center gap-10 lg:gap-14 w-[550px] lg:w-[750px] py-4 rounded-xl border border-white/20 bg-white/10 backdrop-blur-2xl shadow-2xl flex-shrink">
+        {/* Glass Navbar for Desktop (lg+) */}
+        <div className="hidden lg:flex items-center justify-center gap-1.5 xl:gap-3 px-3 xl:px-5 py-2.5 rounded-xl border border-white/20 bg-white/10 backdrop-blur-2xl shadow-2xl flex-shrink">
           {navLinks.map((link) => (
             <motion.a
               key={link.name}
@@ -96,7 +98,7 @@ const Navbar = () => {
         </div>
 
         {/* Desktop Buttons */}
-        <div className="hidden md:flex items-center gap-4">
+        <div className="hidden lg:flex items-center gap-3">
           {!isSignedIn ? (
             <motion.a
               onClick={(e) => {
@@ -162,7 +164,7 @@ const Navbar = () => {
               </motion.a>
               <button
                 onClick={() => signOut(() => navigate("/"))}
-                className="px-4 py-2 text-sm font-medium text-white bg-red-600/80 hover:bg-red-600 rounded-lg transition"
+                className="px-3.5 py-1.5 text-xs xl:text-sm font-medium text-white bg-red-600/80 hover:bg-red-600 rounded-lg transition"
               >
                 Logout
               </button>
@@ -170,10 +172,10 @@ const Navbar = () => {
           )}
         </div>
 
-        {/* Mobile Menu Button */}
+        {/* Mobile/Tablet Menu Button (shows below lg) */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="md:hidden text-white flex-shrink-0"
+          className="lg:hidden text-white flex-shrink-0 p-2"
         >
           {menuOpen ? (
             <svg
@@ -201,10 +203,10 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu (shows on screens < lg) */}
       {menuOpen && (
-        <div className="md:hidden mt-4 animate-fadeIn">
-          <div className="flex flex-col gap-5 px-6 py-6 rounded-3xl border border-white/20 bg-white/10 backdrop-blur-2xl shadow-2xl">
+        <div className="lg:hidden mt-4 animate-fadeIn">
+          <div className="flex flex-col gap-5 px-6 py-6 rounded-3xl border border-white/20 bg-black/90 backdrop-blur-2xl shadow-2xl">
             <span
               onClick={() => { navigate("/"); setMenuOpen(false); }}
               className={`cursor-pointer ${getMobileLinkClass("/")}`}
@@ -217,6 +219,20 @@ const Navbar = () => {
               className={`cursor-pointer ${getMobileLinkClass("/about")}`}
             >
               About
+            </span>
+
+            <span
+              onClick={() => { navigate("/college-bootcamp"); setMenuOpen(false); }}
+              className={`cursor-pointer ${getMobileLinkClass("/college-bootcamp")}`}
+            >
+              College Bootcamp
+            </span>
+
+            <span
+              onClick={() => { navigate("/placement"); setMenuOpen(false); }}
+              className={`cursor-pointer ${getMobileLinkClass("/placement")}`}
+            >
+              Placement
             </span>
 
             <span
@@ -235,7 +251,7 @@ const Navbar = () => {
 
             <span
               onClick={() => { navigate("/client"); setMenuOpen(false); }}
-              className={`cursor-pointer ${getMobileLinkClass("/contact")}`}
+              className={`cursor-pointer ${getMobileLinkClass("/client")}`}
             >
               Client
             </span>
