@@ -11,7 +11,7 @@ import BootcampCTA from "./components/BootcampCTA";
 
 export default function CollegeBootcamp() {
   return (
-    <main className="min-h-screen bg-black text-white selection:bg-orange-500 selection:text-black">
+    <main className="min-h-screen w-full overflow-x-hidden bg-black text-white selection:bg-[#ff5a28] selection:text-black">
       {/* 1. Hero Section: Transforming students into engineers + metrics */}
       <BootcampHero />
 

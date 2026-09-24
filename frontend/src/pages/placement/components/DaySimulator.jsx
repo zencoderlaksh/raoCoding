@@ -86,28 +86,27 @@ export default function DaySimulator() {
   const codeLines = currentStep.code.split("\n");
 
   return (
-    <section id="day-simulator" className="py-24 sm:py-32 bg-black text-white border-t border-white/5 relative overflow-hidden">
+    <section id="day-simulator" className="py-28 sm:py-36 bg-black text-white border-t border-zinc-900 relative overflow-hidden">
       {/* Background radial ambient glow */}
-      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[600px] h-[600px] bg-orange-500/5 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/2 right-1/4 -translate-y-1/2 w-[600px] h-[600px] bg-[#ff5a28]/5 rounded-full blur-[140px] pointer-events-none" />
       <div className="absolute bottom-10 left-10 w-[400px] h-[400px] bg-amber-500/5 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
-        {/* Section Heading */}
+        {/* Section Heading - Client Page Style */}
         <div className="text-center max-w-4xl mx-auto mb-20">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 text-xs sm:text-sm font-semibold tracking-widest uppercase mb-4 shadow-[0_0_15px_rgba(249,115,22,0.15)]">
-            <Disc size={12} className="text-orange-400 animate-pulse" />
-            <span>Active Engineering Simulator</span>
-          </div>
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#ff5a28] inline-flex items-center gap-2 mb-3">
+            ▣ CADENCE // 24-HOUR SIMULATOR
+          </span>
           
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
+          <h2 className="text-[clamp(34px,4.5vw,68px)] font-light text-white tracking-[-0.03em] leading-tight">
             A Typical Day in Your{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 via-amber-300 to-orange-500">
+            <em className="font-serif italic font-light text-zinc-400 not-italic">
               Engineered Life.
-            </span>
+            </em>
           </h2>
           
-          <p className="mt-6 text-base sm:text-lg text-neutral-300 font-light leading-relaxed max-w-2xl mx-auto">
+          <p className="mt-5 text-base sm:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto">
             Experience the daily engineering cadence of an industry-scale developer. Toggle through the workflow stages to inspect production templates, real code reviews, and architecture expectations.
           </p>
         </div>
@@ -115,14 +114,14 @@ export default function DaySimulator() {
         {/* Simulator Grid */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
-          {/* Left Column: Interactive Timeline Steps using React Bits SpotlightCard */}
+          {/* Left Column: Interactive Timeline Steps using Client-Page SpotlightCard */}
           <div className="lg:col-span-5 space-y-4">
-            <div className="flex items-center justify-between px-2 mb-2">
-              <span className="text-xs uppercase tracking-widest font-bold text-neutral-400">
+            <div className="flex items-center justify-between px-2 mb-3">
+              <span className="font-mono text-xs uppercase tracking-widest text-zinc-400">
                 Daily Engineering Lifecycle
               </span>
-              <span className="text-xs text-orange-400 font-mono font-semibold">
-                4 Key Milestones
+              <span className="font-mono text-xs text-[#ff5a28]">
+                // 04 Milestones
               </span>
             </div>
 
@@ -133,46 +132,46 @@ export default function DaySimulator() {
               return (
                 <SpotlightCard
                   key={step.id}
-                  spotlightColor="rgba(249, 115, 22, 0.22)"
+                  spotlightColor="rgba(255, 90, 40, 0.2)"
                   onClick={() => setActiveTab(step.id)}
-                  className={`cursor-pointer transition-all duration-300 !p-6 rounded-2xl border text-left relative overflow-hidden select-none ${
+                  className={`cursor-pointer transition-all duration-300 !p-4 sm:!p-6 rounded-2xl sm:rounded-[24px] border text-left relative overflow-hidden select-none ${
                     isActive
-                      ? "!border-orange-500/60 !bg-[#131316] shadow-[0_12px_36px_rgba(0,0,0,0.8),0_0_30px_rgba(249,115,22,0.22)] ring-1 ring-orange-500/30 scale-[1.01]"
-                      : "!border-neutral-800/80 !bg-[#0b0b0d] shadow-[0_6px_20px_rgba(0,0,0,0.6)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.85),0_0_20px_rgba(249,115,22,0.12)] hover:!border-orange-500/40 opacity-75 hover:opacity-100"
+                      ? "!border-[#ff5a28]/60 !bg-[#111113] shadow-[0_12px_36px_rgba(0,0,0,0.8),0_0_30px_rgba(255,90,40,0.2)] ring-1 ring-[#ff5a28]/30 scale-[1.01]"
+                      : "!border-zinc-900 !bg-[#0a0a0c] shadow-[0_6px_20px_rgba(0,0,0,0.6)] hover:shadow-[0_12px_30px_rgba(0,0,0,0.85),0_0_20px_rgba(255,90,40,0.1)] hover:!border-zinc-800 opacity-80 hover:opacity-100"
                   }`}
                 >
-                  <div className="flex items-start gap-4">
+                  <div className="flex items-start gap-3 sm:gap-4">
                     {/* Icon Indicator Orb */}
                     <div
-                      className={`w-11 h-11 rounded-xl border flex items-center justify-center shrink-0 transition-transform duration-300 ${
+                      className={`w-9 h-9 sm:w-11 sm:h-11 rounded-xl border flex items-center justify-center shrink-0 transition-transform duration-300 ${
                         isActive
-                          ? "bg-orange-500 text-black border-orange-400 shadow-[0_0_15px_rgba(249,115,22,0.4)] scale-105"
-                          : "bg-white/5 text-neutral-400 border-white/10 group-hover:scale-105"
+                          ? "bg-[#ff5a28] text-white border-orange-400 shadow-[0_0_15px_rgba(255,90,40,0.4)] scale-105"
+                          : "bg-white/[0.03] text-zinc-400 border-white/10 group-hover:scale-105"
                       }`}
                     >
-                      <Icon size={18} className={isActive ? "stroke-[2.5]" : "stroke-[2]"} />
+                      <Icon size={17} className={isActive ? "stroke-[2.5]" : "stroke-[2]"} />
                     </div>
 
                     {/* Step Information */}
                     <div className="flex-1 min-w-0">
-                      <div className="flex items-center justify-between gap-2 mb-1">
+                      <div className="flex items-center justify-between gap-2 mb-1.5 flex-wrap">
                         <span
                           className={`font-mono text-xs font-bold tracking-wider ${
-                            isActive ? "text-orange-400" : "text-neutral-500"
+                            isActive ? "text-[#ff5a28]" : "text-zinc-500"
                           }`}
                         >
                           {step.time}
                         </span>
-                        <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-neutral-400">
+                        <span className="font-mono text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/5 border border-white/10 text-zinc-400">
                           {step.tag}
                         </span>
                       </div>
 
-                      <h4 className="text-white text-base font-bold tracking-tight mb-1">
+                      <h4 className="text-white text-sm sm:text-base md:text-lg font-serif font-light tracking-tight mb-1">
                         {step.title}
                       </h4>
                       
-                      <p className="text-neutral-400 text-xs leading-relaxed line-clamp-2">
+                      <p className="text-zinc-400 text-xs leading-relaxed line-clamp-2 font-light">
                         {step.desc}
                       </p>
                     </div>
@@ -182,7 +181,7 @@ export default function DaySimulator() {
                   {isActive && (
                     <motion.div
                       layoutId="active-timeline-indicator"
-                      className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-orange-400 to-amber-500"
+                      className="absolute left-0 top-0 bottom-0 w-1 bg-gradient-to-b from-[#ff5a28] to-amber-500"
                       transition={{ duration: 0.3 }}
                     />
                   )}
@@ -192,37 +191,37 @@ export default function DaySimulator() {
           </div>
 
           {/* Right Column: IDE Console / Terminal Workspace using React Bits SpotlightCard */}
-          <div className="lg:col-span-7 w-full">
+          <div className="lg:col-span-7 w-full min-w-0">
             <SpotlightCard
               spotlightColor="rgba(249, 115, 22, 0.15)"
-              className="!p-0 rounded-3xl border border-neutral-800/90 !bg-[#0b0b0d] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.95),0_0_50px_rgba(249,115,22,0.12)] overflow-hidden flex flex-col min-h-[500px] w-full"
+              className="!p-0 rounded-2xl sm:rounded-3xl border border-neutral-800/90 !bg-[#0b0b0d] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.95),0_0_50px_rgba(249,115,22,0.12)] overflow-hidden flex flex-col min-h-[440px] sm:min-h-[500px] w-full"
             >
               {/* Terminal Title Bar */}
-              <div className="flex items-center justify-between px-5 py-4 border-b border-white/10 bg-neutral-950/80 backdrop-blur-md shrink-0">
-                <div className="flex items-center gap-4">
+              <div className="flex items-center justify-between px-3 sm:px-5 py-3 sm:py-4 border-b border-white/10 bg-neutral-950/80 backdrop-blur-md shrink-0 gap-2">
+                <div className="flex items-center gap-2 sm:gap-4 min-w-0 flex-1">
                   {/* Decorative Mac Window Controls */}
-                  <div className="flex gap-2">
-                    <span className="w-3 h-3 rounded-full bg-red-500/60 border border-red-500/80" />
-                    <span className="w-3 h-3 rounded-full bg-yellow-500/60 border border-yellow-500/80" />
-                    <span className="w-3 h-3 rounded-full bg-green-500/60 border border-green-500/80" />
+                  <div className="hidden sm:flex gap-1.5 shrink-0">
+                    <span className="w-2.5 h-2.5 rounded-full bg-red-500/60 border border-red-500/80" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/60 border border-yellow-500/80" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-green-500/60 border border-green-500/80" />
                   </div>
 
                   {/* File Tabs Strip */}
-                  <div className="flex items-center gap-1.5 overflow-x-auto py-0.5">
+                  <div className="flex items-center gap-1 overflow-x-auto py-0.5 min-w-0 flex-1 no-scrollbar">
                     {TIMELINE_STEPS.map((step) => {
                       const isCurrent = step.id === activeTab;
                       return (
                         <button
                           key={step.id}
                           onClick={() => setActiveTab(step.id)}
-                          className={`flex items-center gap-1.5 px-3 py-1 rounded-lg text-xs font-mono transition-all cursor-pointer ${
+                          className={`flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-lg text-[11px] sm:text-xs font-mono transition-all cursor-pointer shrink-0 ${
                             isCurrent
                               ? "bg-white/10 text-orange-400 border border-orange-500/30 font-semibold"
                               : "text-neutral-500 hover:text-neutral-300 hover:bg-white/5 border border-transparent"
                           }`}
                         >
                           <Terminal size={11} className={isCurrent ? "text-orange-400" : "text-neutral-500"} />
-                          <span>{step.file}</span>
+                          <span className="truncate max-w-[120px] sm:max-w-none">{step.file}</span>
                         </button>
                       );
                     })}
@@ -232,18 +231,18 @@ export default function DaySimulator() {
                 {/* Copy Code Action Button */}
                 <button
                   onClick={handleCopyCode}
-                  className="flex items-center gap-1.5 text-xs text-neutral-400 hover:text-white px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors cursor-pointer"
+                  className="flex items-center gap-1.5 text-xs text-neutral-400 hover:text-white px-2 sm:px-2.5 py-1 rounded-lg bg-white/5 hover:bg-white/10 border border-white/10 transition-colors cursor-pointer shrink-0"
                   title="Copy code to clipboard"
                 >
                   {copied ? (
                     <>
                       <Check size={13} className="text-emerald-400" />
-                      <span className="text-emerald-400 font-mono text-[11px]">Copied!</span>
+                      <span className="text-emerald-400 font-mono text-[10px] sm:text-[11px]">Copied</span>
                     </>
                   ) : (
                     <>
                       <Copy size={13} />
-                      <span className="font-mono text-[11px] hidden sm:inline">Copy</span>
+                      <span className="font-mono text-[10px] sm:text-[11px] hidden sm:inline">Copy</span>
                     </>
                   )}
                 </button>

@@ -35,28 +35,28 @@ const pillars = [
 
 export default function MentorshipSection() {
   return (
-    <section className="relative py-24 sm:py-32 bg-black px-4 sm:px-6 lg:px-8 border-t border-white/5">
+    <section className="relative py-28 sm:py-36 bg-black px-4 sm:px-6 lg:px-8 border-t border-zinc-900">
       <div className="max-w-7xl mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left Column: Visual Card */}
+          {/* Left Column: Visual Card - Client Page TeamSection Style */}
           <div className="relative">
-            <div className="relative rounded-3xl overflow-hidden border border-neutral-800 bg-[#0d0d0d] shadow-2xl">
+            <div className="relative rounded-[32px] overflow-hidden border border-zinc-900 bg-[#0a0a0a] shadow-2xl group">
               <img
                 src={expertMentorImg}
                 alt="Expert Mentor Guidance"
-                className="w-full h-auto object-cover opacity-90 hover:opacity-100 transition-opacity duration-300"
+                className="w-full h-auto object-cover opacity-85 filter contrast-[1.05] group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 ease-[0.25,1,0.5,1]"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/30 to-transparent pointer-events-none" />
 
               {/* Float Glass Pill */}
-              <div className="absolute bottom-6 left-6 right-6 p-6 rounded-2xl bg-black/80 backdrop-blur-xl border border-white/10">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="w-3 h-3 rounded-full bg-emerald-500 animate-ping" />
-                  <span className="text-xs uppercase font-bold tracking-wider text-emerald-400">
+              <div className="absolute bottom-4 sm:bottom-6 left-4 sm:left-6 right-4 sm:right-6 p-4 sm:p-6 rounded-2xl sm:rounded-[24px] bg-black/85 backdrop-blur-xl border border-zinc-800">
+                <div className="flex items-center gap-2.5 sm:gap-3 mb-1.5 sm:mb-2">
+                  <span className="w-2 h-2 sm:w-2.5 sm:h-2.5 rounded-full bg-emerald-500 animate-ping" />
+                  <span className="font-mono text-[11px] sm:text-xs uppercase tracking-wider text-emerald-400">
                     Live Mentor Availability
                   </span>
                 </div>
-                <p className="text-sm sm:text-base text-neutral-200 font-medium">
+                <p className="text-xs sm:text-sm md:text-base text-zinc-300 font-serif italic font-light leading-relaxed">
                   "We don't teach from slides. We pair program, review pull requests, and solve bugs together like a real engineering team."
                 </p>
               </div>
@@ -65,37 +65,67 @@ export default function MentorshipSection() {
 
           {/* Right Column: Pillars Content */}
           <div>
-            <p className="text-orange-400 uppercase tracking-widest text-xs sm:text-sm font-semibold mb-3">
-              Personalized Guidance
-            </p>
-            <h2 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight mb-6">
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#ff5a28] inline-flex items-center gap-2 mb-3">
+              ▣ MENTORSHIP // PRODUCTION STANDARDS
+            </span>
+            <h2 className="text-[clamp(28px,4vw,60px)] font-light text-white tracking-[-0.03em] leading-tight mb-4 sm:mb-6 px-1">
               Mentorship From Engineers,{" "}
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300">
+              <em className="font-serif italic font-light text-zinc-400 not-italic block sm:inline">
                 Not Just Instructors.
-              </span>
+              </em>
             </h2>
-            <p className="text-neutral-300 text-base sm:text-lg font-light leading-relaxed mb-10">
+            <p className="text-zinc-400 text-sm sm:text-base md:text-lg font-light leading-relaxed mb-8 sm:mb-10 px-1">
               The difference between following online tutorials and building real engineering instincts is feedback. Our mentors guide students step-by-step through professional code reviews and industry habits.
             </p>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
               {pillars.map((item, idx) => {
                 const Icon = item.icon;
                 return (
-                  <div
+                  <motion.div
                     key={idx}
-                    className="p-6 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-orange-500/20 hover:bg-white/[0.04] shadow-[0_4px_20px_rgba(0,0,0,0.6)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.8),0_0_20px_rgba(249,115,22,0.1)] transition-all"
+                    initial={{ opacity: 0, y: 30 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
+                    transition={{
+                      duration: 0.8,
+                      delay: idx * 0.1,
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                    whileHover={{ y: -6 }}
+                    onMouseMove={(e) => {
+                      const rect = e.currentTarget.getBoundingClientRect();
+                      e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+                      e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
+                    }}
+                    className="group relative p-5 sm:p-6 md:p-7 rounded-2xl sm:rounded-[26px] bg-[#0a0a0a]/90 border border-zinc-900 hover:border-zinc-800 transition-colors duration-500 overflow-hidden shadow-xl"
                   >
-                    <div className="w-10 h-10 rounded-xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 mb-4">
-                      <Icon className="w-5 h-5" />
+                    {/* Cursor Spotlight Glow */}
+                    <div
+                      className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"
+                      style={{
+                        background:
+                          "radial-gradient(220px circle at var(--mx,0px) var(--my,0px), rgba(255,90,40,0.08), transparent 80%)",
+                      }}
+                    />
+
+                    <div className="relative z-10">
+                      <div className="flex items-center justify-between mb-4">
+                        <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-[#ff5a28] group-hover:scale-110 group-hover:bg-[#ff5a28]/10 group-hover:border-[#ff5a28]/30 transition-all duration-300">
+                          <Icon className="w-5 h-5" />
+                        </div>
+                        <span className="font-mono text-xs text-zinc-600 group-hover:text-[#ff5a28]/70 transition-colors">
+                          // 0{idx + 1}
+                        </span>
+                      </div>
+                      <h4 className="text-lg font-serif font-light text-white mb-2 tracking-tight group-hover:text-[#ff5a28] transition-colors">
+                        {item.title}
+                      </h4>
+                      <p className="text-zinc-400 font-light text-xs sm:text-sm leading-relaxed group-hover:text-zinc-300 transition-colors">
+                        {item.desc}
+                      </p>
                     </div>
-                    <h4 className="text-lg font-bold text-white mb-2">
-                      {item.title}
-                    </h4>
-                    <p className="text-neutral-400 text-xs sm:text-sm leading-relaxed">
-                      {item.desc}
-                    </p>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>

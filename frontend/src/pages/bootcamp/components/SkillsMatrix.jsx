@@ -112,37 +112,38 @@ export default function SkillsMatrix() {
     <section id="skills" className="relative py-24 sm:py-32 bg-black px-4 sm:px-6 lg:px-8 border-t border-white/5">
       <div className="max-w-7xl mx-auto">
         {/* Section Heading */}
-        <div className="text-center max-w-4xl mx-auto mb-16">
-          <p className="text-orange-400 uppercase tracking-widest text-xs sm:text-sm font-semibold mb-3">
-            Comprehensive Curriculum
-          </p>
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
+        {/* Section Heading - Client Page Style */}
+        <div className="text-center max-w-4xl mx-auto mb-16 sm:mb-20">
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#ff5a28] inline-flex items-center gap-2 mb-3">
+            ▣ CURRICULUM // CORE MATRIX
+          </span>
+          <h2 className="text-[clamp(28px,4.5vw,68px)] font-light text-white tracking-[-0.03em] leading-tight px-1">
             What Your Students{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300">
+            <em className="font-serif italic font-light text-zinc-400 not-italic">
               Will Actually Master.
-            </span>
+            </em>
           </h2>
-          <p className="mt-6 text-base sm:text-lg text-neutral-300 font-light leading-relaxed">
+          <p className="mt-4 sm:mt-5 text-sm sm:text-base md:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto px-2">
             Our curriculum is built around the modern software engineering ecosystem. We teach the tools, patterns, and architectural practices companies expect from Day 1 hires.
           </p>
         </div>
 
         {/* Category Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-3 mb-12">
-          {skillCategories.map((cat) => {
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10 sm:mb-14">
+          {skillCategories.map((cat, idx) => {
             const Icon = cat.icon;
             const isActive = cat.id === activeTab;
             return (
               <button
                 key={cat.id}
                 onClick={() => setActiveTab(cat.id)}
-                className={`flex items-center gap-2.5 px-5 py-3 rounded-2xl text-sm font-medium transition-all duration-300 cursor-pointer ${
+                className={`flex items-center gap-2 px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-mono tracking-wider uppercase transition-all duration-300 cursor-pointer ${
                   isActive
-                    ? "bg-orange-500 text-white shadow-[0_0_20px_rgba(249,115,22,0.4)] scale-105"
-                    : "bg-white/[0.03] border border-white/10 text-neutral-400 hover:text-white hover:border-white/20"
+                    ? "bg-[#ff5a28] text-white shadow-[0_0_25px_rgba(255,90,40,0.35)] scale-105"
+                    : "bg-white/[0.03] border border-zinc-800 text-zinc-400 hover:text-white hover:border-zinc-700"
                 }`}
               >
-                <Icon className={`w-4 h-4 ${isActive ? "text-white" : "text-orange-400"}`} />
+                <Icon className={`w-3.5 h-3.5 ${isActive ? "text-white" : "text-[#ff5a28]"}`} />
                 <span>{cat.title}</span>
               </button>
             );
@@ -157,40 +158,42 @@ export default function SkillsMatrix() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.35 }}
-              className="p-8 sm:p-12 rounded-3xl border border-neutral-800 bg-[#0c0c0c] shadow-[0_20px_50px_rgba(0,0,0,0.85),0_0_30px_rgba(249,115,22,0.08)] relative overflow-hidden"
+              transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+              className="p-5 sm:p-8 md:p-12 rounded-2xl sm:rounded-[32px] border border-zinc-900 bg-[#0a0a0a]/95 backdrop-blur-xl shadow-2xl relative overflow-hidden"
             >
               {/* Subtle Ambient Radial Glow */}
               <div
-                className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-[140px] opacity-10 pointer-events-none"
+                className="absolute top-0 right-0 w-[500px] h-[500px] rounded-full blur-[140px] opacity-15 pointer-events-none"
                 style={{
                   background:
-                    "radial-gradient(circle, rgba(249,115,22,0.8) 0%, transparent 70%)",
+                    "radial-gradient(circle, rgba(255,90,40,0.8) 0%, transparent 70%)",
                 }}
               />
 
-              <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-center">
+              <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 items-start relative z-10">
                 {/* Left Overview Column */}
-                <div className="lg:col-span-1 border-b lg:border-b-0 lg:border-r border-white/10 pb-8 lg:pb-0 lg:pr-8">
-                  <div className="w-14 h-14 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 mb-6 shadow-[0_0_15px_rgba(249,115,22,0.2)]">
+                <div className="lg:col-span-1 border-b lg:border-b-0 lg:border-r border-zinc-900 pb-8 lg:pb-0 lg:pr-8">
+                  <div className="w-6 h-[2px] bg-[#ff5a28] mb-6" />
+
+                  <div className="w-14 h-14 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-[#ff5a28] mb-6 shadow-[0_0_15px_rgba(255,90,40,0.2)]">
                     <activeCategory.icon className="w-7 h-7" />
                   </div>
-                  <h3 className="text-2xl sm:text-3xl font-black text-white mb-4">
+                  <h3 className="text-2xl sm:text-3xl font-serif font-light tracking-tight text-white mb-4">
                     {activeCategory.title}
                   </h3>
-                  <p className="text-neutral-400 text-base leading-relaxed mb-6">
+                  <p className="text-zinc-400 font-light text-sm sm:text-base leading-relaxed mb-8">
                     {activeCategory.description}
                   </p>
 
                   <div>
-                    <span className="text-xs uppercase tracking-wider text-neutral-500 font-semibold block mb-3">
+                    <span className="font-mono text-[11px] uppercase tracking-wider text-zinc-500 block mb-3">
                       Technologies & Libraries
                     </span>
                     <div className="flex flex-wrap gap-2">
                       {activeCategory.tools.map((tool, idx) => (
                         <span
                           key={idx}
-                          className="px-3 py-1 rounded-xl text-xs font-semibold bg-white/5 border border-white/10 text-orange-300 shadow-sm"
+                          className="px-3 py-1 rounded-full text-xs font-mono bg-white/[0.04] border border-zinc-800 text-zinc-300 shadow-sm"
                         >
                           {tool}
                         </span>
@@ -201,18 +204,18 @@ export default function SkillsMatrix() {
 
                 {/* Right Competencies List Column */}
                 <div className="lg:col-span-2">
-                  <h4 className="text-lg font-bold text-white mb-6 flex items-center gap-2">
-                    <Sparkles className="w-5 h-5 text-orange-400" />
+                  <h4 className="text-lg font-serif font-light text-white mb-6 flex items-center gap-2 tracking-tight">
+                    <Sparkles className="w-4 h-4 text-[#ff5a28]" />
                     Key Competencies Mastered
                   </h4>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {activeCategory.skills.map((skill, idx) => (
                       <div
                         key={idx}
-                        className="flex items-start gap-3 p-4 rounded-2xl bg-white/[0.02] border border-white/5 hover:border-orange-500/20 shadow-[0_4px_15px_rgba(0,0,0,0.5)] hover:shadow-[0_8px_20px_rgba(0,0,0,0.7)] transition-all"
+                        className="flex items-start gap-3 p-5 rounded-2xl bg-white/[0.02] border border-zinc-900 hover:border-zinc-800 transition-colors"
                       >
-                        <CheckCircle2 className="w-5 h-5 text-orange-400 flex-shrink-0 mt-0.5" />
-                        <span className="text-neutral-200 text-sm font-medium">
+                        <CheckCircle2 className="w-4 h-4 text-[#ff5a28] flex-shrink-0 mt-0.5" />
+                        <span className="text-zinc-300 text-sm font-light">
                           {skill}
                         </span>
                       </div>

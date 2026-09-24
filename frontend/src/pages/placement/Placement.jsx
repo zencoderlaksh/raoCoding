@@ -12,7 +12,7 @@ import PlacementCTA from "./components/PlacementCTA";
 
 export default function Placement() {
   return (
-    <main className="min-h-screen bg-black text-white selection:bg-orange-500 selection:text-black">
+    <main className="min-h-screen w-full overflow-x-hidden bg-black text-white selection:bg-[#ff5a28] selection:text-black">
       {/* 1. Placement Hero: Headline, ambient glow, stats, target roles marquee */}
       <PlacementHero />
 

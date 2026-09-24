@@ -115,52 +115,87 @@ export default function TechInterviewPrep() {
   };
 
   return (
-    <section className="relative py-24 sm:py-32 bg-black px-4 sm:px-6 lg:px-8 border-t border-white/5">
+    <section className="relative py-28 sm:py-36 bg-black px-4 sm:px-6 lg:px-8 border-t border-zinc-900">
       <div className="max-w-7xl mx-auto">
-        {/* Section Heading */}
-        <div className="text-center max-w-4xl mx-auto mb-20">
-          <p className="text-orange-400 uppercase tracking-widest text-xs sm:text-sm font-semibold mb-3">
-            In-Depth Engineering Competence
-          </p>
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-tight">
+        {/* Section Heading - Client Page Style */}
+        <div className="text-center max-w-4xl mx-auto mb-16 sm:mb-20">
+          <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#ff5a28] inline-flex items-center gap-2 mb-3">
+            ▣ SYLLABUS // 01-06
+          </span>
+          <h2 className="text-[clamp(28px,4.5vw,68px)] font-light text-white tracking-[-0.03em] leading-tight px-1">
             Technical Interview{" "}
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-400 to-amber-300">
+            <em className="font-serif italic font-light text-zinc-400 not-italic">
               Preparation Modules.
-            </span>
+            </em>
           </h2>
-          <p className="mt-6 text-base sm:text-lg text-neutral-300 font-light leading-relaxed">
+          <p className="mt-4 sm:mt-5 text-sm sm:text-base md:text-lg text-zinc-400 font-light leading-relaxed max-w-2xl mx-auto px-2">
             We prepare you for the actual questions, machine coding rounds, and system discussions asked by top engineering panels. Click any module to preview real questions.
           </p>
         </div>
 
-        {/* Modules Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-          {modules.map((mod) => {
+        {/* Modules Grid with Interactive Spotlight Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-7 lg:gap-8">
+          {modules.map((mod, idx) => {
             const Icon = mod.icon;
             const isExpanded = expandedCard === mod.id;
 
             return (
-              <SpotlightCard
+              <motion.div
                 key={mod.id}
-                spotlightColor="rgba(249, 115, 22, 0.2)"
-                className="group border border-neutral-800 bg-[#0d0d0d] shadow-[0_10px_30px_-10px_rgba(0,0,0,0.8)] hover:shadow-[0_20px_40px_-15px_rgba(249,115,22,0.18)] hover:border-orange-500/40 transition-all duration-300 p-8 flex flex-col justify-between"
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-6%" }}
+                transition={{
+                  duration: 0.8,
+                  delay: (idx % 3) * 0.12,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                whileHover={{ y: -8 }}
+                onMouseMove={(e) => {
+                  const rect = e.currentTarget.getBoundingClientRect();
+                  e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+                  e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
+                }}
+                className="group relative p-5 sm:p-7 md:p-8 rounded-2xl sm:rounded-[28px] md:rounded-[30px] border border-zinc-900 bg-[#0a0a0a]/90 backdrop-blur-xl hover:border-zinc-800 transition-colors duration-500 flex flex-col justify-between overflow-hidden shadow-2xl min-h-[auto] sm:min-h-[400px]"
               >
-                <div>
-                  <div className="w-12 h-12 rounded-2xl bg-orange-500/10 border border-orange-500/20 flex items-center justify-center text-orange-400 mb-6 group-hover:scale-110 group-hover:bg-orange-500/20 transition-all">
-                    <Icon className="w-6 h-6" />
+                {/* 1. Cursor Spotlight Glow */}
+                <div
+                  className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-0"
+                  style={{
+                    background:
+                      "radial-gradient(300px circle at var(--mx,0px) var(--my,0px), rgba(255,90,40,0.08), transparent 80%)",
+                  }}
+                />
+
+                {/* 2. Oversized Background Watermark */}
+                <div className="absolute -bottom-8 -right-3 font-serif text-[90px] sm:text-[110px] font-bold text-white/[0.015] pointer-events-none group-hover:text-[#ff5a28]/[0.035] select-none transition-all duration-700">
+                  //
+                </div>
+
+                <div className="relative z-10">
+                  {/* Color Accent Bar */}
+                  <div className="w-6 h-[2px] bg-zinc-800 group-hover:bg-[#ff5a28] transition-colors duration-500 mb-5 sm:mb-6" />
+
+                  <div className="flex items-center justify-between mb-4 sm:mb-5">
+                    <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center text-[#ff5a28] group-hover:scale-110 group-hover:bg-[#ff5a28]/10 group-hover:border-[#ff5a28]/30 transition-all duration-300">
+                      <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+                    </div>
+                    <span className="font-mono text-[11px] sm:text-xs text-zinc-600 group-hover:text-[#ff5a28]/70 transition-colors">
+                      // 0{idx + 1}
+                    </span>
                   </div>
 
-                  <span className="text-xs uppercase font-bold tracking-wider text-orange-400/80 block mb-1">
+                  <span className="font-mono text-[10px] sm:text-[11px] uppercase tracking-wider text-zinc-400 block mb-1.5 sm:mb-2">
                     {mod.subtitle}
                   </span>
-                  <h3 className="text-xl sm:text-2xl font-black text-white mb-5 group-hover:text-orange-400 transition-colors">
+                  <h3 className="text-lg sm:text-xl md:text-2xl font-serif font-light tracking-tight text-white mb-4 sm:mb-6 group-hover:text-[#ff5a28] transition-colors duration-300">
                     {mod.title}
                   </h3>
 
-                  <div className="space-y-3 pt-4 border-t border-white/5 mb-6">
+                  <div className="space-y-2.5 sm:space-y-3 pt-4 border-t border-zinc-900 group-hover:border-zinc-800/80 transition-colors duration-500 mb-5 sm:mb-6">
                     {mod.topics.map((t, tIdx) => (
-                      <div key={tIdx} className="flex items-start gap-2.5 text-xs sm:text-sm text-neutral-300">
-                        <CheckCircle2 className="w-4 h-4 text-orange-400 flex-shrink-0 mt-0.5" />
+                      <div key={tIdx} className="flex items-start gap-2.5 text-xs sm:text-sm text-zinc-400 font-light">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-[#ff5a28] flex-shrink-0 mt-0.5" />
                         <span>{t}</span>
                       </div>
                     ))}
@@ -168,14 +203,14 @@ export default function TechInterviewPrep() {
                 </div>
 
                 {/* Interactive Question Preview Expandable */}
-                <div className="border-t border-white/5 pt-4">
+                <div className="relative z-10 border-t border-zinc-900 pt-3 sm:pt-4">
                   <button
                     onClick={() => toggleExpand(mod.id)}
-                    className="w-full flex items-center justify-between text-xs font-semibold text-orange-400 hover:text-orange-300 transition-colors py-1 cursor-pointer"
+                    className="w-full flex items-center justify-between text-[11px] sm:text-xs font-mono text-zinc-400 hover:text-[#ff5a28] transition-colors py-1 cursor-pointer"
                   >
                     <span className="flex items-center gap-1.5">
-                      <HelpCircle className="w-3.5 h-3.5" />
-                      {isExpanded ? "Hide Real Interview Question" : "Preview Real Interview Question"}
+                      <HelpCircle className="w-3.5 h-3.5 text-[#ff5a28] flex-shrink-0" />
+                      <span className="truncate">{isExpanded ? "Hide Real Interview Question" : "Preview Real Question"}</span>
                     </span>
                     <ChevronDown
                       className={`w-4 h-4 transition-transform duration-300 ${
@@ -190,26 +225,26 @@ export default function TechInterviewPrep() {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="overflow-hidden mt-3 p-4 rounded-xl bg-orange-500/5 border border-orange-500/20 text-xs"
+                        transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                        className="overflow-hidden mt-3 p-4 rounded-2xl bg-black/60 border border-zinc-800 text-xs"
                       >
-                        <span className="font-bold text-orange-300 block mb-1">
+                        <span className="font-mono text-[10px] uppercase tracking-wider text-[#ff5a28] block mb-1">
                           Example Question:
                         </span>
-                        <p className="text-neutral-300 mb-2 italic">
+                        <p className="text-zinc-200 mb-3 font-serif italic">
                           "{mod.sampleQuestion}"
                         </p>
-                        <span className="font-bold text-neutral-400 block mb-0.5">
+                        <span className="font-mono text-[10px] uppercase tracking-wider text-zinc-500 block mb-0.5">
                           How RAO Prepares You:
                         </span>
-                        <p className="text-neutral-400">
+                        <p className="text-zinc-400 font-light leading-relaxed">
                           {mod.solutionInsight}
                         </p>
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
-              </SpotlightCard>
+              </motion.div>
             );
           })}
         </div>
