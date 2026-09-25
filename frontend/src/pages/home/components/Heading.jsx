@@ -1,12 +1,12 @@
 import React from 'react'
 import SplitText from "../../../components/SplitText";
 
-const Heading = ({ text, textSize = "text-2xl",color }) => {
+const Heading = ({ text, textSize = "text-2xl", color = "", className = "" }) => {
   return (
     <>
     <SplitText
       text={text}
-      className={`font-light text-center ${color} ${textSize}`}
+      className={`font-light text-center ${color} ${textSize} ${className}`.trim()}
       delay={50}
       duration={1.00}
       ease="power3.out"

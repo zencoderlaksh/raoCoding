@@ -9,12 +9,35 @@ import Headings from './components/Headings'
 import FAQ from './components/FAQ'
 import Magic from './components/Magic'
 import WebThreads from '../../components/WebThreads'
+import GlowCursor from '../../components/GlowCursor'
 
 const Home = () => {
   return (
     <>
+      {/* Full-screen dynamic glowing cursor across homepage */}
+      <GlowCursor
+        color="#dc873b"
+        secondaryColor="#f59e0b"
+        trailLength={40}
+        trailWidth={8}
+        trailTaper={0.8}
+        followSpeed={0.16}
+        glowIntensity={1.9}
+        glowSpread={1.2}
+        hotspot={0.65}
+        brightness={1.25}
+        opacity={1}
+        pulseSpeed={1.1}
+        noiseStrength={0.035}
+        idleFade
+        idleTimeout={700}
+        fadeDuration={900}
+        blendMode="screen"
+        fixed
+      />
+
       {/* Hero Section with WebThreads Background */}
-      <div className="relative w-full min-h-[620px] lg:min-h-[700px] flex items-center justify-center overflow-hidden pt-24 sm:pt-28 pb-16">
+      <div className="relative w-full min-h-[500px] lg:min-h-[580px] flex items-center justify-center overflow-hidden pt-16 sm:pt-20 pb-12">
         {/* WebThreads Background Canvas */}
         <div className="absolute inset-0 z-0 pointer-events-auto">
           <WebThreads
@@ -45,20 +68,16 @@ const Home = () => {
         </div>
 
         {/* Hero Content */}
-        <div className="relative z-10 flex flex-col items-center justify-center gap-6">
+        <div className="relative z-10 flex flex-col items-center justify-center gap-5 sm:gap-6 -mt-8 sm:-mt-12 px-4 max-w-5xl mx-auto">
           <Heading text="Technology • AI • Innovation" color="text-orange-400" />
-          <Heading text="Learn Technology." textSize='text-6xl' />
-          <Heading text="Build What's Next." textSize='text-6xl' />
-          <p className="text-[#D7D7D7] text-2xl font-light text-center max-w-4xl px-4">
-            Empowering students, professionals, colleges, and organizations with practical technology, AI, and industry-focused learning.
-          </p>
+          <Heading text="Digital Architects of Tech India." textSize="text-3xl sm:text-5xl lg:text-6xl" />
 
-          <div className="flex flex-wrap items-center justify-center gap-4 mb-4">
+          <div className="flex flex-wrap items-center justify-center gap-4 mt-2 mb-2">
             <Link to="/corporate-trainings">
               <Button text="Corporate Trainings" showIcon={true} />
             </Link>
             <Link to="/contact">
-              <Button text="Partner With Us" variant="secondary" showIcon={false} />
+              <Button text="Business Requirements" variant="secondary" showIcon={false} />
             </Link>
           </div>
         </div>

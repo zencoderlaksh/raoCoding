@@ -483,12 +483,12 @@ export default function TechStack() {
             <span>WHY RAO TECHNOLOGIES • CAPABILITY STACK</span>
           </div>
 
-          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-black tracking-tight text-zinc-950 mb-4">
-            Custom Web. AI Solutions. Digital Marketing.
+          <h2 className="text-2xl sm:text-3xl lg:text-4xl font-bold tracking-tight text-zinc-900 mb-3 sm:mb-4">
+            Custom Web & Digital Marketing Solutions.
           </h2>
 
-          <p className="text-zinc-600 text-base sm:text-lg lg:text-xl max-w-3xl mx-auto leading-relaxed font-light">
-            We deliver tailored web platforms, autonomous AI build workflows, and high-conversion digital marketing solutions engineered with industry-leading tools.
+          <p className="text-zinc-600 text-sm sm:text-base lg:text-lg max-w-2xl mx-auto leading-relaxed">
+            Tailored web platforms and high-conversion digital marketing solutions engineered with industry-leading tools.
           </p>
         </div>
 
