@@ -9,7 +9,6 @@ import Headings from './components/Headings'
 import FAQ from './components/FAQ'
 import Magic from './components/Magic'
 import WebThreads from '../../components/WebThreads'
-import CampusAndCareerSection from './components/CampusAndCareerSection'
 
 const Home = () => {
   return (
@@ -72,9 +71,6 @@ const Home = () => {
       </div>
       <div>
         <ScrollCourses />
-      </div>
-      <div>
-        <CampusAndCareerSection />
       </div>
       <div className="py-12 sm:py-16 lg:py-20">
         <section className="w-full px-4 mb-8 sm:mb-12">
