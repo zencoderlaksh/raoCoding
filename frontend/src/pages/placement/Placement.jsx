@@ -1,47 +1,23 @@
 import React from "react";
-import PlacementHero from "./components/PlacementHero";
-import DaySimulator from "./components/DaySimulator";
-import PlacementJourney from "./components/PlacementJourney";
-import TechInterviewPrep from "./components/TechInterviewPrep";
-import ResumePortfolio from "./components/ResumePortfolio";
-import MockInterviews from "./components/MockInterviews";
-import CareerReadiness from "./components/CareerReadiness";
-import AlumniPlacementWall from "./components/AlumniPlacementWall";
-import PlacementSupport from "./components/PlacementSupport";
-import PlacementCTA from "./components/PlacementCTA";
+import CorporateHero from "./components/CorporateHero";
+import CorporateTracks from "./components/CorporateTracks";
+import CorporateRoiCalculator from "./components/CorporateRoiCalculator";
+import CorporateCTA from "./components/CorporateCTA";
 
 export default function Placement() {
   return (
     <main className="min-h-screen w-full overflow-x-hidden bg-black text-white selection:bg-[#ff5a28] selection:text-black">
-      {/* 1. Placement Hero: Headline, ambient glow, stats, target roles marquee */}
-      <PlacementHero />
+      {/* 1. Hero: Reality Check Simulator & Catchy Hinglish Hook */}
+      <CorporateHero />
 
-      {/* 2. Interactive Day in the Life Simulator: Built with React Bits SpotlightCard */}
-      <DaySimulator />
+      {/* 2. Interactive Enterprise Cockpit: 5 Game-Changing BFSI & Corporate Tracks */}
+      <CorporateTracks />
 
-      {/* 3. 9-Stage Placement-Readiness Journey: Interactive pipeline */}
-      <PlacementJourney />
+      {/* 3. Interactive ROI & Productivity Calculator: Training Pe Kharcha Nahi, Profit! */}
+      <CorporateRoiCalculator />
 
-      {/* 3. Technical Interview Preparation Modules: DSA, Full Stack, Machine coding */}
-      <TechInterviewPrep />
-
-      {/* 4. Professional Presentation: ATS Resume, Portfolio, GitHub, LinkedIn */}
-      <ResumePortfolio />
-
-      {/* 5. Mock Interview Ecosystem: Live coding, System design, Project defense, HR */}
-      <MockInterviews />
-
-      {/* 6. Career Readiness Evolution: 3D FlipCards from Student to Industry Ready */}
-      <CareerReadiness />
-
-      {/* 7. Alumni Placement Wall: Filterable showcase of placed students */}
-      <AlumniPlacementWall />
-
-      {/* 8. Transparent Placement Assistance: Referrals, career strategy & ethics */}
-      <PlacementSupport />
-
-      {/* 9. Final Call to Action */}
-      <PlacementCTA />
+      {/* 4. High-Impact Closing Section: Chai Pe Roadmap Final + Instant Connect */}
+      <CorporateCTA />
     </main>
   );
 }

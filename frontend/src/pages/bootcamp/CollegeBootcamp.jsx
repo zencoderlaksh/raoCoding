@@ -1,12 +1,7 @@
 import React from "react";
 import BootcampHero from "./components/BootcampHero";
-import WhyBootcamp from "./components/WhyBootcamp";
-import SkillsMatrix from "./components/SkillsMatrix";
+import PlacementJourney from "./components/PlacementJourney";
 import LearningJourney from "./components/LearningJourney";
-import ProjectsShowcase from "./components/ProjectsShowcase";
-import MentorshipSection from "./components/MentorshipSection";
-import CollegeBenefits from "./components/CollegeBenefits";
-import ProgramFormat from "./components/ProgramFormat";
 import BootcampCTA from "./components/BootcampCTA";
 
 export default function CollegeBootcamp() {
@@ -15,28 +10,13 @@ export default function CollegeBootcamp() {
       {/* 1. Hero Section: Transforming students into engineers + metrics */}
       <BootcampHero />
 
-      {/* 2. Why College Bootcamp: Bridging classroom vs production gap */}
-      <WhyBootcamp />
+      {/* 2. 9-Stage Placement-Readiness Journey: Interactive pipeline */}
+      <PlacementJourney />
 
-      {/* 3. Skills Matrix: Interactive breakdown of modern technologies */}
-      <SkillsMatrix />
-
-      {/* 4. Learning Journey: 5-stage progression timeline */}
+      {/* 3. Learning Journey: 5-stage progression timeline */}
       <LearningJourney />
 
-      {/* 5. Real-World Projects: Production-grade capstones */}
-      <ProjectsShowcase />
-
-      {/* 6. Mentorship & Code Reviews */}
-      <MentorshipSection />
-
-      {/* 7. Institutional Benefits for Colleges & Universities */}
-      <CollegeBenefits />
-
-      {/* 8. Flexible Program Delivery Models & Lifecycle */}
-      <ProgramFormat />
-
-      {/* 9. High-impact Closing Call to Action */}
+      {/* 4. High-impact Closing Call to Action */}
       <BootcampCTA />
     </main>
   );

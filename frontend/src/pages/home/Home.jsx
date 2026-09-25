@@ -14,7 +14,7 @@ const Home = () => {
   return (
     <>
       {/* Hero Section with WebThreads Background */}
-      <div className="relative w-full min-h-[600px] lg:min-h-[680px] flex items-center justify-center overflow-hidden pt-8 pb-16">
+      <div className="relative w-full min-h-[620px] lg:min-h-[700px] flex items-center justify-center overflow-hidden pt-24 sm:pt-28 pb-16">
         {/* WebThreads Background Canvas */}
         <div className="absolute inset-0 z-0 pointer-events-auto">
           <WebThreads

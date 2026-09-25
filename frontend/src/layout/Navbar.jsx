@@ -1,15 +1,37 @@
 import React, { useState } from "react";
-import { motion } from "framer-motion";
+import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { logo } from '../assets/images';
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth, useClerk } from "@clerk/clerk-react";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [hidden, setHidden] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const { isSignedIn } = useAuth();
   const { signOut } = useClerk();
+
+  const { scrollY } = useScroll();
+
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    const previous = scrollY.getPrevious() ?? 0;
+
+    // Check if user scrolled past top boundary
+    if (latest > 35) {
+      setScrolled(true);
+    } else {
+      setScrolled(false);
+    }
+
+    // Smart hide on scroll down, reveal on scroll up
+    if (latest > 100 && latest > previous + 6) {
+      setHidden(true); // scrolling down
+    } else if (latest < previous - 6 || latest <= 40) {
+      setHidden(false); // scrolling up or back at top
+    }
+  });
 
   // Helper to check if the path is active
   const isActive = (path) => location.pathname === path;
@@ -36,18 +58,33 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="w-full relative top-0 left-0 z-50 px-4 sm:px-6 lg:px-10 pt-4 sm:pt-6 pb-2">
+    <motion.nav
+      variants={{
+        visible: { y: 0 },
+        hidden: { y: "-100%" },
+      }}
+      animate={hidden && !menuOpen ? "hidden" : "visible"}
+      transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+      className={`w-full fixed top-0 left-0 right-0 z-50 transition-all duration-300 px-4 sm:px-6 lg:px-10 ${
+        scrolled
+          ? "bg-black/75 backdrop-blur-xl border-b border-white/[0.08] shadow-[0_10px_30px_rgba(0,0,0,0.8)] py-3 sm:py-3.5"
+          : "bg-gradient-to-b from-black/90 via-black/40 to-transparent backdrop-blur-[2px] pt-4 sm:pt-6 pb-4 sm:pb-5"
+      }`}
+    >
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-2 lg:gap-4">
         
-        {/* Logo */}
+        {/* Logo with warm backlight glow */}
         <div
-          className="flex items-center flex-shrink-0 cursor-pointer min-w-[160px] lg:min-w-[200px]"
+          className="relative group flex items-center flex-shrink-0 cursor-pointer min-w-[160px] lg:min-w-[200px]"
           onClick={() => navigate("/")}
         >
+          {/* Luminous ambient glow behind logo so it never feels invisible */}
+          <div className="absolute -inset-x-3 -inset-y-1.5 bg-gradient-to-r from-orange-500/25 via-amber-400/20 to-purple-500/20 rounded-2xl blur-md pointer-events-none opacity-85 group-hover:opacity-100 transition-opacity duration-300" />
+
           <img
             src={logo}
             alt="RAO Technologies"
-            className="h-9 sm:h-10 md:h-11 w-auto object-contain hover:opacity-90 transition-opacity"
+            className="relative z-10 h-10 sm:h-11 md:h-12 w-auto object-contain filter drop-shadow-[0_2px_12px_rgba(255,90,40,0.35)] hover:scale-105 transition-all duration-300"
           />
         </div>
 
@@ -283,7 +320,7 @@ const Navbar = () => {
           </div>
         </div>
       )}
-    </nav>
+    </motion.nav>
   );
 };
 

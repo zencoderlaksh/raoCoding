@@ -39,7 +39,19 @@ const AccordionGallery = ({
   const firstRunRef = useRef(true);
   const mediaSizeRef = useRef(320);
 
-  const vertical = orientation === 'vertical';
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth < 640 : false
+  );
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    window.addEventListener('resize', handleResize, { passive: true });
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const isVertical = orientation === 'vertical' || isMobile;
   const count = items.length;
   const [active, setActive] = useState(Math.min(Math.max(defaultIndex, 0), count - 1));
 
@@ -70,7 +82,7 @@ const AccordionGallery = ({
       const text = textRefs.current[i];
 
       const rot = isActive ? 0 : i < active ? tilt : -tilt;
-      const rotProp = vertical ? { rotateX: -rot } : { rotateY: rot };
+      const rotProp = isVertical ? { rotateX: -rot } : { rotateY: rot };
 
       tl.to(
         panel,
@@ -85,8 +97,8 @@ const AccordionGallery = ({
         tl.to(media, {
           xPercent: -50,
           yPercent: -50,
-          x: vertical ? 0 : isActive ? 0 : shift,
-          y: vertical ? (isActive ? 0 : shift) : 0,
+          x: isVertical ? 0 : isActive ? 0 : shift,
+          y: isVertical ? (isActive ? 0 : shift) : 0,
           '--ag-gray': gray,
           '--ag-dim': isActive ? 0 : 0.35,
           duration: dur,
@@ -114,7 +126,7 @@ const AccordionGallery = ({
     expandRatio,
     duration,
     ease,
-    vertical,
+    isVertical,
     tilt,
     parallax,
     grayscale,
@@ -129,7 +141,7 @@ const AccordionGallery = ({
 
     const measure = () => {
       const rect = el.getBoundingClientRect();
-      const total = vertical ? rect.height : rect.width;
+      const total = isVertical ? rect.height : rect.width;
       const usable = Math.max(total - gap * (count - 1), 120);
       const size = Math.max(140, usable * Math.min(Math.max(expandRatio, 0.2), 0.9) * 1.22);
       mediaSizeRef.current = size;
@@ -141,7 +153,7 @@ const AccordionGallery = ({
     const ro = new ResizeObserver(measure);
     ro.observe(el);
     return () => ro.disconnect();
-  }, [applyLayout, gap, count, expandRatio, vertical]);
+  }, [applyLayout, gap, count, expandRatio, isVertical]);
 
   useEffect(() => {
     applyLayout(!firstRunRef.current);
