@@ -85,7 +85,7 @@ export default function PlacementHero() {
           className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-orange-500/30 bg-orange-500/10 text-orange-400 text-xs sm:text-sm font-semibold tracking-widest uppercase mb-8"
         >
           <Sparkles className="w-3.5 h-3.5" />
-          <span>Placement Ecosystem & Career Launch</span>
+          <span>Corporate Trainings & Placement Ecosystem</span>
         </motion.div>
 
         {/* Headline - About Page Style */}
@@ -118,8 +118,8 @@ export default function PlacementHero() {
           transition={{ duration: 0.6, delay: 0.25 }}
           className="pointer-events-auto flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 mb-14 w-full sm:w-auto px-4"
         >
-          <Link to="/courses" className="w-full sm:w-auto">
-            <Button text="Start Your Placement Journey" showIcon={true} />
+          <Link to="/contact" className="w-full sm:w-auto">
+            <Button text="Connect For Corporate Training" showIcon={true} />
           </Link>
           <button
             onClick={scrollToJourney}

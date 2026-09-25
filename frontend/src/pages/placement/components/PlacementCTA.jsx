@@ -59,8 +59,8 @@ export default function PlacementCTA() {
             </p>
 
             <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full sm:w-auto">
-              <Link to="/courses" className="w-full sm:w-auto">
-                <Button text="Get Placement Ready" showIcon={true} />
+              <Link to="/contact" className="w-full sm:w-auto">
+                <Button text="Inquire For Corporate Training" showIcon={true} />
               </Link>
               <Link
                 to="/meeting"

@@ -22,9 +22,7 @@ export const signupSchema = z
 
     phone: z.string().regex(/^[0-9]{10}$/, "Phone must be 10 digits"),
 
-    role: z.enum(["student", "client"], {
-      required_error: "Please select a role",
-    }),
+    role: z.string().optional(),
 
     courses: z.array(courseEnum).optional(),
 
@@ -39,19 +37,7 @@ export const signupSchema = z
   .refine((data) => data.password === data.confirmPassword, {
     message: "Passwords do not match",
     path: ["confirmPassword"],
-  })
-  .refine(
-    (data) => {
-      if (data.role === "student") {
-        return data.courses && data.courses.length > 0;
-      }
-      return true;
-    },
-    {
-      message: "Select at least one course",
-      path: ["courses"],
-    }
-  );
+  });
 // Login Schema
 export const loginSchema = z.object({
   email: z

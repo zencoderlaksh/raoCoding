@@ -3,7 +3,7 @@ import Heading from './components/Heading'
 import Button from '../../components/Button'
 import { Link } from "react-router-dom";
 import ImageMarquee from "./components/ImageMarquee"
-import ScrollCourses from './components/ScrollCourses'
+import TechStack from './components/TechStack'
 import WhatWeDoAccordion from './components/WhatWeDoAccordion'
 import Headings from './components/Headings'
 import FAQ from './components/FAQ'
@@ -54,8 +54,8 @@ const Home = () => {
           </p>
 
           <div className="flex flex-wrap items-center justify-center gap-4 mb-4">
-            <Link to="/courses">
-              <Button text="Explore Our Programs" showIcon={true} />
+            <Link to="/corporate-trainings">
+              <Button text="Corporate Trainings" showIcon={true} />
             </Link>
             <Link to="/contact">
               <Button text="Partner With Us" variant="secondary" showIcon={false} />
@@ -69,8 +69,8 @@ const Home = () => {
       <div>
         <ImageMarquee />
       </div>
-      <div>
-        <ScrollCourses />
+      <div className="w-full px-4 sm:px-8 lg:px-12 py-12 lg:py-20">
+        <TechStack />
       </div>
       <div className="py-12 sm:py-16 lg:py-20">
         <section className="w-full px-4 mb-8 sm:mb-12">

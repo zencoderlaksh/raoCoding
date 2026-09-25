@@ -112,8 +112,8 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/placement" className="hover:text-orange-400 transition-colors duration-200">
-                  Placement Program
+                <Link to="/corporate-trainings" className="hover:text-orange-400 transition-colors duration-200">
+                  Corporate Trainings
                 </Link>
               </li>
               <li>
@@ -127,8 +127,8 @@ const Footer = () => {
                 </Link>
               </li>
               <li>
-                <Link to="/courses" className="hover:text-orange-400 transition-colors duration-200">
-                  Pricing and Refund
+                <Link to="/meeting" className="hover:text-orange-400 transition-colors duration-200">
+                  Book a Meeting
                 </Link>
               </li>
               <li>

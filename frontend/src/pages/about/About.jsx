@@ -110,8 +110,8 @@ const pillars = [
       "Partnering with colleges and universities to deliver intensive coding bootcamps, faculty development, and placement roadmaps that transform students into engineers.",
     tags: ["Full-Stack Bootcamps", "DSA & Coding Interviews", "Faculty Development", "Placement Support"],
     color: "#a855f7",
-    linkText: "Explore Academy Programs",
-    linkTo: "/courses",
+    linkText: "Explore Campus Bootcamps",
+    linkTo: "/college-bootcamp",
   },
 ];
 
@@ -427,10 +427,10 @@ export default function AboutPage() {
               <ArrowRight size={16} />
             </Link>
             <Link
-              to="/courses"
+              to="/corporate-trainings"
               className="py-3.5 px-7 rounded-xl bg-white/[0.05] hover:bg-white/10 border border-white/10 text-white font-semibold text-sm transition-all"
             >
-              <span>Explore Academy & Courses</span>
+              <span>Corporate Trainings</span>
             </Link>
           </div>
         </div>

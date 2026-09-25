@@ -152,12 +152,14 @@ const Profile = () => {
               <input type="email" value={profileData.email} disabled className="w-full rounded-xl border border-white/5 bg-black/60 px-4 py-3 text-sm sm:text-base text-gray-500 cursor-not-allowed outline-none" />
             </div>
 
-            <div>
-              <label className="text-xs text-gray-400 ml-1 mb-1 block">Role</label>
-              <div className="w-full rounded-xl border border-white/5 bg-black/60 px-4 py-3 text-sm sm:text-base text-orange-400 uppercase font-semibold">
-                {profileData.role}
+            {profileData.role && profileData.role !== 'user' && (
+              <div>
+                <label className="text-xs text-gray-400 ml-1 mb-1 block">Account Type</label>
+                <div className="w-full rounded-xl border border-white/5 bg-black/60 px-4 py-3 text-sm sm:text-base text-orange-400 uppercase font-semibold">
+                  {profileData.role}
+                </div>
               </div>
-            </div>
+            )}
 
             <div>
               <label className="text-xs text-gray-400 ml-1 mb-1 block">Username</label>
@@ -195,8 +197,8 @@ const Profile = () => {
             <div className="flex-1 flex items-center justify-center text-orange-500">Loading courses...</div>
           ) : myCourses.length === 0 ? (
             <div className="flex-1 flex items-center justify-center text-gray-500 text-center">
-              You haven't purchased any courses yet.<br/>
-              <button onClick={() => navigate('/courses')} className="mt-4 px-6 py-2 bg-white/10 hover:bg-white/20 rounded-full text-sm transition">Browse Courses</button>
+              No enrolled programs found.<br/>
+              <button onClick={() => navigate('/corporate-trainings')} className="mt-4 px-6 py-2 bg-white/10 hover:bg-white/20 rounded-full text-sm transition">Explore Programs</button>
             </div>
           ) : (
             <div className="flex flex-col gap-4">

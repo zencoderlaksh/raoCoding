@@ -30,8 +30,7 @@ const Navbar = () => {
     { name: "Home", path: "/" },
     { name: "About", path: "/about" },
     { name: "College Bootcamp", path: "/college-bootcamp" },
-    { name: "Placement", path: "/placement" },
-    { name: "Courses", path: "/courses" },
+    { name: "Corporate Trainings", path: "/corporate-trainings" },
     { name: "Book a Meeting", path: "/meeting" },
     { name: "Client", path: "/client" },
   ];
@@ -232,17 +231,10 @@ const Navbar = () => {
             </span>
 
             <span
-              onClick={() => { navigate("/placement"); setMenuOpen(false); }}
-              className={`cursor-pointer ${getMobileLinkClass("/placement")}`}
+              onClick={() => { navigate("/corporate-trainings"); setMenuOpen(false); }}
+              className={`cursor-pointer ${getMobileLinkClass("/corporate-trainings")}`}
             >
-              Placement
-            </span>
-
-            <span
-              onClick={() => { navigate("/courses"); setMenuOpen(false); }}
-              className={`cursor-pointer ${getMobileLinkClass("/courses")}`}
-            >
-              Courses
+              Corporate Trainings
             </span>
 
             <span

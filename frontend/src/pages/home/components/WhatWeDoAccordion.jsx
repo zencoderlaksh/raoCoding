@@ -16,14 +16,14 @@ export const WHO_WE_SERVE_ITEMS = [
     title: 'Corporates',
     tagline: 'Banks & Private Institutions',
     label: 'Corporates',
-    link: '/client'
+    link: '/corporate-trainings'
   },
   {
     image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80',
     title: 'Colleges & Universities',
     tagline: 'Workshops, Training Programs & Seminars',
     label: 'Colleges & Universities',
-    link: '/courses'
+    link: '/college-bootcamp'
   },
   {
     image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80',

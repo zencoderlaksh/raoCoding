@@ -99,10 +99,31 @@ const getUserProfile = asyncHandler(async (req, res) => {
         throw new ApiError(401, 'Unauthorized');
     }
 
-    const user = await User.findOne({ clerkId });
+    let user = await User.findOne({ clerkId });
 
     if (!user) {
-        throw new ApiError(404, 'User not found');
+        try {
+            const clerkUser = await clerkClient.users.getUser(clerkId);
+            const email = clerkUser.emailAddresses?.[0]?.emailAddress || '';
+            const username = clerkUser.username || clerkUser.firstName || (email ? email.split('@')[0] : 'User');
+            user = await User.create({
+                clerkId,
+                email,
+                username,
+                city: '',
+                phoneNo: '',
+                role: 'user',
+            });
+        } catch (err) {
+            user = await User.create({
+                clerkId,
+                email: 'user@raocoding.com',
+                username: 'User',
+                city: '',
+                phoneNo: '',
+                role: 'user',
+            });
+        }
     }
 
     return res.status(200).json(
@@ -121,10 +142,22 @@ const updateUserProfile = asyncHandler(async (req, res) => {
         throw new ApiError(401, 'Unauthorized');
     }
 
-    const user = await User.findOne({ clerkId });
+    let user = await User.findOne({ clerkId });
 
     if (!user) {
-        throw new ApiError(404, 'User not found');
+        let email = '';
+        try {
+            const clerkUser = await clerkClient.users.getUser(clerkId);
+            email = clerkUser.emailAddresses?.[0]?.emailAddress || '';
+        } catch (e) {}
+        user = await User.create({
+            clerkId,
+            email: email || 'user@raocoding.com',
+            username: username || 'User',
+            city: city || '',
+            phoneNo: phoneNo || '',
+            role: 'user',
+        });
     }
 
     // Attempt to sync all details to Clerk
