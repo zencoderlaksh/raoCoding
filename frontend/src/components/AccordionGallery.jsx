@@ -224,17 +224,25 @@ const AccordionGallery = ({
                 aria-hidden="true">
                 <span
                   ref={el => (barRefs.current[i] = el)}
-                  className="h-[26px] w-[3px] flex-none rounded-[3px] opacity-0"
+                  className="h-[36px] w-[3.5px] flex-none rounded-[3px] opacity-0"
                   style={{
                     background: accentColor,
                     boxShadow: `0 0 12px color-mix(in srgb, ${accentColor} 60%, transparent)`
                   }} />
-                <span
+                <div
                   ref={el => (textRefs.current[i] = el)}
-                  className="overflow-hidden text-ellipsis whitespace-nowrap text-[clamp(1rem,1.4vw,1.4rem)] font-semibold tracking-[0.01em] opacity-0 [text-shadow:0_2px_14px_rgba(0,0,0,0.55)]"
-                  style={{ color: textColor }}>
-                  {item.label}
-                </span>
+                  className="overflow-hidden opacity-0 [text-shadow:0_2px_14px_rgba(0,0,0,0.8)] flex flex-col justify-center">
+                  <span
+                    className="overflow-hidden text-ellipsis whitespace-nowrap text-[clamp(1.15rem,1.7vw,1.7rem)] font-bold tracking-tight text-white leading-tight"
+                    style={{ color: textColor }}>
+                    {item.title || item.label}
+                  </span>
+                  {item.tagline && (
+                    <span className="text-xs sm:text-sm font-medium tracking-wide text-orange-400 mt-0.5 whitespace-nowrap overflow-hidden text-ellipsis">
+                      {item.tagline}
+                    </span>
+                  )}
+                </div>
               </span>
             )}
           </Tag>

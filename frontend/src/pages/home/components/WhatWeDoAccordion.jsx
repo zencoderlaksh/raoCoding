@@ -2,48 +2,63 @@ import React from 'react';
 import AccordionGallery from '../../../components/AccordionGallery';
 
 /**
- * Dummy images for the "What We Do" Accordion Gallery.
- * You can replace these image URLs, labels, and links with your own assets anytime!
+ * Items for the "Who We Serve" Accordion Gallery.
+ * High-quality photography representing:
+ * - Corporates (Banks, Private Institutions)
+ * - Colleges & Universities (Workshops, Training Programs, Seminars)
+ * - Startups & Scaleups (MVPs, Agile Engineering)
+ * - MSMEs & Businesses (Digital Systems, Operational Scaling)
+ * - Entrepreneurs (Custom Platforms, AI Automation)
  */
-export const DUMMY_ACCORDION_ITEMS = [
+export const WHO_WE_SERVE_ITEMS = [
   {
-    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80',
-    label: 'Technology Solutions',
-    link: '#'
+    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=80',
+    title: 'Corporates',
+    tagline: 'Banks & Private Institutions',
+    label: 'Corporates',
+    link: '/client'
   },
   {
-    image: 'https://images.unsplash.com/photo-1531482615713-2afd69097998?auto=format&fit=crop&w=1200&q=80',
-    label: 'Industry-Focused Learning',
-    link: '#'
-  },
-  {
-    image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=1200&q=80',
-    label: 'AI-Driven Solutions',
-    link: '#'
+    image: 'https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&w=1200&q=80',
+    title: 'Colleges & Universities',
+    tagline: 'Workshops, Training Programs & Seminars',
+    label: 'Colleges & Universities',
+    link: '/courses'
   },
   {
     image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=1200&q=80',
-    label: 'Organizational Growth',
-    link: '#'
+    title: 'Startups & Scaleups',
+    tagline: 'Agile Tech MVPs & Innovation',
+    label: 'Startups & Scaleups',
+    link: '/client'
   },
   {
-    image: 'https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1200&q=80',
-    label: 'Next-Gen Talent',
-    link: '#'
+    image: 'https://images.unsplash.com/photo-1556761175-5973dc0f32e7?auto=format&fit=crop&w=1200&q=80',
+    title: 'MSMEs & Businesses',
+    tagline: 'Digital Infrastructure & Operations',
+    label: 'MSMEs & Businesses',
+    link: '/client'
+  },
+  {
+    image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?auto=format&fit=crop&w=1200&q=80',
+    title: 'Small Entrepreneurs',
+    tagline: 'Custom Web & AI Automation',
+    label: 'Small Entrepreneurs',
+    link: '/client'
   }
 ];
 
-const WhatWeDoAccordion = ({ items = DUMMY_ACCORDION_ITEMS }) => {
+const WhatWeDoAccordion = ({ items = WHO_WE_SERVE_ITEMS }) => {
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <AccordionGallery
         items={items}
-        defaultIndex={2}
-        height={480}
-        radius={18}
-        gap={12}
-        accentColor="#fb923c"
-        overlayColor="#060010"
+        defaultIndex={1}
+        height={500}
+        radius={22}
+        gap={14}
+        accentColor="#f97316"
+        overlayColor="#070709"
         textColor="#ffffff"
         grayscale={true}
         className="max-[520px]:!h-[520px]"

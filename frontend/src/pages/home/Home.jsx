@@ -4,11 +4,9 @@ import Button from '../../components/Button'
 import { Link } from "react-router-dom";
 import ImageMarquee from "./components/ImageMarquee"
 import ScrollCourses from './components/ScrollCourses'
-import CardMarquee from './components/CardMarquee'
 import WhatWeDoAccordion from './components/WhatWeDoAccordion'
 import Headings from './components/Headings'
 import FAQ from './components/FAQ'
-import LastHeading from './components/LastHeading'
 import Magic from './components/Magic'
 import WebThreads from '../../components/WebThreads'
 
@@ -74,27 +72,18 @@ const Home = () => {
       <div>
         <ScrollCourses />
       </div>
-      <div>
-        <section className="w-full px-4 py-16 sm:py-20 lg:py-28">
-          <Headings title="Hear From Our Students" desc="We Help Learners Become Industry-" descrip="Ready Developers" />
-        </section>
-        <CardMarquee />
-      </div>
       <div className="py-12 sm:py-16 lg:py-20">
         <section className="w-full px-4 mb-8 sm:mb-12">
           <Headings
-            title="WHAT WE DO"
-            desc="Technology. Education. Innovation."
-            supportingText="We bring technology expertise, industry-focused learning, and AI-driven solutions together to help organizations and individuals build for what’s next."
+            title="WHO WE SERVE"
+            desc="Corporates. Colleges. Growing Businesses."
+            supportingText="Empowering banking institutions, universities, ambitious startups, MSMEs, and entrepreneurs with customized technology capabilities and industry-oriented training."
           />
         </section>
         <WhatWeDoAccordion />
       </div>
       <div>
         <FAQ />
-      </div>
-      <div>
-        <LastHeading />
       </div>
     </>
 
