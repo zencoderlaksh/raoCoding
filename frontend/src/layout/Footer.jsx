@@ -107,6 +107,16 @@ const Footer = () => {
             </h3>
             <ul className="space-y-3.5 text-sm sm:text-base font-normal text-neutral-400">
               <li>
+                <Link to="/college-bootcamp" className="hover:text-orange-400 transition-colors duration-200">
+                  College Bootcamp
+                </Link>
+              </li>
+              <li>
+                <Link to="/placement" className="hover:text-orange-400 transition-colors duration-200">
+                  Placement Program
+                </Link>
+              </li>
+              <li>
                 <Link to="/client" className="hover:text-orange-400 transition-colors duration-200">
                   Hire From Us
                 </Link>
