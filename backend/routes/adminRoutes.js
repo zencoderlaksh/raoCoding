@@ -1,13 +1,20 @@
 import express from 'express';
-import { getAllUsers, getAllEnrollments, getAdminCourses, createCourse, updateCourse, deleteCourse, getAdminStudents, createStudent, updateStudent, deleteStudent } from '../controllers/adminController.js';
-import { requireAuth } from '@clerk/express';
-import { requireAdmin } from '../utils/authMiddleware.js';
+import { 
+    getAllUsers, 
+    getAllEnrollments, 
+    getAdminCourses, 
+    createCourse, 
+    updateCourse, 
+    deleteCourse, 
+    getAdminStudents, 
+    createStudent, 
+    updateStudent, 
+    deleteStudent 
+} from '../controllers/adminController.js';
 
 const router = express.Router();
 
-// Apply auth and admin checks to all admin routes
-router.use(requireAuth(), requireAdmin);
-
+// Admin routes (Direct access)
 router.get('/users', getAllUsers);
 router.get('/enrollments', getAllEnrollments);
 router.get('/courses', getAdminCourses);

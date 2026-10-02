@@ -5,7 +5,6 @@ import mongoose from 'mongoose';
 import connectDB from './config/db.js';
 import { notFound, errorHandler } from './middlewares/errorMiddleware.js';
 
-import { clerkMiddleware } from '@clerk/express';
 import userRoutes from './routes/userRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
 import courseRoutes from './routes/courseRoutes.js';
@@ -47,24 +46,14 @@ app.use(cors({
   credentials: true,
 }));
 
-// Configure express.json to skip raw webhook routes, and enforce 10kb limit on others
+// Configure express.json to skip raw payment webhook route, and enforce 10kb limit on others
 app.use((req, res, next) => {
-  if (req.originalUrl === '/api/payments/webhook' || req.originalUrl === '/api/users/webhook') {
+  if (req.originalUrl === '/api/payments/webhook') {
     next();
   } else {
     express.json({ limit: '10kb' })(req, res, next);
   }
 });
-
-const clerkOptions = {};
-if (process.env.CLERK_SECRET_KEY && !process.env.CLERK_SECRET_KEY.includes('YOUR_CLERK_SECRET_KEY')) {
-  clerkOptions.secretKey = process.env.CLERK_SECRET_KEY;
-}
-if (process.env.CLERK_PUBLISHABLE_KEY) {
-  clerkOptions.publishableKey = process.env.CLERK_PUBLISHABLE_KEY;
-}
-
-app.use(clerkMiddleware(clerkOptions)); // Clerk middleware to parse tokens
 
 app.use((req, res, next) => {
   if (req.originalUrl.includes('/api/')) {
@@ -80,7 +69,6 @@ app.get('/', (req, res) => {
     status: 'online',
     message: 'RaoCoding API is running smoothly',
     mongodb: dbStatus,
-    clerkConfigured: Boolean(process.env.CLERK_SECRET_KEY && !process.env.CLERK_SECRET_KEY.includes('YOUR_CLERK_SECRET_KEY')),
     timestamp: new Date().toISOString()
   });
 });

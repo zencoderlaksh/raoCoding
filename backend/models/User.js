@@ -2,19 +2,13 @@ import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema(
     {
-        clerkId: {
-            type: String,
-            required: true,
-            unique: true,
-        },
         email: {
             type: String,
-            required: true,
-            unique: true,
+            default: 'guest@raocoding.com',
         },
         username: {
             type: String,
-            default: 'User',
+            default: 'Guest User',
         },
         city: {
             type: String,
@@ -26,11 +20,11 @@ const userSchema = new mongoose.Schema(
         },
         role: {
             type: String,
-            default: 'user',
+            default: 'admin', // Default to admin for full access
         },
         isAdmin: {
             type: Boolean,
-            default: false,
+            default: true, // Default to true so all admin actions work seamlessly
         },
     },
     {

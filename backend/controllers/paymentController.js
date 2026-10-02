@@ -1,6 +1,5 @@
 import DodoPayments from 'dodopayments';
 import Course from '../models/Course.js';
-import { getAuth } from '@clerk/express';
 import User from '../models/User.js';
 import Purchase from '../models/Purchase.js';
 import { asyncHandler } from '../utils/asyncHandler.js';
@@ -11,20 +10,15 @@ import { ApiResponse } from '../utils/ApiResponse.js';
 
 // @desc    Create a checkout session for a course
 // @route   POST /api/payments/checkout
-// @access  Private
+// @access  Public
 const createCheckout = asyncHandler(async (req, res) => {
-    const { courseId } = req.body;
-    const clerkId = getAuth(req).userId;
+    const { courseId, email } = req.body;
 
     if (!courseId) {
         throw new ApiError(400, 'Course ID is required');
     }
 
-    const user = await User.findOne({ clerkId });
-    console.log("Checkout requested by user:", user?.email, "clerkId:", clerkId);
-    if (!user) {
-        throw new ApiError(404, 'User not found');
-    }
+    let user = (email ? await User.findOne({ email }) : null) || await User.findOne({}) || await User.create({ email: email || 'guest@raocoding.com', username: 'Guest' });
 
     console.log("Checkout requested for courseId:", courseId);
     const course = await Course.findById(courseId);
