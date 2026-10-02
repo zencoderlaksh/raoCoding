@@ -1,6 +1,7 @@
 import './config/env.js';
 import express from 'express';
 import cors from 'cors';
+import mongoose from 'mongoose';
 import connectDB from './config/db.js';
 import { notFound, errorHandler } from './middlewares/errorMiddleware.js';
 
@@ -28,42 +29,60 @@ const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
 const allowedOrigins = [
   frontendUrl,
   frontendUrl.endsWith('/') ? frontendUrl.slice(0, -1) : frontendUrl,
-  'http://localhost:5173'
+  'http://localhost:5173',
+  'http://127.0.0.1:5173',
+  'http://localhost:3000',
+  'http://127.0.0.1:3000',
 ];
 
-// CORS Middleware MUST be before Rate Limiter
+// CORS Middleware
 app.use(cors({
-  origin: allowedOrigins,
+  origin: (origin, callback) => {
+    if (!origin) return callback(null, true);
+    if (allowedOrigins.includes(origin) || origin.includes('localhost') || origin.includes('127.0.0.1')) {
+      return callback(null, true);
+    }
+    return callback(null, true); // Permissive in dev
+  },
   credentials: true,
 }));
 
-
-// Configure express.json to skip the webhook route, and enforce 10kb limit on others
+// Configure express.json to skip raw webhook routes, and enforce 10kb limit on others
 app.use((req, res, next) => {
-  if (req.originalUrl === '/api/payments/webhook') {
+  if (req.originalUrl === '/api/payments/webhook' || req.originalUrl === '/api/users/webhook') {
     next();
   } else {
     express.json({ limit: '10kb' })(req, res, next);
   }
 });
 
-app.use(clerkMiddleware({
-  secretKey: process.env.CLERK_SECRET_KEY,
-  publishableKey: process.env.CLERK_PUBLISHABLE_KEY
-})); // Clerk middleware to parse tokens
+const clerkOptions = {};
+if (process.env.CLERK_SECRET_KEY && !process.env.CLERK_SECRET_KEY.includes('YOUR_CLERK_SECRET_KEY')) {
+  clerkOptions.secretKey = process.env.CLERK_SECRET_KEY;
+}
+if (process.env.CLERK_PUBLISHABLE_KEY) {
+  clerkOptions.publishableKey = process.env.CLERK_PUBLISHABLE_KEY;
+}
+
+app.use(clerkMiddleware(clerkOptions)); // Clerk middleware to parse tokens
 
 app.use((req, res, next) => {
   if (req.originalUrl.includes('/api/')) {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.originalUrl}`);
-    console.log(`Authorization Header: ${req.headers.authorization ? 'Present' : 'Missing'}`);
-    console.log(`Req.auth:`, req.auth);
   }
   next();
 });
 
-// Basic route
+// Diagnostic health check route
 app.get('/', (req, res) => {
-  res.send('API is running...');
+  const dbStatus = mongoose.connection.readyState === 1 ? 'connected' : 'disconnected';
+  res.json({
+    status: 'online',
+    message: 'RaoCoding API is running smoothly',
+    mongodb: dbStatus,
+    clerkConfigured: Boolean(process.env.CLERK_SECRET_KEY && !process.env.CLERK_SECRET_KEY.includes('YOUR_CLERK_SECRET_KEY')),
+    timestamp: new Date().toISOString()
+  });
 });
 
 // Routes

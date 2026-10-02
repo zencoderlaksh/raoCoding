@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Routes, Route, Navigate, useLocation } from "react-router-dom";
-import { useUser } from "@clerk/clerk-react";
+import { useUser, useAuth } from "@clerk/clerk-react";
 import Home from "../pages/home/Home"
 import Layout from "../layout/Layout"
 import About from "../pages/about/About"
@@ -27,8 +27,28 @@ import ScrollTop from '@/components/ScrollTop';
 import Community from '@/pages/join community/Community';
 
 const AuthGuard = ({ children }) => {
-  const { isLoaded, isSignedIn } = useUser();
+  const { isLoaded, isSignedIn, user } = useUser();
+  const { getToken } = useAuth();
   const location = useLocation();
+
+  // Background auto-sync of Clerk user into MongoDB on sign-in
+  useEffect(() => {
+    if (isLoaded && isSignedIn && user?.id) {
+      getToken().then((token) => {
+        if (token) {
+          fetch('/api/users/sync', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              Authorization: `Bearer ${token}`
+            }
+          }).catch((err) => {
+            console.debug('Background Clerk sync notice:', err.message);
+          });
+        }
+      }).catch(() => {});
+    }
+  }, [isLoaded, isSignedIn, user?.id, getToken]);
 
   if (!isLoaded) return null;
 
