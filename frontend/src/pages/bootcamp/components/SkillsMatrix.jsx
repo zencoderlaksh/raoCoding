@@ -40,7 +40,7 @@ const skillCategories = [
       "Payment Gateway & Webhook Integration",
       "Error Handling & Structured Logging",
     ],
-    tools: ["Node.js", "Express.js", "JWT", "Clerk Auth", "Multer", "REST APIs"],
+    tools: ["Node.js", "Express.js", "JWT", "OAuth 2.0", "Multer", "REST APIs"],
   },
   {
     id: "database",

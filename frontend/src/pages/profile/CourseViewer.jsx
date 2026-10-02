@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useAuth } from "@clerk/clerk-react";
 
 const CourseViewer = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { getToken, isLoaded, isSignedIn } = useAuth();
   
   const [course, setCourse] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -13,29 +11,15 @@ const CourseViewer = () => {
   const [activeTab, setActiveTab] = useState("overview"); // overview, notes, videos
 
   useEffect(() => {
-    if (isLoaded && !isSignedIn) {
-      navigate("/login");
-    }
-  }, [isLoaded, isSignedIn, navigate]);
-
-  useEffect(() => {
     const fetchCourseContent = async () => {
-      if (!isSignedIn) return;
-      
       try {
-        const token = await getToken();
-        const response = await fetch(`/api/courses/${id}/content`, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        });
-        
+        const response = await fetch(`/api/courses/${id}/content`);
         const result = await response.json();
         
         if (response.ok) {
           setCourse(result.data);
         } else {
-          setError(result.message || "Failed to load course. Ensure you have purchased it.");
+          setError(result.message || "Failed to load course.");
         }
       } catch (err) {
         setError("An error occurred while loading course content.");
@@ -43,6 +27,9 @@ const CourseViewer = () => {
         setIsLoading(false);
       }
     };
+
+    fetchCourseContent();
+  }, [id]);
 
     fetchCourseContent();
   }, [id, isSignedIn, getToken]);

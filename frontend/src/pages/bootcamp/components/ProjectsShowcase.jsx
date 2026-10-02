@@ -29,7 +29,7 @@ const projects = [
     title: "Multi-Tenant Enterprise SaaS",
     category: "Full-Stack & Cloud Architecture",
     description: "A production-grade organizational management system featuring role-based access control, analytics pipelines, webhook handling, and real-time alerts.",
-    tech: ["React 19", "Node.js", "Express", "MongoDB", "Clerk Auth", "Tailwind CSS"],
+    tech: ["React 19", "Node.js", "Express", "MongoDB", "Secure Auth", "Tailwind CSS"],
     image: realProjectImg,
     badge: "Enterprise Grade",
   },

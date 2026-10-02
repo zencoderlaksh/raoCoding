@@ -6,8 +6,6 @@ import {
   Clock3, Video, FolderKanban, CheckCircle2, Award,
   ChevronDown, Star, Users, Zap, Trophy, BookOpen,
   TrendingUp, Code2, Flame,
-} from "lucide-react";
-import { useAuth } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
 
@@ -205,7 +203,6 @@ const CourseDetails = ({
   teacher, feedbacks, faqs,
 }) => {
   const scrollRef = useRef(null);
-  const { isSignedIn, getToken } = useAuth();
   const navigate = useNavigate();
   const [isEnrolling, setIsEnrolling] = useState(false);
 
@@ -221,11 +218,6 @@ const CourseDetails = ({
   }, []);
 
   const handleEnroll = async () => {
-    if (!isSignedIn) {
-      navigate('/login');
-      return;
-    }
-    
     if (!_id) {
       toast.error("This course is currently a demo and not available for purchase. (Missing Database ID)");
       return;
@@ -233,12 +225,10 @@ const CourseDetails = ({
 
     setIsEnrolling(true);
     try {
-      const token = await getToken();
       const res = await fetch('/api/payments/checkout', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({ courseId: _id })
       });

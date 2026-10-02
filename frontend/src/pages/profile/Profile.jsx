@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useAuth } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 const Profile = () => {
-  const { getToken, isLoaded, isSignedIn } = useAuth();
   const navigate = useNavigate();
   
   const [profileData, setProfileData] = useState(null);
@@ -18,41 +16,25 @@ const Profile = () => {
   const { register, handleSubmit, setValue, formState: { errors } } = useForm();
 
   useEffect(() => {
-    if (isLoaded && !isSignedIn) {
-      navigate("/login");
-    }
-  }, [isLoaded, isSignedIn, navigate]);
-
-  useEffect(() => {
     const fetchProfileAndCourses = async () => {
-      if (!isSignedIn) return;
-      
       try {
-        const token = await getToken();
-        
         // Fetch Profile
-        const profileRes = await fetch("/api/users/profile", {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const profileRes = await fetch("/api/users/profile");
         const profileResult = await profileRes.json();
         
         if (profileRes.ok) {
           setProfileData(profileResult.data);
-          setValue("username", profileResult.data.username);
-          setValue("city", profileResult.data.city);
-          setValue("phoneNo", profileResult.data.phoneNo);
-        } else {
-          setMessage({ type: "error", text: profileResult.message || "Failed to load profile" });
+          setValue("username", profileResult.data?.username || "Admin");
+          setValue("city", profileResult.data?.city || "");
+          setValue("phoneNo", profileResult.data?.phoneNo || "");
         }
 
         // Fetch My Courses
-        const coursesRes = await fetch("/api/courses/my-courses", {
-          headers: { Authorization: `Bearer ${token}` }
-        });
+        const coursesRes = await fetch("/api/courses/my-courses");
         const coursesResult = await coursesRes.json();
 
         if (coursesRes.ok) {
-          setMyCourses(coursesResult.data);
+          setMyCourses(coursesResult.data || []);
         }
 
       } catch (error) {
@@ -64,19 +46,17 @@ const Profile = () => {
     };
 
     fetchProfileAndCourses();
-  }, [isSignedIn, getToken, setValue]);
+  }, [setValue]);
 
   const onSubmit = async (data) => {
     setIsSubmitting(true);
     setMessage({ type: "", text: "" });
 
     try {
-      const token = await getToken();
       const response = await fetch("/api/users/profile", {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`
         },
         body: JSON.stringify({
           username: data.username,

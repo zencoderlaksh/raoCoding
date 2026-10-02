@@ -1,11 +1,9 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useAuth } from "@clerk/clerk-react";
 import { useNavigate } from "react-router-dom";
 import { Users, GraduationCap, BookOpen, Settings, LayoutDashboard } from "lucide-react";
 import { toast } from "react-hot-toast";
 
 const AdminDashboard = () => {
-  const { getToken, isLoaded, isSignedIn } = useAuth();
   const navigate = useNavigate();
   
   const [activeTab, setActiveTab] = useState("users");
@@ -16,18 +14,16 @@ const AdminDashboard = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const token = await getToken();
-      const headers = { Authorization: `Bearer ${token}` };
 
       const [usersRes, enrollmentsRes, coursesRes, studentsRes] = await Promise.all([
-        fetch("/api/admin/users", { headers }),
-        fetch("/api/admin/enrollments", { headers }),
-        fetch("/api/admin/courses", { headers }),
-        fetch("/api/admin/students", { headers })
+        fetch("/api/admin/users"),
+        fetch("/api/admin/enrollments"),
+        fetch("/api/admin/courses"),
+        fetch("/api/admin/students")
       ]);
 
       if (!usersRes.ok || !enrollmentsRes.ok || !coursesRes.ok || !studentsRes.ok) {
-        throw new Error("Failed to fetch admin data. Ensure you have admin privileges.");
+        throw new Error("Failed to fetch admin data.");
       }
 
       const users = await usersRes.json();
@@ -36,10 +32,10 @@ const AdminDashboard = () => {
       const students = await studentsRes.json();
 
       setData({
-        users: users.data,
-        enrollments: enrollments.data,
-        courses: courses.data,
-        students: students.data
+        users: users.data || [],
+        enrollments: enrollments.data || [],
+        courses: courses.data || [],
+        students: students.data || []
       });
     } catch (err) {
       setError(err.message);
@@ -49,12 +45,8 @@ const AdminDashboard = () => {
   };
 
   useEffect(() => {
-    if (isLoaded && !isSignedIn) {
-      navigate("/login");
-    } else if (isLoaded && isSignedIn) {
-      fetchData();
-    }
-  }, [isLoaded, isSignedIn, navigate]);
+    fetchData();
+  }, []);
 
   if (loading) return <div className="min-h-screen bg-black text-white flex items-center justify-center">Loading Admin Dashboard...</div>;
   

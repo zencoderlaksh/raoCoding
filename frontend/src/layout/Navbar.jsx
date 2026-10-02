@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { logo } from '../assets/images';
 import { useNavigate, useLocation } from "react-router-dom";
-import { useAuth, useClerk } from "@clerk/clerk-react";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -10,8 +9,6 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
-  const { isSignedIn } = useAuth();
-  const { signOut } = useClerk();
 
   const { scrollY } = useScroll();
 
@@ -138,77 +135,36 @@ const Navbar = () => {
 
         {/* Desktop Buttons */}
         <div className="hidden lg:flex items-center justify-end gap-3 min-w-[160px] lg:min-w-[180px]">
-          {!isSignedIn ? (
-            <motion.a
-              onClick={(e) => {
-                e.preventDefault();
-                navigate("/login");
-              }}
-              initial="rest"
-              whileHover="hover"
-              animate="rest"
-              className={getDesktopLinkClass("/login")}
+          <motion.a
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/profile");
+            }}
+            initial="rest"
+            whileHover="hover"
+            animate="rest"
+            className={getDesktopLinkClass("/profile")}
+          >
+            <motion.span
+              variants={{ rest: { y: 0 }, hover: { y: -30 } }}
+              transition={{ duration: 0.35, ease: "easeInOut" }}
+              className="block"
             >
-              <motion.span
-                variants={{ rest: { y: 0 }, hover: { y: -30 } }}
-                transition={{ duration: 0.35, ease: "easeInOut" }}
-                className="block"
-              >
-                Login
-              </motion.span>
-              <motion.span
-                variants={{ rest: { y: 30 }, hover: { y: 0 } }}
-                transition={{ duration: 0.35, ease: "easeInOut" }}
-                className="absolute left-0 top-1 text-orange-400 block"
-              >
-                Login
-              </motion.span>
-              <motion.div
-                variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }}
-                transition={{ duration: 0.4 }}
-                className="absolute bottom-0 left-0 w-full h-[2px] bg-orange-400 origin-left"
-              />
-            </motion.a>
-          ) : (
-            <>
-              <motion.a
-                onClick={(e) => {
-                  e.preventDefault();
-                  navigate("/profile");
-                }}
-                initial="rest"
-                whileHover="hover"
-                animate="rest"
-                className={getDesktopLinkClass("/profile")}
-              >
-                <motion.span
-                  variants={{ rest: { y: 0 }, hover: { y: -30 } }}
-                  transition={{ duration: 0.35, ease: "easeInOut" }}
-                  className="block"
-                >
-                  Profile
-                </motion.span>
-                <motion.span
-                  variants={{ rest: { y: 30 }, hover: { y: 0 } }}
-                  transition={{ duration: 0.35, ease: "easeInOut" }}
-                  className="absolute left-0 top-1 text-orange-400 block"
-                >
-                  Profile
-                </motion.span>
-                <motion.div
-                  variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }}
-                  transition={{ duration: 0.4 }}
-                  className="absolute bottom-0 left-0 w-full h-[2px] bg-orange-400 origin-left"
-                />
-              </motion.a>
-              <button
-                onClick={() => signOut(() => navigate("/"))}
-                className="px-3.5 py-1.5 text-xs xl:text-sm font-medium text-white bg-red-600/80 hover:bg-red-600 rounded-lg transition"
-              >
-                Logout
-              </button>
-            </>
-          )}
+              Profile
+            </motion.span>
+            <motion.span
+              variants={{ rest: { y: 30 }, hover: { y: 0 } }}
+              transition={{ duration: 0.35, ease: "easeInOut" }}
+              className="absolute left-0 top-1 text-orange-400 block"
+            >
+              Profile
+            </motion.span>
+            <motion.div
+              variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }}
+              transition={{ duration: 0.4 }}
+              className="absolute bottom-0 left-0 w-full h-[2px] bg-orange-400 origin-left"
+            />
+          </motion.a>
         </div>
 
         {/* Mobile/Tablet Menu Button (shows below lg) */}
@@ -288,14 +244,12 @@ const Navbar = () => {
               Client
             </span>
 
-            {isSignedIn && (
-              <span
-                onClick={() => { navigate("/profile"); setMenuOpen(false); }}
-                className={`cursor-pointer ${getMobileLinkClass("/profile")}`}
-              >
-                Profile
-              </span>
-            )}
+            <span
+              onClick={() => { navigate("/profile"); setMenuOpen(false); }}
+              className={`cursor-pointer ${getMobileLinkClass("/profile")}`}
+            >
+              Profile
+            </span>
 
             <button 
               onClick={() => { navigate("/contact"); setMenuOpen(false); }}
@@ -303,20 +257,6 @@ const Navbar = () => {
             >
               Book a Meeting
             </button>
-
-            {isSignedIn && (
-              <button 
-                onClick={() => {
-                  signOut(() => {
-                    navigate("/");
-                    setMenuOpen(false);
-                  });
-                }}
-                className="cursor-pointer mt-2 px-6 py-3 rounded-full bg-red-600/80 hover:bg-red-600 transition text-white font-medium"
-              >
-                Logout
-              </button>
-            )}
           </div>
         </div>
       )}
