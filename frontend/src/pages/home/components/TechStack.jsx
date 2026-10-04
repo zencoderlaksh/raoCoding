@@ -687,7 +687,7 @@ export default function TechStack() {
           <div className="relative">
             <div
               ref={swipeContainerRef}
-              className="flex items-stretch gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth py-3 px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+              className="flex items-stretch gap-5 overflow-x-auto snap-x snap-mandatory scroll-smooth py-3 px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden touch-pan-x [-webkit-overflow-scrolling:touch]"
             >
               {filteredTech.map((tech) => {
                 const Icon = tech.icon;

@@ -40,12 +40,12 @@ const AccordionGallery = ({
   const mediaSizeRef = useRef(320);
 
   const [isMobile, setIsMobile] = useState(() =>
-    typeof window !== 'undefined' ? window.innerWidth < 640 : false
+    typeof window !== 'undefined' ? window.innerWidth < 768 : false
   );
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth < 640);
+      setIsMobile(window.innerWidth < 768);
     };
     window.addEventListener('resize', handleResize, { passive: true });
     return () => window.removeEventListener('resize', handleResize);
@@ -81,8 +81,8 @@ const AccordionGallery = ({
       const bar = barRefs.current[i];
       const text = textRefs.current[i];
 
-      const rot = isActive ? 0 : i < active ? tilt : -tilt;
-      const rotProp = isVertical ? { rotateX: -rot } : { rotateY: rot };
+      const rot = isVertical ? 0 : isActive ? 0 : i < active ? tilt : -tilt;
+      const rotProp = isVertical ? { rotateX: 0 } : { rotateY: rot };
 
       tl.to(
         panel,
@@ -188,7 +188,7 @@ const AccordionGallery = ({
   return (
     <div
       ref={rootRef}
-      className={`flex ${isVertical ? 'flex-col' : 'flex-row'} w-full max-w-full [perspective:1400px] max-[520px]:!flex-col max-[520px]:[perspective:none] ${className}`}
+      className={`flex ${isVertical ? 'flex-col [perspective:none]' : 'flex-row [perspective:1400px]'} w-full max-w-full ${className}`}
       style={{ gap: `${gap}px`, height: isVertical ? `${Math.round(height * 1.6)}px` : `${height}px` }}
       role="list"
       aria-label="Image accordion gallery">
@@ -199,7 +199,9 @@ const AccordionGallery = ({
           <Tag
             key={i}
             ref={el => (panelRefs.current[i] = el)}
-            className="group relative block min-w-0 min-h-0 flex-[1_1_0] cursor-pointer overflow-hidden bg-[#0a0713] no-underline outline-none [transform-style:preserve-3d] [transform-origin:center] [box-shadow:0_10px_30px_-18px_rgba(0,0,0,0.8)] focus-visible:[box-shadow:0_0_0_2px_var(--ag-accent),0_10px_30px_-18px_rgba(0,0,0,0.8)] max-[520px]:min-h-[84px] max-[520px]:!transform-none"
+            className={`group relative block min-w-0 min-h-0 flex-[1_1_0] cursor-pointer overflow-hidden bg-[#0a0713] no-underline outline-none ${
+              isVertical ? '!transform-none min-h-[84px]' : '[transform-style:preserve-3d] [transform-origin:center]'
+            } [box-shadow:0_10px_30px_-18px_rgba(0,0,0,0.8)] focus-visible:[box-shadow:0_0_0_2px_var(--ag-accent),0_10px_30px_-18px_rgba(0,0,0,0.8)]`}
             style={{ borderRadius: `${radius}px`, '--ag-accent': accentColor, willChange: 'flex-grow, transform' }}
             href={item.link || undefined}
             onClick={e => handleClick(i, e)}

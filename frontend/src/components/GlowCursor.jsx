@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Mesh, Program, Renderer, Triangle } from 'ogl';
 
 const MAX_POINTS = 64;
@@ -123,6 +123,17 @@ const hexToRgb = hex => {
 
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
+const isTouchOrMobile = () => {
+  if (typeof window === 'undefined') return false;
+  return (
+    'ontouchstart' in window ||
+    (navigator && navigator.maxTouchPoints > 0) ||
+    window.matchMedia?.('(pointer: coarse)').matches ||
+    window.matchMedia?.('(hover: none)').matches ||
+    window.innerWidth < 768
+  );
+};
+
 const GlowCursor = ({
   color = '#dc873b',
   secondaryColor = '#f59e0b',
@@ -141,7 +152,8 @@ const GlowCursor = ({
   idleTimeout = 700,
   fadeDuration = 900,
   blendMode = 'screen',
-  maxDevicePixelRatio = 1.5,
+  maxDevicePixelRatio = 1.25,
+  disableOnMobile = true,
   enabled = true,
   fixed = false,
   children,
@@ -152,6 +164,24 @@ const GlowCursor = ({
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
   const propsRef = useRef({});
+  const isTouchDeviceRef = useRef(false);
+
+  const [isTouchDevice, setIsTouchDevice] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return disableOnMobile ? isTouchOrMobile() : false;
+  });
+
+  useEffect(() => {
+    if (!disableOnMobile) return;
+    const check = () => {
+      const touch = isTouchOrMobile();
+      isTouchDeviceRef.current = touch;
+      setIsTouchDevice(touch);
+    };
+    check();
+    window.addEventListener('resize', check, { passive: true });
+    return () => window.removeEventListener('resize', check);
+  }, [disableOnMobile]);
 
   propsRef.current = {
     color,
@@ -177,18 +207,26 @@ const GlowCursor = ({
   };
 
   useEffect(() => {
+    if (isTouchDevice) return;
     const container = containerRef.current;
     const canvas = canvasRef.current;
     if (!container || !canvas) return;
 
     const initialConfig = propsRef.current;
-    const renderer = new Renderer({
-      canvas,
-      alpha: true,
-      dpr: Math.min(window.devicePixelRatio || 1, initialConfig.maxDevicePixelRatio)
-    });
-    const gl = renderer.gl;
-    gl.clearColor(0, 0, 0, 0);
+    let renderer = null;
+    let gl = null;
+
+    try {
+      renderer = new Renderer({
+        canvas,
+        alpha: true,
+        dpr: Math.min(window.devicePixelRatio || 1, initialConfig.maxDevicePixelRatio)
+      });
+      gl = renderer.gl;
+      gl.clearColor(0, 0, 0, 0);
+    } catch {
+      return;
+    }
 
     const pointData = Array(MAX_POINTS * 2).fill(0);
     const points = Array.from({ length: MAX_POINTS }, () => ({ x: 0, y: 0 }));
@@ -231,13 +269,16 @@ const GlowCursor = ({
     let lastInputTime = performance.now();
     let lastFrameTime = performance.now();
     let raf = 0;
+    let isLoopRunning = false;
     let destroyed = false;
 
     const resize = () => {
+      if (destroyed) return;
       width = fixed ? window.innerWidth : Math.max(container.clientWidth, 1);
       height = fixed ? window.innerHeight : Math.max(container.clientHeight, 1);
       renderer.setSize(width, height);
       program.uniforms.uResolution.value = [width, height];
+      wakeLoop();
     };
 
     const initializeTrail = (x, y) => {
@@ -253,7 +294,15 @@ const GlowCursor = ({
       fade = 1;
     };
 
+    const wakeLoop = () => {
+      if (destroyed || isLoopRunning) return;
+      isLoopRunning = true;
+      lastFrameTime = performance.now();
+      raf = requestAnimationFrame(render);
+    };
+
     const updatePointer = event => {
+      if (event.pointerType === 'touch') return;
       let x, y;
       if (fixed) {
         const w = window.innerWidth;
@@ -270,11 +319,13 @@ const GlowCursor = ({
       target.y = y;
       pointerInside = true;
       lastInputTime = performance.now();
+      wakeLoop();
     };
 
     const onPointerLeave = () => {
       pointerInside = false;
       lastInputTime = performance.now();
+      wakeLoop();
     };
 
     const render = now => {
@@ -309,6 +360,15 @@ const GlowCursor = ({
       const fadeTarget = initialized && config.enabled && !shouldFade ? 1 : 0;
       fade += (fadeTarget - fade) * Math.min(1, fadeStep * 7);
 
+      // Complete idle pause when fully faded out to save 100% GPU / battery
+      if (initialized && shouldFade && fade < 0.001) {
+        fade = 0;
+        program.uniforms.uFade.value = 0;
+        gl.clear(gl.COLOR_BUFFER_BIT);
+        isLoopRunning = false;
+        return;
+      }
+
       program.uniforms.uPointCount.value = clamp(Math.round(config.trailLength), 2, MAX_POINTS);
       program.uniforms.uColor.value = hexToRgb(config.color);
       program.uniforms.uSecondaryColor.value = hexToRgb(config.secondaryColor);
@@ -332,23 +392,35 @@ const GlowCursor = ({
     const resizeObserver = new ResizeObserver(resize);
     resizeObserver.observe(container);
 
+    const onVisibilityChange = () => {
+      if (document.hidden) {
+        if (raf) cancelAnimationFrame(raf);
+        isLoopRunning = false;
+      } else if (pointerInside || fade > 0) {
+        wakeLoop();
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibilityChange);
+
     if (fixed) {
       window.addEventListener('pointermove', updatePointer, { passive: true });
       window.addEventListener('pointerleave', onPointerLeave);
-      window.addEventListener('resize', resize);
+      window.addEventListener('resize', resize, { passive: true });
     } else {
-      container.addEventListener('pointermove', updatePointer);
-      container.addEventListener('pointerenter', updatePointer);
+      container.addEventListener('pointermove', updatePointer, { passive: true });
+      container.addEventListener('pointerenter', updatePointer, { passive: true });
       container.addEventListener('pointerleave', onPointerLeave);
     }
 
     resize();
-    raf = requestAnimationFrame(render);
+    wakeLoop();
 
     return () => {
       destroyed = true;
-      cancelAnimationFrame(raf);
+      isLoopRunning = false;
+      if (raf) cancelAnimationFrame(raf);
       resizeObserver.disconnect();
+      document.removeEventListener('visibilitychange', onVisibilityChange);
       if (fixed) {
         window.removeEventListener('pointermove', updatePointer);
         window.removeEventListener('pointerleave', onPointerLeave);
@@ -358,10 +430,17 @@ const GlowCursor = ({
         container.removeEventListener('pointerenter', updatePointer);
         container.removeEventListener('pointerleave', onPointerLeave);
       }
-      mesh.geometry.remove();
-      program.remove();
+      try {
+        mesh.geometry.remove();
+        program.remove();
+        gl.getExtension('WEBGL_lose_context')?.loseContext();
+      } catch {}
     };
-  }, [maxDevicePixelRatio, fixed]);
+  }, [maxDevicePixelRatio, fixed, isTouchDevice]);
+
+  if (isTouchDevice) {
+    return children ? (fixed ? children : <div className="relative z-[1] h-full w-full">{children}</div>) : null;
+  }
 
   return (
     <>

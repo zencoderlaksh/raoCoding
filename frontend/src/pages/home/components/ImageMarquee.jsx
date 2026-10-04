@@ -7,15 +7,16 @@ function ImageMarquee() {
         .marquee-wrapper {
           display: flex;
           width: max-content;
+          will-change: transform;
           animation: scroll 18s linear infinite;
         }
 
         @keyframes scroll {
           from {
-            transform: translateX(0);
+            transform: translate3d(0, 0, 0);
           }
           to {
-            transform: translateX(-50%);
+            transform: translate3d(-50%, 0, 0);
           }
         }
       `}</style>

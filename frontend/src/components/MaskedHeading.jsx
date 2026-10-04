@@ -85,9 +85,16 @@ const MaskedHeading = ({
     place();
   }, [place]);
 
+  const videoRef = useRef(null);
+
   useEffect(() => {
     const root = rootRef.current;
     if (!root) return;
+
+    const isMobile = typeof window !== 'undefined' && (
+      window.innerWidth < 768 ||
+      window.matchMedia?.('(pointer: coarse)').matches
+    );
 
     sync();
     const ro = new ResizeObserver(sync);
@@ -97,8 +104,10 @@ const MaskedHeading = ({
     let raf = 0;
     let last = performance.now();
     let clock = 0;
+    let isIntersecting = false;
 
     const frame = now => {
+      if (!isIntersecting) return;
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
       clock += dt;
@@ -116,7 +125,42 @@ const MaskedHeading = ({
       raf = requestAnimationFrame(frame);
     };
 
+    const startAnim = () => {
+      if (isMobile) {
+        place();
+        return;
+      }
+      if (!raf) {
+        last = performance.now();
+        raf = requestAnimationFrame(frame);
+      }
+    };
+
+    const stopAnim = () => {
+      if (raf) {
+        cancelAnimationFrame(raf);
+        raf = 0;
+      }
+    };
+
+    const io = new IntersectionObserver(([entry]) => {
+      isIntersecting = entry.isIntersecting;
+      if (isIntersecting) {
+        startAnim();
+        if (videoRef.current) {
+          videoRef.current.play().catch(() => {});
+        }
+      } else {
+        stopAnim();
+        if (videoRef.current) {
+          videoRef.current.pause();
+        }
+      }
+    }, { threshold: 0.05 });
+    io.observe(root);
+
     const onMove = e => {
+      if (isMobile) return;
       const s = settingsRef.current;
       if (s.parallax <= 0) return;
       const r = root.getBoundingClientRect();
@@ -131,15 +175,19 @@ const MaskedHeading = ({
       offsetRef.current.ty = 0;
     };
 
-    root.addEventListener('pointermove', onMove);
-    root.addEventListener('pointerleave', onLeave);
-    raf = requestAnimationFrame(frame);
+    if (!isMobile) {
+      root.addEventListener('pointermove', onMove, { passive: true });
+      root.addEventListener('pointerleave', onLeave);
+    }
 
     return () => {
-      cancelAnimationFrame(raf);
+      stopAnim();
+      io.disconnect();
       ro.disconnect();
-      root.removeEventListener('pointermove', onMove);
-      root.removeEventListener('pointerleave', onLeave);
+      if (!isMobile) {
+        root.removeEventListener('pointermove', onMove);
+        root.removeEventListener('pointerleave', onLeave);
+      }
     };
   }, [place, sync]);
 
@@ -297,6 +345,7 @@ const MaskedHeading = ({
             className="absolute inset-0 block [will-change:transform,filter] bg-gradient-to-r from-orange-400 via-rose-500 to-purple-600">
             {mediaType === 'video' ? (
               <video
+                ref={videoRef}
                 className="block w-full h-full object-cover select-none"
                 src={src}
                 poster={poster}

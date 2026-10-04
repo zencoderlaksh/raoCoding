@@ -28,6 +28,7 @@ export default function FlipCard({
   axis = 'y',
   flipOnClick = true,
   draggable = true,
+  touchPan = 'pan-x pan-y',
   dragDistance = 0,
   tilt = true,
   tiltMax = 12,
@@ -126,9 +127,14 @@ export default function FlipCard({
 
   const onPointerDown = e => {
     if (disabled || e.button !== 0 || grip.current) return;
-    try {
-      e.currentTarget.setPointerCapture(e.pointerId);
-    } catch {}
+    const isTouch = e.pointerType === 'touch';
+    if (!draggable && isTouch) return;
+
+    if (draggable && !isTouch) {
+      try {
+        e.currentTarget.setPointerCapture(e.pointerId);
+      } catch {}
+    }
     spin.current?.stop();
     grip.current = {
       id: e.pointerId,
@@ -136,10 +142,10 @@ export default function FlipCard({
       y: e.clientY,
       base: turn.get(),
       moved: false,
-      slop: e.pointerType === 'touch' ? SLOP.coarse : SLOP.fine,
+      slop: isTouch ? SLOP.coarse * 2 : SLOP.fine,
       hist: []
     };
-    if (!reduce) lift.set(hoverScale);
+    if (!reduce && !isTouch) lift.set(hoverScale);
   };
   const onPointerMove = e => {
     const g = grip.current;
@@ -149,6 +155,11 @@ export default function FlipCard({
         if (Math.abs(d) < g.slop || !draggable || reduce) return;
         g.moved = true;
         setDragging(true);
+        try {
+          if (e.pointerType === 'touch') {
+            e.currentTarget.setPointerCapture(e.pointerId);
+          }
+        } catch {}
         tiltX.set(0);
         tiltY.set(0);
         sheen.set(0);
@@ -218,7 +229,9 @@ export default function FlipCard({
       aria-pressed={shown}
       aria-label={ariaLabel}
       aria-disabled={disabled || undefined}
-      className={`group relative inline-block max-w-full cursor-pointer touch-pan-y select-none outline-none [width:var(--fc-w)] [height:var(--fc-h)] [border-radius:var(--fc-radius)] [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] data-[axis=x]:touch-pan-x data-[draggable]:cursor-grab data-[dragging]:cursor-grabbing data-[disabled]:cursor-default data-[disabled]:opacity-60${className ? ` ${className}` : ''}`}
+      className={`group relative inline-block max-w-full cursor-pointer select-none outline-none [width:var(--fc-w)] [height:var(--fc-h)] [border-radius:var(--fc-radius)] [-webkit-tap-highlight-color:transparent] [-webkit-touch-callout:none] ${
+        touchPan ? `[touch-action:${touchPan}]` : 'touch-pan-y'
+      } data-[axis=x]:touch-pan-x data-[draggable]:cursor-grab data-[dragging]:cursor-grabbing data-[disabled]:cursor-default data-[disabled]:opacity-60${className ? ` ${className}` : ''}`}
       data-axis={axis}
       data-draggable={draggable && !disabled && !reduce ? '' : undefined}
       data-dragging={dragging ? '' : undefined}
@@ -250,7 +263,7 @@ export default function FlipCard({
       }}>
       {shadow ? (
         <motion.span
-          className="pointer-events-none absolute [inset:12%_9%_-5%] [border-radius:var(--fc-radius)] [background:color-mix(in_srgb,var(--fc-shadow)_calc(var(--fc-shadow-o)*100%),transparent)] [filter:blur(22px)]"
+          className="pointer-events-none absolute [inset:12%_9%_-5%] [border-radius:var(--fc-radius)] [background:color-mix(in_srgb,var(--fc-shadow)_calc(var(--fc-shadow-o)*100%),transparent)] blur-xl will-change-transform opacity-75"
           aria-hidden="true"
           style={axis === 'x' ? { scaleY: spread, opacity: shade } : { scaleX: spread, opacity: shade }} />
       ) : null}

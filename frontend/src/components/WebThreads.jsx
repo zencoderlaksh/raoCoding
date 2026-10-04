@@ -167,12 +167,17 @@ const WebThreads = ({
     const container = containerRef.current;
     if (!container) return;
 
+    const isMobile = typeof window !== 'undefined' && (
+      window.innerWidth < 768 ||
+      window.matchMedia?.('(pointer: coarse)').matches
+    );
+
     const renderer = new Renderer({
       webgl: 2,
       alpha: true,
       premultipliedAlpha: true,
       antialias: false,
-      dpr: Math.min(window.devicePixelRatio || 1, 2)
+      dpr: isMobile ? 1.0 : Math.min(window.devicePixelRatio || 1, 1.35)
     });
 
     const gl = renderer.gl;
@@ -191,7 +196,7 @@ const WebThreads = ({
         iTime: { value: 0 },
         iResolution: { value: new Float32Array([1, 1]) },
         uSpeed: { value: 0.2 },
-        uThreadCount: { value: 6 },
+        uThreadCount: { value: isMobile ? 4 : 6 },
         uFrequency: { value: 5.0 },
         uSpread: { value: 0.18 },
         uTaper: { value: 1.0 },
@@ -204,7 +209,7 @@ const WebThreads = ({
         uOpacity: { value: 1.0 },
         uMirror: { value: 1.0 },
         uShimmer: { value: 0.0 },
-        uGrain: { value: 1.0 },
+        uGrain: { value: isMobile ? 0.0 : 1.0 },
         uGrainIntensity: { value: 0.05 },
         uColor1: { value: new Float32Array([1, 1, 1]) },
         uColor2: { value: new Float32Array([1, 1, 1]) },
@@ -213,7 +218,7 @@ const WebThreads = ({
         uLightMode: { value: false },
         uMouse: { value: new Float32Array([0.5, 0.5]) },
         uMouseStrength: { value: 0.3 },
-        uEnableMouse: { value: 1.0 },
+        uEnableMouse: { value: isMobile ? 0.0 : 1.0 },
         uMouseActive: { value: 0 }
       }
     });
@@ -242,6 +247,7 @@ const WebThreads = ({
     let targetActive = 0;
 
     const onMouseMove = e => {
+      if (isMobile) return;
       const rect = canvas.getBoundingClientRect();
       if (
         e.clientX >= rect.left &&
@@ -256,7 +262,9 @@ const WebThreads = ({
         targetActive = 0;
       }
     };
-    window.addEventListener('mousemove', onMouseMove, { passive: true });
+    if (!isMobile) {
+      window.addEventListener('mousemove', onMouseMove, { passive: true });
+    }
 
     let raf = 0;
     let isVisible = true;

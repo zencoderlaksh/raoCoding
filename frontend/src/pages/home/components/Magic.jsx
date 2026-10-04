@@ -129,27 +129,45 @@ const Magic = () => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);
   const [canScrollRight, setCanScrollRight] = useState(true);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.innerWidth < 768 : false
+  );
+  const scrollTicking = useRef(false);
 
-  const checkScroll = () => {
-    if (!carouselRef.current) return;
-    const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
-    setCanScrollLeft(scrollLeft > 10);
-    setCanScrollRight(scrollLeft < scrollWidth - clientWidth - 10);
+  const checkScroll = React.useCallback(() => {
+    if (!carouselRef.current || scrollTicking.current) return;
+    scrollTicking.current = true;
+    requestAnimationFrame(() => {
+      if (!carouselRef.current) {
+        scrollTicking.current = false;
+        return;
+      }
+      const { scrollLeft, scrollWidth, clientWidth } = carouselRef.current;
+      const left = scrollLeft > 12;
+      const right = scrollLeft < scrollWidth - clientWidth - 12;
+      setCanScrollLeft(prev => prev !== left ? left : prev);
+      setCanScrollRight(prev => prev !== right ? right : prev);
 
-    const firstCard = cardRefs.current[0];
-    const cardWidth = firstCard ? firstCard.offsetWidth + 24 : 360;
-    const idx = Math.min(
-      industries.length - 1,
-      Math.max(0, Math.round(scrollLeft / cardWidth))
-    );
-    setActiveIndex(idx);
-  };
+      const firstCard = cardRefs.current[0];
+      const cardWidth = firstCard ? firstCard.offsetWidth + 24 : 360;
+      const idx = Math.min(
+        industries.length - 1,
+        Math.max(0, Math.round(scrollLeft / cardWidth))
+      );
+      setActiveIndex(prev => prev !== idx ? idx : prev);
+      scrollTicking.current = false;
+    });
+  }, []);
 
   useEffect(() => {
     checkScroll();
-    window.addEventListener("resize", checkScroll);
-    return () => window.removeEventListener("resize", checkScroll);
-  }, []);
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+      checkScroll();
+    };
+    window.addEventListener("resize", handleResize, { passive: true });
+    return () => window.removeEventListener("resize", handleResize);
+  }, [checkScroll]);
 
   const scrollToCard = (index) => {
     const card = cardRefs.current[index];
@@ -196,14 +214,17 @@ const Magic = () => {
           <div className="mt-6 max-w-4xl mx-auto">
             <MaskedHeading
               text="Industries We Serve"
-              mediaType="video"
-              src="https://videos.pexels.com/video-files/39507682/16831209_2160_3840_30fps.mp4"
-              poster="/reel-poster.jpg"
+              mediaType={isMobile ? "image" : "video"}
+              src={
+                isMobile
+                  ? "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=800&auto=format&fit=crop"
+                  : "https://videos.pexels.com/video-files/39507682/16831209_2160_3840_30fps.mp4"
+              }
               fillScale={1.25}
-              parallax={26}
+              parallax={isMobile ? 0 : 26}
               reveal="rise"
               trigger="view"
-              drift={18}
+              drift={isMobile ? 0 : 18}
               brightness={1}
               saturation={1}
               grayscale={false}
@@ -289,7 +310,7 @@ const Magic = () => {
         <div
           ref={carouselRef}
           onScroll={checkScroll}
-          className="flex items-stretch gap-5 sm:gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth py-3 px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden"
+          className="flex items-stretch gap-5 sm:gap-6 overflow-x-auto snap-x snap-mandatory scroll-smooth py-3 px-1 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden touch-pan-x [-webkit-overflow-scrolling:touch]"
         >
           {industries.map((ind, index) => {
             const IconComponent = ind.icon;
@@ -305,13 +326,14 @@ const Magic = () => {
                   radius={28}
                   axis="y"
                   flipOnClick
-                  draggable
+                  draggable={false}
+                  touchPan="pan-x pan-y"
                   dragDistance={0}
-                  tilt
-                  tiltMax={10}
-                  glare
+                  tilt={!isMobile}
+                  tiltMax={isMobile ? 0 : 10}
+                  glare={!isMobile}
                   glareOpacity={0.2}
-                  hoverScale={1.02}
+                  hoverScale={isMobile ? 1 : 1.02}
                   perspective={1100}
                   stiffness={170}
                   damping={20}
@@ -322,7 +344,7 @@ const Magic = () => {
                   shadowOpacity={0.22}
                   className="w-full"
                   front={
-                    <div className="h-full p-7 sm:p-8 flex flex-col justify-between border border-white/10 rounded-[28px] bg-gradient-to-b from-white/[0.07] via-white/[0.02] to-black/85 backdrop-blur-2xl relative overflow-hidden group">
+                    <div className="h-full p-7 sm:p-8 flex flex-col justify-between border border-white/10 rounded-[28px] bg-gradient-to-b from-[#181622] via-[#0d0b14] to-[#07060a] sm:bg-gradient-to-b sm:from-white/[0.07] sm:via-white/[0.02] sm:to-black/85 sm:backdrop-blur-xl relative overflow-hidden group">
                       {/* Top ambient color glow */}
                       <div
                         className="absolute top-0 right-0 w-36 h-36 rounded-full blur-3xl pointer-events-none opacity-20"
@@ -335,7 +357,7 @@ const Magic = () => {
                           Sector {ind.number}
                         </span>
                         <div
-                          className="w-12 h-12 rounded-2xl border border-white/10 bg-white/[0.04] backdrop-blur-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-105"
+                          className="w-12 h-12 rounded-2xl border border-white/10 bg-white/[0.04] sm:backdrop-blur-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-105"
                           style={{ color: ind.colorHex }}
                         >
                           <IconComponent size={22} />
@@ -391,16 +413,16 @@ const Magic = () => {
 
                       {/* Top Bar on Photo */}
                       <div className="relative z-10 flex items-center justify-between">
-                        <span className="text-xs font-mono font-semibold px-3 py-1 rounded-full bg-black/60 border border-white/20 text-white backdrop-blur-md">
+                        <span className="text-xs font-mono font-semibold px-3 py-1 rounded-full bg-black/80 sm:bg-black/60 border border-white/20 text-white sm:backdrop-blur-md">
                           {ind.number} — {ind.name}
                         </span>
-                        <span className="text-[11px] font-mono tracking-wider px-2.5 py-1 rounded-full bg-black/60 border border-white/20 text-zinc-300 backdrop-blur-md flex items-center gap-1">
+                        <span className="text-[11px] font-mono tracking-wider px-2.5 py-1 rounded-full bg-black/80 sm:bg-black/60 border border-white/20 text-zinc-300 sm:backdrop-blur-md flex items-center gap-1">
                           <RotateCw size={10} /> Flip back
                         </span>
                       </div>
 
                       {/* Bottom Floating Minimal Glass Card */}
-                      <div className="relative z-10 p-5 rounded-2xl bg-black/75 backdrop-blur-xl border border-white/15 shadow-2xl">
+                      <div className="relative z-10 p-5 rounded-2xl bg-[#0e0c15]/90 sm:bg-black/75 sm:backdrop-blur-xl border border-white/15 shadow-2xl">
                         <div className="flex items-center justify-between mb-1.5">
                           <h4 className="text-xl sm:text-2xl font-bold text-white tracking-tight">
                             {ind.name}

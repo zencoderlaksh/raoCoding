@@ -16,17 +16,14 @@ const Navbar = () => {
     const previous = scrollY.getPrevious() ?? 0;
 
     // Check if user scrolled past top boundary
-    if (latest > 35) {
-      setScrolled(true);
-    } else {
-      setScrolled(false);
-    }
+    const isPastTop = latest > 35;
+    setScrolled(prev => (prev !== isPastTop ? isPastTop : prev));
 
     // Smart hide on scroll down, reveal on scroll up
     if (latest > 100 && latest > previous + 6) {
-      setHidden(true); // scrolling down
+      setHidden(prev => (!prev ? true : prev));
     } else if (latest < previous - 6 || latest <= 40) {
-      setHidden(false); // scrolling up or back at top
+      setHidden(prev => (prev ? false : prev));
     }
   });
 
