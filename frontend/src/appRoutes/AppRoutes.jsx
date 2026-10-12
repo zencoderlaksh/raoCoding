@@ -1,9 +1,9 @@
-import React from 'react'
+import React from 'react';
 import { Routes, Route, Navigate } from "react-router-dom";
-import Home from "../pages/home/Home"
-import Layout from "../layout/Layout"
-import About from "../pages/about/About"
-import Contact from "../pages/contactus/ContactUs"
+import Home from "../pages/home/Home";
+import Layout from "../layout/Layout";
+import About from "../pages/about/About";
+import Contact from "../pages/contactus/ContactUs";
 import Profile from '../pages/profile/Profile';
 import CourseViewer from '../pages/profile/CourseViewer';
 import Client from '../pages/client/Client';
@@ -15,6 +15,10 @@ import Students from '@/pages/students/Students';
 import StudentProfile from '@/pages/students/StudentProfile';
 import CollegeBootcamp from '@/pages/bootcamp/CollegeBootcamp';
 import Placement from '@/pages/placement/Placement';
+
+import Login from '@/pages/auth/Login';
+import SignUp from '@/pages/auth/SignUp';
+import Onboarding from '@/pages/auth/Onboarding';
 
 import ScrollTop from '@/components/ScrollTop';
 import Community from '@/pages/join community/Community';
@@ -43,16 +47,19 @@ const AppRoutes = () => {
           <Route path="/students/:slug" element={<StudentProfile />} />
         </Route>
 
+        {/* Authentication Routes (Dual Auth: Clerk + Normal) */}
+        <Route path="/login/*" element={<Login />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signup/*" element={<SignUp />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route path="/onboarding/*" element={<Onboarding />} />
+        <Route path="/onboarding" element={<Onboarding />} />
+
         {/* Direct open access routes */}
         <Route path="/profile" element={<Profile />} />
         <Route path="/admin" element={<AdminDashboard />} />
         <Route path="/community" element={<Community />} />
         <Route path="/my-courses/:id" element={<CourseViewer />} />
-
-        {/* Redirect removed auth routes to home */}
-        <Route path="/login/*" element={<Navigate to="/" replace />} />
-        <Route path="/signup/*" element={<Navigate to="/" replace />} />
-        <Route path="/onboarding/*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
   );

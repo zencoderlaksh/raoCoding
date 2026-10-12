@@ -21,3 +21,15 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Scratch & Debug files
+*.png
+!src/**/*.png
+!public/**/*.png
+*.html
+!index.html
+inspect*.js
+snap_*.js
+test_*.js
+find_white.js
+

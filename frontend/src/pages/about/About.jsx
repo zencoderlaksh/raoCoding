@@ -17,6 +17,7 @@ import {
   HeartHandshake,
   Lightbulb,
 } from "lucide-react";
+import TeamSection from "./aboutComponents/TeamSection";
 
 /* ── Interactive Counter Component ── */
 function Counter({ from = 0, to, suffix = "" }) {
@@ -372,7 +373,12 @@ export default function AboutPage() {
       </section>
 
       {/* ────────────────────────────────────────────────────────── */}
-      {/* 5. LEADERSHIP NOTE: The Story Behind RAO Technologies       */}
+      {/* 5. TEAM SECTION: The Core Operators                        */}
+      {/* ────────────────────────────────────────────────────────── */}
+      <TeamSection />
+
+      {/* ────────────────────────────────────────────────────────── */}
+      {/* 6. LEADERSHIP NOTE: The Story Behind RAO Technologies       */}
       {/* ────────────────────────────────────────────────────────── */}
       <section className="relative py-20 px-4 sm:px-6 lg:px-12 border-t border-white/5">
         <div className="relative max-w-4xl mx-auto z-10">
