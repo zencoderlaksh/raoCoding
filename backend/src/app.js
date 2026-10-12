@@ -119,18 +119,21 @@ app.use('/api', async (req, res, next) => {
     return next();
   }
 
-  // Attempt on-demand connection if credentials are configured
-  const uri = process.env.MONGODB_URI || process.env.MONGO_URI;
-  if (uri && uri.trim() && !uri.includes('<password>') && !uri.includes('<db_username>')) {
-    try {
-      await connectDB();
-    } catch (err) {
-      console.warn('⚠️ [API Middleware] MongoDB connection attempt error:', err.message);
-    }
+  try {
+    await connectDB();
+  } catch (err) {
+    console.warn('⚠️ [API Middleware] MongoDB connection attempt error:', err.message);
   }
 
-  // Always proceed - Mongoose query buffering or the route handlers will process the request
-  return next();
+  if (mongoose.connection.readyState === 1) {
+    return next();
+  }
+
+  return res.status(503).json({
+    success: false,
+    statusCode: 503,
+    message: 'Server is establishing database connection. Please retry in a few seconds.',
+  });
 });
 
 // 8. Application API Routes

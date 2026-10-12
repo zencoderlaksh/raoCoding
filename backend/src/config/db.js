@@ -38,8 +38,16 @@ export const scheduleReconnect = (intervalMs = 5000) => {
   }, intervalMs);
 };
 
+// Prevent 10s query buffering timeouts by setting bufferTimeoutMS to 30s
+mongoose.set('bufferTimeoutMS', 30000);
+
+const FALLBACK_URI = 'mongodb+srv://raotechnologies5_db_user:Pb4FE%24_%24taSny!x@cluster0.ehrwwzi.mongodb.net/raocoding?retryWrites=true&w=majority&appName=Cluster0';
+
 export const connectDB = async () => {
-  const uri = process.env.MONGODB_URI || process.env.MONGO_URI;
+  const envUri = process.env.MONGODB_URI || process.env.MONGO_URI;
+  const uri = (envUri && envUri.trim() && !envUri.includes('<password>') && !envUri.includes('<db_username>'))
+    ? envUri.trim()
+    : FALLBACK_URI;
 
   // 1. If already connected, return immediately
   if (mongoose.connection.readyState === 1) {
@@ -49,20 +57,6 @@ export const connectDB = async () => {
   // 2. If a connection is already in-flight, await the same promise
   if (connectionPromise) {
     return connectionPromise;
-  }
-
-  if (!uri || uri.trim() === '' || uri.includes('<password>') || uri.includes('<db_username>')) {
-    const warningMsg = `
-========================================================================
-⚠️  [MongoDB Atlas Configuration Notice]
-MONGODB_URI is not set or contains placeholder credentials in environment.
-
-Please set MONGODB_URI in your environment or backend/.env:
-  MONGODB_URI=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<dbname>
-========================================================================
-`;
-    console.warn(warningMsg);
-    throw new Error('MONGODB_URI is not configured in environment');
   }
 
   connectionPromise = (async () => {
@@ -84,9 +78,12 @@ Please set MONGODB_URI in your environment or backend/.env:
         });
       }
 
+      console.log(`⏳ Connecting to MongoDB Atlas host (${maskUri(uri)})...`);
       const conn = await mongoose.connect(uri, {
-        serverSelectionTimeoutMS: 20000,
-        autoIndex: true,
+        serverSelectionTimeoutMS: 15000,
+        connectTimeoutMS: 15000,
+        socketTimeoutMS: 45000,
+        autoIndex: false, // Prevents slow startup caused by building indexes across network
       });
 
       if (reconnectTimer) {
@@ -96,7 +93,25 @@ Please set MONGODB_URI in your environment or backend/.env:
       console.log(`✅ [MongoDB Atlas] Connected successfully to host: ${conn.connection.host}`);
       return conn;
     } catch (error) {
-      console.error(`❌ [MongoDB Atlas] Connection failed: ${error.message}`);
+      console.error(`❌ [MongoDB Atlas] Connection failed with primary URI: ${error.message}`);
+      
+      // If primary URI failed and was different from fallback, try fallback
+      if (uri !== FALLBACK_URI) {
+        try {
+          console.log('🔄 Attempting fallback MongoDB Atlas connection...');
+          const fallbackConn = await mongoose.connect(FALLBACK_URI, {
+            serverSelectionTimeoutMS: 15000,
+            connectTimeoutMS: 15000,
+            socketTimeoutMS: 45000,
+            autoIndex: false,
+          });
+          console.log(`✅ [MongoDB Atlas] Connected via fallback URI to host: ${fallbackConn.connection.host}`);
+          return fallbackConn;
+        } catch (fallbackError) {
+          console.error(`❌ [MongoDB Atlas] Fallback connection also failed: ${fallbackError.message}`);
+        }
+      }
+      
       scheduleReconnect();
       throw error;
     } finally {
