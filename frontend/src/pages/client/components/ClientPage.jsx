@@ -10,7 +10,6 @@ import {
 
 import { useEffect, useRef, useState } from "react";
 import PreviousProjects from "./PreviousProjects";
-import TeamSection from "./TeamSection";
 import QuotesGrid from "./QuotesGrid";
 import brandStrategyImg from "../../../assets/Brand-Strategy.png";
 import uiImg from "../../../assets/UI.png";
@@ -552,9 +551,6 @@ export default function ClientPage() {
       {/* PreviousProjects */}
       <PreviousProjects />
 
-      {/* TeamSection */}
-      <TeamSection />
-
 
 
    {/* WORK SECTION */}
@@ -693,10 +689,10 @@ export default function ClientPage() {
           </span>
 
           <a
-            href="mailto:laksh@rao.studio"
+            href="mailto:raotechnologies5@gmail.com"
             className="font-serif text-[26px] md:text-[42px] leading-none hover:text-[#ff5a28] transition-colors duration-300"
           >
-            laksh@rao.studio
+            raotechnologies5@gmail.com
           </a>
         </div>
 
@@ -904,9 +900,12 @@ export default function ClientPage() {
           </h2>
         </Reveal>
 
-        <button className="mt-16 px-8 py-5 rounded-full bg-[#ff5a28] text-black">
-          laksh@rao.studio →
-        </button>
+        <a
+          href="mailto:raotechnologies5@gmail.com"
+          className="inline-block mt-16 px-8 py-5 rounded-full bg-[#ff5a28] text-black font-semibold hover:bg-orange-600 transition-colors"
+        >
+          raotechnologies5@gmail.com →
+        </a>
 
         <span className="block mt-10 opacity-40">© 2026 RAO Studio</span>
       </section>

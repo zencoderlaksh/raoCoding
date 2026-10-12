@@ -172,59 +172,77 @@ const WebThreads = ({
       window.matchMedia?.('(pointer: coarse)').matches
     );
 
-    const renderer = new Renderer({
-      webgl: 2,
-      alpha: true,
-      premultipliedAlpha: true,
-      antialias: false,
-      dpr: isMobile ? 1.0 : Math.min(window.devicePixelRatio || 1, 1.35)
-    });
+    let renderer = null;
+    let gl = null;
+    let canvas = null;
+    let program = null;
+    let mesh = null;
 
-    const gl = renderer.gl;
-    gl.clearColor(0, 0, 0, 0);
-    const canvas = gl.canvas;
-    canvas.style.width = '100%';
-    canvas.style.height = '100%';
-    canvas.style.display = 'block';
-    container.appendChild(canvas);
+    try {
+      renderer = new Renderer({
+        webgl: 2,
+        alpha: true,
+        premultipliedAlpha: true,
+        antialias: false,
+        dpr: isMobile ? 1.0 : Math.min(window.devicePixelRatio || 1, 1.35)
+      });
 
-    const geometry = new Triangle(gl);
-    const program = new Program(gl, {
-      vertex,
-      fragment,
-      uniforms: {
-        iTime: { value: 0 },
-        iResolution: { value: new Float32Array([1, 1]) },
-        uSpeed: { value: 0.2 },
-        uThreadCount: { value: isMobile ? 4 : 6 },
-        uFrequency: { value: 5.0 },
-        uSpread: { value: 0.18 },
-        uTaper: { value: 1.0 },
-        uPosition: { value: 0.5 },
-        uFanMode: { value: 0 },
-        uGlow: { value: 0.02 },
-        uFalloff: { value: 0.6 },
-        uThickness: { value: 1.1 },
-        uBrightness: { value: 0.6 },
-        uOpacity: { value: 1.0 },
-        uMirror: { value: 1.0 },
-        uShimmer: { value: 0.0 },
-        uGrain: { value: isMobile ? 0.0 : 1.0 },
-        uGrainIntensity: { value: 0.05 },
-        uColor1: { value: new Float32Array([1, 1, 1]) },
-        uColor2: { value: new Float32Array([1, 1, 1]) },
-        uColor3: { value: new Float32Array([1, 1, 1]) },
-        uBackgroundColor: { value: new Float32Array([1, 1, 1]) },
-        uLightMode: { value: false },
-        uMouse: { value: new Float32Array([0.5, 0.5]) },
-        uMouseStrength: { value: 0.3 },
-        uEnableMouse: { value: isMobile ? 0.0 : 1.0 },
-        uMouseActive: { value: 0 }
+      gl = renderer.gl;
+      if (!gl || gl.isContextLost()) return;
+      gl.clearColor(0, 0, 0, 0);
+      canvas = gl.canvas;
+      canvas.style.width = '100%';
+      canvas.style.height = '100%';
+      canvas.style.display = 'block';
+      container.appendChild(canvas);
+
+      const geometry = new Triangle(gl);
+      program = new Program(gl, {
+        vertex,
+        fragment,
+        uniforms: {
+          iTime: { value: 0 },
+          iResolution: { value: new Float32Array([1, 1]) },
+          uSpeed: { value: 0.2 },
+          uThreadCount: { value: isMobile ? 4 : 6 },
+          uFrequency: { value: 5.0 },
+          uSpread: { value: 0.18 },
+          uTaper: { value: 1.0 },
+          uPosition: { value: 0.5 },
+          uFanMode: { value: 0 },
+          uGlow: { value: 0.02 },
+          uFalloff: { value: 0.6 },
+          uThickness: { value: 1.1 },
+          uBrightness: { value: 0.6 },
+          uOpacity: { value: 1.0 },
+          uMirror: { value: 1.0 },
+          uShimmer: { value: 0.0 },
+          uGrain: { value: isMobile ? 0.0 : 1.0 },
+          uGrainIntensity: { value: 0.05 },
+          uColor1: { value: new Float32Array([1, 1, 1]) },
+          uColor2: { value: new Float32Array([1, 1, 1]) },
+          uColor3: { value: new Float32Array([1, 1, 1]) },
+          uBackgroundColor: { value: new Float32Array([1, 1, 1]) },
+          uLightMode: { value: false },
+          uMouse: { value: new Float32Array([0.5, 0.5]) },
+          uMouseStrength: { value: 0.3 },
+          uEnableMouse: { value: isMobile ? 0.0 : 1.0 },
+          uMouseActive: { value: 0 }
+        }
+      });
+
+      if (!program || !program.uniformLocations) {
+        if (canvas && canvas.parentNode) canvas.parentNode.removeChild(canvas);
+        return;
       }
-    });
 
-    const mesh = new Mesh(gl, { geometry, program });
-    ctxMap.set(container, { renderer, program, mesh });
+      mesh = new Mesh(gl, { geometry, program });
+      ctxMap.set(container, { renderer, program, mesh });
+    } catch (e) {
+      console.warn('WebThreads WebGL initialization error:', e);
+      if (canvas && canvas.parentNode) canvas.parentNode.removeChild(canvas);
+      return;
+    }
 
     const setSize = () => {
       const rect = container.getBoundingClientRect();
@@ -272,17 +290,22 @@ const WebThreads = ({
     const t0 = performance.now();
 
     const loop = t => {
-      program.uniforms.iTime.value = (t - t0) * 0.001;
-      currentMouse[0] += 0.05 * (targetMouse[0] - currentMouse[0]);
-      currentMouse[1] += 0.05 * (targetMouse[1] - currentMouse[1]);
-      currentActive += 0.05 * (targetActive - currentActive);
-      program.uniforms.uMouse.value[0] = currentMouse[0];
-      program.uniforms.uMouse.value[1] = currentMouse[1];
-      program.uniforms.uMouseActive.value = currentActive;
-      program.uniforms.uEnableMouse.value = mouseRef.current.enabled ? 1.0 : 0.0;
-      program.uniforms.uMouseStrength.value = mouseRef.current.strength;
-      renderer.render({ scene: mesh });
-      raf = requestAnimationFrame(loop);
+      if (!renderer || !mesh || !program || !gl || gl.isContextLost()) return;
+      try {
+        program.uniforms.iTime.value = (t - t0) * 0.001;
+        currentMouse[0] += 0.05 * (targetMouse[0] - currentMouse[0]);
+        currentMouse[1] += 0.05 * (targetMouse[1] - currentMouse[1]);
+        currentActive += 0.05 * (targetActive - currentActive);
+        program.uniforms.uMouse.value[0] = currentMouse[0];
+        program.uniforms.uMouse.value[1] = currentMouse[1];
+        program.uniforms.uMouseActive.value = currentActive;
+        program.uniforms.uEnableMouse.value = mouseRef.current.enabled ? 1.0 : 0.0;
+        program.uniforms.uMouseStrength.value = mouseRef.current.strength;
+        renderer.render({ scene: mesh });
+        raf = requestAnimationFrame(loop);
+      } catch (err) {
+        console.warn('WebThreads render error:', err);
+      }
     };
 
     const tryStart = () => {

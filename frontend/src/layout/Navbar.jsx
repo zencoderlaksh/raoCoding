@@ -1,14 +1,37 @@
-import React, { useState } from "react";
-import { motion, useScroll, useMotionValueEvent } from "framer-motion";
+import React, { useState, useRef, useEffect } from "react";
+import { motion, AnimatePresence, useScroll, useMotionValueEvent } from "framer-motion";
 import { logo } from '../assets/images';
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
+import UserAvatar from "@/components/UserAvatar";
+import { User, LogOut, LayoutDashboard, BookOpen, ChevronDown } from "lucide-react";
 
 const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null);
+
   const navigate = useNavigate();
   const location = useLocation();
+  const { user, isAuthenticated, logout } = useAuth();
+
+  // Close profile dropdown when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setProfileDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  // Close dropdown on route change
+  useEffect(() => {
+    setProfileDropdownOpen(false);
+  }, [location.pathname]);
 
   const { scrollY } = useScroll();
 
@@ -72,7 +95,7 @@ const Navbar = () => {
           className="relative group flex items-center flex-shrink-0 cursor-pointer min-w-[160px] lg:min-w-[200px]"
           onClick={() => navigate("/")}
         >
-          {/* Luminous ambient glow behind logo so it never feels invisible */}
+          {/* Luminous ambient glow behind logo */}
           <div className="absolute -inset-x-3 -inset-y-1.5 bg-gradient-to-r from-orange-500/25 via-amber-400/20 to-purple-500/20 rounded-2xl blur-md pointer-events-none opacity-85 group-hover:opacity-100 transition-opacity duration-300" />
 
           <img
@@ -130,44 +153,135 @@ const Navbar = () => {
           ))}
         </div>
 
-        {/* Desktop Buttons */}
-        <div className="hidden lg:flex items-center justify-end gap-3 min-w-[160px] lg:min-w-[180px]">
-          <motion.a
-            onClick={(e) => {
-              e.preventDefault();
-              navigate("/profile");
-            }}
-            initial="rest"
-            whileHover="hover"
-            animate="rest"
-            className={getDesktopLinkClass("/profile")}
-          >
-            <motion.span
-              variants={{ rest: { y: 0 }, hover: { y: -30 } }}
-              transition={{ duration: 0.35, ease: "easeInOut" }}
-              className="block"
-            >
-              Profile
-            </motion.span>
-            <motion.span
-              variants={{ rest: { y: 30 }, hover: { y: 0 } }}
-              transition={{ duration: 0.35, ease: "easeInOut" }}
-              className="absolute left-0 top-1 text-orange-400 block"
-            >
-              Profile
-            </motion.span>
-            <motion.div
-              variants={{ rest: { scaleX: 0 }, hover: { scaleX: 1 } }}
-              transition={{ duration: 0.4 }}
-              className="absolute bottom-0 left-0 w-full h-[2px] bg-orange-400 origin-left"
-            />
-          </motion.a>
+        {/* Desktop Buttons / Auth Status */}
+        <div className="hidden lg:flex items-center justify-end gap-2.5 min-w-[160px] lg:min-w-[200px]">
+          {isAuthenticated ? (
+            <div className="relative" ref={dropdownRef}>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => setProfileDropdownOpen((prev) => !prev)}
+                className="group flex items-center gap-2 p-1 pl-1 pr-2 rounded-full bg-zinc-900/90 hover:bg-zinc-800/90 border border-zinc-700/80 hover:border-orange-500/80 transition-all duration-200 cursor-pointer shadow-lg shadow-black/40"
+                aria-label="User Profile Menu"
+              >
+                {/* Profile Picture instead of Name */}
+                <UserAvatar
+                  user={user}
+                  size="sm"
+                  showStatus={true}
+                  ring={true}
+                  alt={user?.username || "Profile"}
+                />
+
+                <ChevronDown
+                  size={14}
+                  className={`text-zinc-400 group-hover:text-orange-400 transition-transform duration-200 ${
+                    profileDropdownOpen ? "rotate-180 text-orange-400" : ""
+                  }`}
+                />
+              </motion.button>
+
+              {/* Profile Dropdown Menu */}
+              <AnimatePresence>
+                {profileDropdownOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 8, scale: 0.95 }}
+                    transition={{ duration: 0.18, ease: "easeOut" }}
+                    className="absolute right-0 mt-2.5 w-64 rounded-2xl bg-zinc-950/95 border border-zinc-800/90 shadow-[0_12px_40px_rgba(0,0,0,0.8)] backdrop-blur-2xl p-3 z-50 text-white"
+                  >
+                    {/* User Info Header */}
+                    <div className="flex items-center gap-3 p-2 rounded-xl bg-white/[0.03] border border-white/5 mb-2">
+                      <UserAvatar user={user} size="md" showStatus={true} />
+                      <div className="min-w-0 flex-1">
+                        <p className="text-sm font-semibold text-white truncate">
+                          {user?.username || "My Account"}
+                        </p>
+                        <p className="text-[11px] text-zinc-400 truncate">
+                          {user?.email || "Signed In"}
+                        </p>
+                        <span className="inline-block mt-0.5 text-[10px] font-mono uppercase px-1.5 py-0.5 rounded bg-orange-500/15 text-orange-400 border border-orange-500/30">
+                          {user?.role === "admin" || user?.isAdmin ? "Admin" : "Member"}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1">
+                      <button
+                        onClick={() => {
+                          setProfileDropdownOpen(false);
+                          navigate("/profile");
+                        }}
+                        className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-zinc-300 hover:text-white hover:bg-zinc-900 rounded-xl transition cursor-pointer"
+                      >
+                        <User size={15} className="text-orange-400" />
+                        <span>My Profile</span>
+                      </button>
+
+                      <button
+                        onClick={() => {
+                          setProfileDropdownOpen(false);
+                          navigate("/corporate-trainings");
+                        }}
+                        className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-zinc-300 hover:text-white hover:bg-zinc-900 rounded-xl transition cursor-pointer"
+                      >
+                        <BookOpen size={15} className="text-amber-400" />
+                        <span>Browse Courses</span>
+                      </button>
+
+                      {(user?.isAdmin || user?.role === "admin") && (
+                        <button
+                          onClick={() => {
+                            setProfileDropdownOpen(false);
+                            navigate("/admin");
+                          }}
+                          className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-zinc-300 hover:text-white hover:bg-zinc-900 rounded-xl transition cursor-pointer"
+                        >
+                          <LayoutDashboard size={15} className="text-orange-500" />
+                          <span>Admin Dashboard</span>
+                        </button>
+                      )}
+
+                      <div className="my-1 border-t border-zinc-800/80" />
+
+                      <button
+                        onClick={() => {
+                          setProfileDropdownOpen(false);
+                          logout();
+                        }}
+                        className="w-full flex items-center gap-2.5 px-3 py-2 text-xs font-medium text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded-xl transition cursor-pointer"
+                      >
+                        <LogOut size={15} />
+                        <span>Sign Out</span>
+                      </button>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+          ) : (
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => navigate("/login")}
+                className="text-xs text-zinc-300 hover:text-white transition-colors cursor-pointer px-2.5 py-1.5 font-medium"
+              >
+                Log In
+              </button>
+              <button
+                onClick={() => navigate("/signup")}
+                className="px-3.5 py-1.5 rounded-full bg-gradient-to-r from-orange-500 to-amber-500 text-black text-xs font-semibold shadow-md shadow-orange-500/20 hover:scale-105 active:scale-95 transition-all cursor-pointer"
+              >
+                Sign Up
+              </button>
+            </div>
+          )}
         </div>
 
         {/* Mobile/Tablet Menu Button (shows below lg) */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
-          className="lg:hidden text-white flex-shrink-0 p-2"
+          className="lg:hidden text-white flex-shrink-0 p-2 cursor-pointer"
         >
           {menuOpen ? (
             <svg
@@ -198,55 +312,69 @@ const Navbar = () => {
       {/* Mobile Menu (shows on screens < lg) */}
       {menuOpen && (
         <div className="lg:hidden mt-4 animate-fadeIn">
-          <div className="flex flex-col gap-5 px-6 py-6 rounded-3xl border border-white/20 bg-black/90 backdrop-blur-2xl shadow-2xl">
-            <span
-              onClick={() => { navigate("/"); setMenuOpen(false); }}
-              className={`cursor-pointer ${getMobileLinkClass("/")}`}
-            >
-              Home
-            </span>
+          <div className="flex flex-col gap-4 px-6 py-6 rounded-3xl border border-white/20 bg-black/95 backdrop-blur-2xl shadow-2xl">
+            {navLinks.map((link) => (
+              <span
+                key={link.path}
+                onClick={() => { navigate(link.path); setMenuOpen(false); }}
+                className={`cursor-pointer ${getMobileLinkClass(link.path)}`}
+              >
+                {link.name}
+              </span>
+            ))}
 
-            <span
-              onClick={() => { navigate("/about"); setMenuOpen(false); }}
-              className={`cursor-pointer ${getMobileLinkClass("/about")}`}
-            >
-              About
-            </span>
+            <div className="pt-3 border-t border-zinc-800">
+              {isAuthenticated ? (
+                <div className="p-3.5 rounded-2xl bg-zinc-900/90 border border-zinc-800 flex items-center justify-between gap-3">
+                  <div
+                    onClick={() => {
+                      navigate("/profile");
+                      setMenuOpen(false);
+                    }}
+                    className="flex items-center gap-3 cursor-pointer min-w-0"
+                  >
+                    <UserAvatar
+                      user={user}
+                      size="md"
+                      showStatus={true}
+                      alt={user?.username || "Profile"}
+                    />
+                    <div className="min-w-0">
+                      <p className="text-sm font-semibold text-white truncate">
+                        {user?.username || "User"}
+                      </p>
+                      <p className="text-xs text-orange-400">View Profile &rarr;</p>
+                    </div>
+                  </div>
 
-            <span
-              onClick={() => { navigate("/college-bootcamp"); setMenuOpen(false); }}
-              className={`cursor-pointer ${getMobileLinkClass("/college-bootcamp")}`}
-            >
-              College Bootcamp
-            </span>
-
-            <span
-              onClick={() => { navigate("/corporate-trainings"); setMenuOpen(false); }}
-              className={`cursor-pointer ${getMobileLinkClass("/corporate-trainings")}`}
-            >
-              Corporate Trainings
-            </span>
-
-            <span
-              onClick={() => { navigate("/contact"); setMenuOpen(false); }}
-              className={`cursor-pointer ${getMobileLinkClass("/contact")}`}
-            >
-              Contact
-            </span>
-
-            <span
-              onClick={() => { navigate("/client"); setMenuOpen(false); }}
-              className={`cursor-pointer ${getMobileLinkClass("/client")}`}
-            >
-              Client
-            </span>
-
-            <span
-              onClick={() => { navigate("/profile"); setMenuOpen(false); }}
-              className={`cursor-pointer ${getMobileLinkClass("/profile")}`}
-            >
-              Profile
-            </span>
+                  <button
+                    onClick={() => {
+                      logout();
+                      setMenuOpen(false);
+                    }}
+                    className="text-xs text-zinc-400 hover:text-red-400 p-2 rounded-xl bg-zinc-800/80 cursor-pointer"
+                    title="Logout"
+                  >
+                    <LogOut size={16} />
+                  </button>
+                </div>
+              ) : (
+                <div className="flex gap-3 pt-1">
+                  <button
+                    onClick={() => { navigate("/login"); setMenuOpen(false); }}
+                    className="flex-1 py-2.5 rounded-xl border border-zinc-700 bg-zinc-900 text-white font-medium text-sm"
+                  >
+                    Log In
+                  </button>
+                  <button
+                    onClick={() => { navigate("/signup"); setMenuOpen(false); }}
+                    className="flex-1 py-2.5 rounded-xl bg-orange-500 text-black font-semibold text-sm"
+                  >
+                    Sign Up
+                  </button>
+                </div>
+              )}
+            </div>
 
             <button 
               onClick={() => { navigate("/contact"); setMenuOpen(false); }}

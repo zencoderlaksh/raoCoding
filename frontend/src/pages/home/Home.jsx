@@ -10,6 +10,7 @@ import FAQ from './components/FAQ'
 import Magic from './components/Magic'
 import WebThreads from '../../components/WebThreads'
 import GlowCursor from '../../components/GlowCursor'
+import ClientProjectHighlights from './components/ClientProjectHighlights'
 
 const Home = () => {
   return (
@@ -87,6 +88,9 @@ const Home = () => {
       </div>
       <div>
         <ImageMarquee />
+      </div>
+      <div>
+        <ClientProjectHighlights />
       </div>
       <div className="w-full px-4 sm:px-8 lg:px-12 py-12 lg:py-20">
         <TechStack />

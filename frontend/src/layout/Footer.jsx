@@ -167,10 +167,10 @@ const Footer = () => {
 
               <div>
                 <a
-                  href="mailto:raocodingschool@gmail.com"
+                  href="mailto:raotechnologies5@gmail.com"
                   className="hover:text-orange-400 transition-colors duration-200 break-all font-medium text-neutral-300"
                 >
-                  raocodingschool@gmail.com
+                  raotechnologies5@gmail.com
                 </a>
               </div>
 

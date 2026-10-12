@@ -162,7 +162,6 @@ const GlowCursor = ({
   ...rest
 }) => {
   const containerRef = useRef(null);
-  const canvasRef = useRef(null);
   const propsRef = useRef({});
   const isTouchDeviceRef = useRef(false);
 
@@ -209,12 +208,20 @@ const GlowCursor = ({
   useEffect(() => {
     if (isTouchDevice) return;
     const container = containerRef.current;
-    const canvas = canvasRef.current;
-    if (!container || !canvas) return;
+    if (!container) return;
 
     const initialConfig = propsRef.current;
     let renderer = null;
     let gl = null;
+    let program = null;
+    let mesh = null;
+
+    // Dynamically create canvas so StrictMode remount never reuses a lost WebGL context canvas
+    const canvas = document.createElement('canvas');
+    canvas.className = 'pointer-events-none absolute inset-0 block h-full w-full select-none';
+    canvas.style.mixBlendMode = initialConfig.blendMode || 'screen';
+    canvas.setAttribute('aria-hidden', 'true');
+    container.appendChild(canvas);
 
     try {
       renderer = new Renderer({
@@ -223,8 +230,50 @@ const GlowCursor = ({
         dpr: Math.min(window.devicePixelRatio || 1, initialConfig.maxDevicePixelRatio)
       });
       gl = renderer.gl;
+      if (!gl || gl.isContextLost()) {
+        if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
+        return;
+      }
       gl.clearColor(0, 0, 0, 0);
-    } catch {
+
+      const pointData = Array(MAX_POINTS * 2).fill(0);
+
+      program = new Program(gl, {
+        vertex: VERTEX_SHADER,
+        fragment: FRAGMENT_SHADER,
+        uniforms: {
+          uResolution: { value: [1, 1] },
+          uPoints: { value: pointData },
+          uPointCount: { value: initialConfig.trailLength },
+          uColor: { value: hexToRgb(initialConfig.color) },
+          uSecondaryColor: { value: hexToRgb(initialConfig.secondaryColor) },
+          uTrailWidth: { value: initialConfig.trailWidth },
+          uTaper: { value: initialConfig.trailTaper },
+          uGlowIntensity: { value: initialConfig.glowIntensity },
+          uGlowSpread: { value: initialConfig.glowSpread },
+          uHotspot: { value: initialConfig.hotspot },
+          uBrightness: { value: initialConfig.brightness },
+          uOpacity: { value: initialConfig.opacity },
+          uPulseSpeed: { value: initialConfig.pulseSpeed },
+          uNoiseStrength: { value: initialConfig.noiseStrength },
+          uNormalBlend: { value: initialConfig.blendMode === 'normal' ? 1 : 0 },
+          uTime: { value: 0 },
+          uFade: { value: 0 }
+        },
+        transparent: true,
+        depthTest: false,
+        depthWrite: false
+      });
+
+      if (!program || !program.uniformLocations) {
+        if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
+        return;
+      }
+
+      mesh = new Mesh(gl, { geometry: new Triangle(gl), program });
+    } catch (e) {
+      console.warn('GlowCursor WebGL initialization error:', e);
+      if (canvas.parentNode) canvas.parentNode.removeChild(canvas);
       return;
     }
 
@@ -232,34 +281,6 @@ const GlowCursor = ({
     const points = Array.from({ length: MAX_POINTS }, () => ({ x: 0, y: 0 }));
     const target = { x: 0, y: 0 };
     const head = { x: 0, y: 0 };
-
-    const program = new Program(gl, {
-      vertex: VERTEX_SHADER,
-      fragment: FRAGMENT_SHADER,
-      uniforms: {
-        uResolution: { value: [1, 1] },
-        uPoints: { value: pointData },
-        uPointCount: { value: initialConfig.trailLength },
-        uColor: { value: hexToRgb(initialConfig.color) },
-        uSecondaryColor: { value: hexToRgb(initialConfig.secondaryColor) },
-        uTrailWidth: { value: initialConfig.trailWidth },
-        uTaper: { value: initialConfig.trailTaper },
-        uGlowIntensity: { value: initialConfig.glowIntensity },
-        uGlowSpread: { value: initialConfig.glowSpread },
-        uHotspot: { value: initialConfig.hotspot },
-        uBrightness: { value: initialConfig.brightness },
-        uOpacity: { value: initialConfig.opacity },
-        uPulseSpeed: { value: initialConfig.pulseSpeed },
-        uNoiseStrength: { value: initialConfig.noiseStrength },
-        uNormalBlend: { value: initialConfig.blendMode === 'normal' ? 1 : 0 },
-        uTime: { value: 0 },
-        uFade: { value: 0 }
-      },
-      transparent: true,
-      depthTest: false,
-      depthWrite: false
-    });
-    const mesh = new Mesh(gl, { geometry: new Triangle(gl), program });
 
     let width = 1;
     let height = 1;
@@ -330,6 +351,8 @@ const GlowCursor = ({
 
     const render = now => {
       if (destroyed) return;
+      if (destroyed || !gl || gl.isContextLost() || !program || !program.uniformLocations) return;
+
       const config = propsRef.current;
       const delta = Math.min((now - lastFrameTime) / 16.667, 3);
       lastFrameTime = now;
@@ -363,29 +386,37 @@ const GlowCursor = ({
       // Complete idle pause when fully faded out to save 100% GPU / battery
       if (initialized && shouldFade && fade < 0.001) {
         fade = 0;
-        program.uniforms.uFade.value = 0;
+        if (program.uniforms?.uFade) program.uniforms.uFade.value = 0;
         gl.clear(gl.COLOR_BUFFER_BIT);
         isLoopRunning = false;
         return;
       }
 
-      program.uniforms.uPointCount.value = clamp(Math.round(config.trailLength), 2, MAX_POINTS);
-      program.uniforms.uColor.value = hexToRgb(config.color);
-      program.uniforms.uSecondaryColor.value = hexToRgb(config.secondaryColor);
-      program.uniforms.uTrailWidth.value = Math.max(config.trailWidth, 0.1);
-      program.uniforms.uTaper.value = clamp(config.trailTaper, 0, 1);
-      program.uniforms.uGlowIntensity.value = Math.max(config.glowIntensity, 0);
-      program.uniforms.uGlowSpread.value = Math.max(config.glowSpread, 0);
-      program.uniforms.uHotspot.value = clamp(config.hotspot, 0, 1);
-      program.uniforms.uBrightness.value = Math.max(config.brightness, 0);
-      program.uniforms.uOpacity.value = clamp(config.opacity, 0, 1);
-      program.uniforms.uPulseSpeed.value = config.pulseSpeed;
-      program.uniforms.uNoiseStrength.value = clamp(config.noiseStrength, 0, 1);
-      program.uniforms.uNormalBlend.value = config.blendMode === 'normal' ? 1 : 0;
-      program.uniforms.uTime.value = now * 0.001;
-      program.uniforms.uFade.value = fade;
+      if (program.uniforms) {
+        if (program.uniforms.uPointCount) program.uniforms.uPointCount.value = clamp(Math.round(config.trailLength), 2, MAX_POINTS);
+        if (program.uniforms.uColor) program.uniforms.uColor.value = hexToRgb(config.color);
+        if (program.uniforms.uSecondaryColor) program.uniforms.uSecondaryColor.value = hexToRgb(config.secondaryColor);
+        if (program.uniforms.uTrailWidth) program.uniforms.uTrailWidth.value = Math.max(config.trailWidth, 0.1);
+        if (program.uniforms.uTaper) program.uniforms.uTaper.value = clamp(config.trailTaper, 0, 1);
+        if (program.uniforms.uGlowIntensity) program.uniforms.uGlowIntensity.value = Math.max(config.glowIntensity, 0);
+        if (program.uniforms.uGlowSpread) program.uniforms.uGlowSpread.value = Math.max(config.glowSpread, 0);
+        if (program.uniforms.uHotspot) program.uniforms.uHotspot.value = clamp(config.hotspot, 0, 1);
+        if (program.uniforms.uBrightness) program.uniforms.uBrightness.value = Math.max(config.brightness, 0);
+        if (program.uniforms.uOpacity) program.uniforms.uOpacity.value = clamp(config.opacity, 0, 1);
+        if (program.uniforms.uPulseSpeed) program.uniforms.uPulseSpeed.value = config.pulseSpeed;
+        if (program.uniforms.uNoiseStrength) program.uniforms.uNoiseStrength.value = clamp(config.noiseStrength, 0, 1);
+        if (program.uniforms.uNormalBlend) program.uniforms.uNormalBlend.value = config.blendMode === 'normal' ? 1 : 0;
+        if (program.uniforms.uTime) program.uniforms.uTime.value = now * 0.001;
+        if (program.uniforms.uFade) program.uniforms.uFade.value = fade;
+      }
 
-      renderer.render({ scene: mesh });
+      try {
+        renderer.render({ scene: mesh });
+      } catch (err) {
+        console.warn('GlowCursor render error:', err);
+        return;
+      }
+
       if (!destroyed) raf = requestAnimationFrame(render);
     };
 
@@ -431,9 +462,14 @@ const GlowCursor = ({
         container.removeEventListener('pointerleave', onPointerLeave);
       }
       try {
-        mesh.geometry.remove();
-        program.remove();
-        gl.getExtension('WEBGL_lose_context')?.loseContext();
+        mesh?.geometry?.remove();
+        program?.remove();
+        gl?.getExtension('WEBGL_lose_context')?.loseContext();
+      } catch {}
+      try {
+        if (canvas.parentNode) {
+          canvas.parentNode.removeChild(canvas);
+        }
       } catch {}
     };
   }, [maxDevicePixelRatio, fixed, isTouchDevice]);
@@ -452,13 +488,8 @@ const GlowCursor = ({
             : `relative h-full w-full overflow-hidden${className ? ` ${className}` : ''}`
         }
         style={fixed ? { width: '100vw', height: '100vh', ...style } : style}
-        {...rest}>
-        <canvas
-          ref={canvasRef}
-          className="pointer-events-none absolute inset-0 block h-full w-full select-none"
-          style={{ mixBlendMode: blendMode }}
-          aria-hidden="true" />
-      </div>
+        {...rest}
+      />
       {children && (fixed ? children : <div className="relative z-[1] h-full w-full">{children}</div>)}
     </>
   );

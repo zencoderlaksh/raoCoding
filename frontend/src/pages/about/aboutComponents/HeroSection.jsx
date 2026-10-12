@@ -476,7 +476,7 @@ export default function HeroSection() {
 
           {[
             { icon: MapPin, text: "Jaipur, Rajasthan" },
-            { icon: Mail, text: "yadavlakshya86@gmail.com" },
+            { icon: Mail, text: "raotechnologies5@gmail.com" },
             { icon: Phone, text: "8112204612" },
             { icon: GraduationCap, text: "B.Tech, Amity University" },
           ].map(({ icon: Icon, text }, i) => (

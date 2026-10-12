@@ -1,16 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   Mail,
   Phone,
   Headphones,
   MessageCircleMore,
+  Loader2,
+  CheckCircle2,
 } from "lucide-react";
+import toast from "react-hot-toast";
 
 const supportCards = [
   {
     icon: <Mail size={28} />,
     title: "Email Support",
-    main: "hello@yourbrand.com",
+    main: "raotechnologies5@gmail.com",
     sub: "Response within 24 hours",
   },
   {
@@ -34,6 +37,51 @@ const supportCards = [
 ];
 
 export default function ContactUs() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "",
+    message: "",
+  });
+  const [loading, setLoading] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!formData.name.trim() || !formData.email.trim() || !formData.message.trim()) {
+      toast.error("Please fill in your name, email, and message.");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: formData.name.trim(),
+          email: formData.email.trim(),
+          phone: "9999999999",
+          businessType: formData.subject.trim() || "Contact Page Inquiry",
+          message: formData.message.trim(),
+        }),
+      });
+
+      const data = await response.json();
+      if (response.ok && data.success) {
+        toast.success("Thank you! Your message has been sent successfully.");
+        setSubmitted(true);
+        setFormData({ name: "", email: "", subject: "", message: "" });
+      } else {
+        toast.error(data.message || "Failed to send message. Please try again.");
+      }
+    } catch (err) {
+      console.error("Contact submission error:", err);
+      toast.error("Could not connect to server. Please try again.");
+    } finally {
+      setLoading(false);
+    }
+  };
   return (
     <div className="min-h-screen bg-black text-white overflow-hidden relative font-[Poppins]">
       {/* background effect and orange glow */}
@@ -171,153 +219,67 @@ export default function ContactUs() {
       </div>
 
       
-      <form className="space-y-6">
-
-        
+      <form onSubmit={handleSubmit} className="space-y-6">
         <div className="group relative">
-
           <input
             type="text"
-            placeholder="Your Name"
-            className="
-              w-full
-              bg-[#121212]
-              border
-              border-[#2a2a2a]
-              rounded-2xl
-              px-6
-              py-5
-              outline-none
-              text-white
-              placeholder:text-gray-500
-              transition-all
-              duration-300
-              focus:border-orange-500
-              focus:shadow-[0_0_20px_rgba(255,115,0,0.15)]
-            "
+            placeholder="Your Name *"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+            required
+            className="w-full bg-[#121212] border border-[#2a2a2a] rounded-2xl px-6 py-5 outline-none text-white placeholder:text-gray-500 transition-all duration-300 focus:border-orange-500 focus:shadow-[0_0_20px_rgba(255,115,0,0.15)]"
           />
-
         </div>
 
-        
         <div>
-
           <input
             type="email"
-            placeholder="Email Address"
-            className="
-              w-full
-              bg-[#121212]
-              border
-              border-[#2a2a2a]
-              rounded-2xl
-              px-6
-              py-5
-              outline-none
-              text-white
-              placeholder:text-gray-500
-              transition-all
-              duration-300
-              focus:border-orange-500
-              focus:shadow-[0_0_20px_rgba(255,115,0,0.15)]
-            "
+            placeholder="Email Address *"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+            required
+            className="w-full bg-[#121212] border border-[#2a2a2a] rounded-2xl px-6 py-5 outline-none text-white placeholder:text-gray-500 transition-all duration-300 focus:border-orange-500 focus:shadow-[0_0_20px_rgba(255,115,0,0.15)]"
           />
-
         </div>
 
-        
         <div>
-
           <input
             type="text"
-            placeholder="Subject"
-            className="
-              w-full
-              bg-[#121212]
-              border
-              border-[#2a2a2a]
-              rounded-2xl
-              px-6
-              py-5
-              outline-none
-              text-white
-              placeholder:text-gray-500
-              transition-all
-              duration-300
-              focus:border-orange-500
-              focus:shadow-[0_0_20px_rgba(255,115,0,0.15)]
-            "
+            placeholder="Subject / Topic (e.g. Full-Stack Bootcamp / Corporate)"
+            value={formData.subject}
+            onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
+            className="w-full bg-[#121212] border border-[#2a2a2a] rounded-2xl px-6 py-5 outline-none text-white placeholder:text-gray-500 transition-all duration-300 focus:border-orange-500 focus:shadow-[0_0_20px_rgba(255,115,0,0.15)]"
           />
-
         </div>
 
-        
         <div>
-
           <textarea
             rows="5"
-            placeholder="Write your message..."
-            className="
-              w-full
-              bg-[#121212]
-              border
-              border-[#2a2a2a]
-              rounded-2xl
-              px-6
-              py-5
-              outline-none
-              text-white
-              placeholder:text-gray-500
-              resize-none
-              transition-all
-              duration-300
-              focus:border-orange-500
-              focus:shadow-[0_0_20px_rgba(255,115,0,0.15)]
-            "
+            placeholder="Write your message... *"
+            value={formData.message}
+            onChange={(e) => setFormData({ ...formData, message: e.target.value })}
+            required
+            className="w-full bg-[#121212] border border-[#2a2a2a] rounded-2xl px-6 py-5 outline-none text-white placeholder:text-gray-500 resize-none transition-all duration-300 focus:border-orange-500 focus:shadow-[0_0_20px_rgba(255,115,0,0.15)]"
           ></textarea>
-
         </div>
 
-        
         <button
-          className="
-            group
-            relative
-            overflow-hidden
-            w-full
-            py-5
-            rounded-2xl
-            bg-orange-500
-            font-semibold
-            text-lg
-            transition-all
-            duration-300
-            hover:scale-[1.02]
-            hover:shadow-[0_0_35px_rgba(255,115,0,0.4)]
-          "
+          type="submit"
+          disabled={loading}
+          className="group relative overflow-hidden w-full py-5 rounded-2xl bg-orange-500 font-semibold text-lg transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_35px_rgba(255,115,0,0.4)] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 cursor-pointer"
         >
-
-          <span className="relative z-10">
-            Send Message
-          </span>
-
-          
-          <div
-            className="
-              absolute
-              inset-0
-              bg-gradient-to-r
-              from-orange-400
-              to-orange-600
-              opacity-0
-              group-hover:opacity-100
-              transition-all
-              duration-500
-            "
-          ></div>
-
+          {loading ? (
+            <>
+              <Loader2 className="animate-spin" size={20} />
+              <span>Sending...</span>
+            </>
+          ) : (
+            <>
+              <span className="relative z-10">Send Message</span>
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-400 to-orange-600 opacity-0 group-hover:opacity-100 transition-all duration-500"></div>
+            </>
+          )}
         </button>
-
       </form>
     </div>
   </div>
