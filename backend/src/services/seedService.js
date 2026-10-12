@@ -174,6 +174,26 @@ export const seedInitialData = async () => {
       });
       console.log('✅ Default Admin created: admin@raocoding.com / Admin@123');
     }
+
+    // 4. Index hygiene: Drop legacy unique index on clerkId and unset empty string values
+    try {
+      const indexes = await User.collection.indexes();
+      const legacyClerkIndex = indexes.find(
+        (i) => (i.name === 'clerkId_1' || (i.key && i.key.clerkId)) && i.unique
+      );
+      if (legacyClerkIndex) {
+        console.log(`🔧 Dropping legacy unique index: ${legacyClerkIndex.name}...`);
+        await User.collection.dropIndex(legacyClerkIndex.name);
+        console.log('✅ Legacy unique index dropped successfully.');
+      }
+      // Unset empty string clerkId across all user records to avoid duplicate key issues
+      await User.collection.updateMany(
+        { clerkId: '' },
+        { $unset: { clerkId: 1 } }
+      );
+    } catch (idxErr) {
+      console.warn('Index hygiene notice:', idxErr.message);
+    }
   } catch (err) {
     console.error('Seed data notice:', err.message);
   }

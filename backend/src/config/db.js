@@ -12,13 +12,8 @@ const maskUri = (uri) => {
   }
 };
 
-let isConnecting = false;
-
-/**
- * Connect to MongoDB Atlas
- * @returns {Promise<typeof mongoose>}
- */
 let reconnectTimer = null;
+let connectionPromise = null;
 
 /**
  * Schedule background reconnection attempts until MongoDB is connected
@@ -46,44 +41,14 @@ export const scheduleReconnect = (intervalMs = 5000) => {
 export const connectDB = async () => {
   const uri = process.env.MONGODB_URI || process.env.MONGO_URI;
 
-  // Prevent multiple simultaneous connection attempts
+  // 1. If already connected, return immediately
   if (mongoose.connection.readyState === 1) {
     return mongoose;
   }
 
-  if (isConnecting) {
-    return new Promise((resolve, reject) => {
-      const timer = setTimeout(() => {
-        cleanup();
-        if (mongoose.connection.readyState === 1) {
-          resolve(mongoose);
-        } else {
-          reject(new Error('Connection attempt timed out.'));
-        }
-      }, 12000);
-
-      const onDone = () => {
-        clearTimeout(timer);
-        cleanup();
-        resolve(mongoose);
-      };
-
-      const onError = (err) => {
-        clearTimeout(timer);
-        cleanup();
-        reject(err);
-      };
-
-      const cleanup = () => {
-        mongoose.connection.removeListener('connected', onDone);
-        mongoose.connection.removeListener('open', onDone);
-        mongoose.connection.removeListener('error', onError);
-      };
-
-      mongoose.connection.once('connected', onDone);
-      mongoose.connection.once('open', onDone);
-      mongoose.connection.once('error', onError);
-    });
+  // 2. If a connection is already in-flight, await the same promise
+  if (connectionPromise) {
+    return connectionPromise;
   }
 
   if (!uri || uri.trim() === '' || uri.includes('<password>') || uri.includes('<db_username>')) {
@@ -100,44 +65,46 @@ Please set MONGODB_URI in your environment or backend/.env:
     throw new Error('MONGODB_URI is not configured in environment');
   }
 
-  try {
-    isConnecting = true;
+  connectionPromise = (async () => {
+    try {
+      // Attach lifecycle event listeners once
+      if (mongoose.connection.listenerCount('error') === 0) {
+        mongoose.connection.on('error', (err) => {
+          console.error('❌ [MongoDB] Runtime connection error:', err.message);
+          scheduleReconnect();
+        });
 
-    // Attach lifecycle event listeners once
-    if (mongoose.connection.listenerCount('error') === 0) {
-      mongoose.connection.on('error', (err) => {
-        console.error('❌ [MongoDB] Runtime connection error:', err.message);
-        scheduleReconnect();
+        mongoose.connection.on('disconnected', () => {
+          console.warn('⚠️  [MongoDB] Connection disconnected. Scheduling reconnection...');
+          scheduleReconnect();
+        });
+
+        mongoose.connection.on('reconnected', () => {
+          console.log('✅ [MongoDB] Reconnected successfully.');
+        });
+      }
+
+      const conn = await mongoose.connect(uri, {
+        serverSelectionTimeoutMS: 20000,
+        autoIndex: true,
       });
 
-      mongoose.connection.on('disconnected', () => {
-        console.warn('⚠️  [MongoDB] Connection disconnected. Scheduling reconnection...');
-        scheduleReconnect();
-      });
-
-      mongoose.connection.on('reconnected', () => {
-        console.log('✅ [MongoDB] Reconnected successfully.');
-      });
+      if (reconnectTimer) {
+        clearInterval(reconnectTimer);
+        reconnectTimer = null;
+      }
+      console.log(`✅ [MongoDB Atlas] Connected successfully to host: ${conn.connection.host}`);
+      return conn;
+    } catch (error) {
+      console.error(`❌ [MongoDB Atlas] Connection failed: ${error.message}`);
+      scheduleReconnect();
+      throw error;
+    } finally {
+      connectionPromise = null;
     }
+  })();
 
-    const conn = await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 20000,
-      autoIndex: true,
-    });
-
-    isConnecting = false;
-    if (reconnectTimer) {
-      clearInterval(reconnectTimer);
-      reconnectTimer = null;
-    }
-    console.log(`✅ [MongoDB Atlas] Connected successfully to host: ${conn.connection.host}`);
-    return conn;
-  } catch (error) {
-    isConnecting = false;
-    console.error(`❌ [MongoDB Atlas] Connection failed: ${error.message}`);
-    scheduleReconnect();
-    throw error;
-  }
+  return connectionPromise;
 };
 
 /**

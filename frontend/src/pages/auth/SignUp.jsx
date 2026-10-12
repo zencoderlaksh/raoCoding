@@ -144,17 +144,19 @@ export default function SignUp() {
         body: JSON.stringify(payload),
       });
 
-      // Cold-start auto-retry: if server was spinning up (503), retry once
-      if (response.status === 503) {
-        toast.loading("Connecting to server...", { id: "server-wake" });
-        await new Promise((r) => setTimeout(r, 3000));
+      // Cold-start auto-retry: Render free-tier wake up retry
+      let retries = 0;
+      while (response.status === 503 && retries < 2) {
+        retries++;
+        toast.loading(`Connecting to server (${retries}/2)...`, { id: "server-wake" });
+        await new Promise((r) => setTimeout(r, 3500));
         response = await fetch("/api/users/register", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(payload),
         });
-        toast.dismiss("server-wake");
       }
+      toast.dismiss("server-wake");
 
       const data = await response.json();
 

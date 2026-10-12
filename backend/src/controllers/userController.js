@@ -187,8 +187,7 @@ export const syncClerkUser = asyncHandler(async (req, res) => {
     await user.save();
   } else {
     // Create new user for Clerk login
-    user = await User.create({
-      clerkId: clerkId || '',
+    const clerkPayload = {
       email: email.toLowerCase().trim(),
       username: (username || email.split('@')[0] || 'User').trim(),
       avatar: userAvatar || `https://ui-avatars.com/api/?name=${encodeURIComponent((username || email.split('@')[0] || 'User').trim())}&background=ea580c&color=fff&bold=true`,
@@ -198,7 +197,11 @@ export const syncClerkUser = asyncHandler(async (req, res) => {
       authProvider: 'clerk',
       role: 'user',
       isAdmin: false,
-    });
+    };
+    if (clerkId && clerkId.trim()) {
+      clerkPayload.clerkId = clerkId.trim();
+    }
+    user = await User.create(clerkPayload);
   }
 
   const token = generateToken(user._id);

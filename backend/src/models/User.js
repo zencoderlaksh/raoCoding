@@ -46,7 +46,8 @@ const userSchema = new mongoose.Schema(
     },
     clerkId: {
       type: String,
-      default: '',
+      sparse: true,
+      index: true,
     },
     role: {
       type: String,
@@ -64,7 +65,6 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.index({ phoneNo: 1 });
-userSchema.index({ clerkId: 1 });
 
 const User = mongoose.model('User', userSchema);
 export default User;
