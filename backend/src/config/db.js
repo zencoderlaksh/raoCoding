@@ -53,19 +53,35 @@ export const connectDB = async () => {
 
   if (isConnecting) {
     return new Promise((resolve, reject) => {
-      const onConnected = () => {
+      const timer = setTimeout(() => {
+        cleanup();
+        if (mongoose.connection.readyState === 1) {
+          resolve(mongoose);
+        } else {
+          reject(new Error('Connection attempt timed out.'));
+        }
+      }, 12000);
+
+      const onDone = () => {
+        clearTimeout(timer);
         cleanup();
         resolve(mongoose);
       };
+
       const onError = (err) => {
+        clearTimeout(timer);
         cleanup();
         reject(err);
       };
+
       const cleanup = () => {
-        mongoose.connection.removeListener('connected', onConnected);
+        mongoose.connection.removeListener('connected', onDone);
+        mongoose.connection.removeListener('open', onDone);
         mongoose.connection.removeListener('error', onError);
       };
-      mongoose.connection.once('connected', onConnected);
+
+      mongoose.connection.once('connected', onDone);
+      mongoose.connection.once('open', onDone);
       mongoose.connection.once('error', onError);
     });
   }

@@ -129,18 +129,32 @@ export default function SignUp() {
     setLoading(true);
 
     try {
-      const response = await fetch("/api/users/register", {
+      const payload = {
+        username: formData.username,
+        email: formData.email,
+        phoneNo: formData.phoneNo,
+        city: formData.city,
+        requirementType: formData.requirementType,
+        password: formData.password,
+      };
+
+      let response = await fetch("/api/users/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          username: formData.username,
-          email: formData.email,
-          phoneNo: formData.phoneNo,
-          city: formData.city,
-          requirementType: formData.requirementType,
-          password: formData.password,
-        }),
+        body: JSON.stringify(payload),
       });
+
+      // Cold-start auto-retry: if server was spinning up (503), retry once
+      if (response.status === 503) {
+        toast.loading("Connecting to server...", { id: "server-wake" });
+        await new Promise((r) => setTimeout(r, 3000));
+        response = await fetch("/api/users/register", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        });
+        toast.dismiss("server-wake");
+      }
 
       const data = await response.json();
 
