@@ -14,6 +14,7 @@ import adminRoutes from './routes/adminRoutes.js';
 import uploadRoutes from './routes/uploadRoutes.js';
 
 import { notFound, errorHandler } from './middleware/errorMiddleware.js';
+import { connectDB } from './config/db.js';
 
 const app = express();
 
@@ -110,17 +111,33 @@ const healthHandler = (req, res) => {
 app.get('/', healthHandler);
 app.get('/api/health', healthHandler);
 
-// Guard: Prevent application requests if database connection has not succeeded
-app.use('/api', (req, res, next) => {
+// Guard: Ensure database is ready before processing application API requests
+app.use('/api', async (req, res, next) => {
   if (req.path === '/health') return next();
-  if (mongoose.connection.readyState !== 1) {
-    return res.status(503).json({
-      success: false,
-      statusCode: 503,
-      message: 'Database connection is pending. Please configure MONGODB_URI in backend/.env.',
-    });
+
+  if (mongoose.connection.readyState === 1) {
+    return next();
   }
-  next();
+
+  // Attempt on-demand connection if credentials are configured
+  const uri = process.env.MONGODB_URI || process.env.MONGO_URI;
+  if (uri && uri.trim() && !uri.includes('<password>') && !uri.includes('<db_username>')) {
+    try {
+      console.log(`⚡ [API Guard] Incoming ${req.method} ${req.path} while DB readyState=${mongoose.connection.readyState}. Attempting connection...`);
+      await connectDB();
+      if (mongoose.connection.readyState === 1) {
+        return next();
+      }
+    } catch (err) {
+      console.error('❌ [API Guard] Connection attempt failed:', err.message);
+    }
+  }
+
+  return res.status(503).json({
+    success: false,
+    statusCode: 503,
+    message: 'Database connection is initializing. Please wait a few seconds and try again.',
+  });
 });
 
 // 8. Application API Routes
