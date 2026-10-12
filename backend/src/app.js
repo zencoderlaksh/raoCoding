@@ -111,7 +111,7 @@ const healthHandler = (req, res) => {
 app.get('/', healthHandler);
 app.get('/api/health', healthHandler);
 
-// Guard: Ensure database is ready before processing application API requests
+// Middleware: Ensure MongoDB connection is initialized before processing API routes
 app.use('/api', async (req, res, next) => {
   if (req.path === '/health') return next();
 
@@ -123,21 +123,14 @@ app.use('/api', async (req, res, next) => {
   const uri = process.env.MONGODB_URI || process.env.MONGO_URI;
   if (uri && uri.trim() && !uri.includes('<password>') && !uri.includes('<db_username>')) {
     try {
-      console.log(`⚡ [API Guard] Incoming ${req.method} ${req.path} while DB readyState=${mongoose.connection.readyState}. Attempting connection...`);
       await connectDB();
-      if (mongoose.connection.readyState === 1) {
-        return next();
-      }
     } catch (err) {
-      console.error('❌ [API Guard] Connection attempt failed:', err.message);
+      console.warn('⚠️ [API Middleware] MongoDB connection attempt error:', err.message);
     }
   }
 
-  return res.status(503).json({
-    success: false,
-    statusCode: 503,
-    message: 'Database connection is initializing. Please wait a few seconds and try again.',
-  });
+  // Always proceed - Mongoose query buffering or the route handlers will process the request
+  return next();
 });
 
 // 8. Application API Routes
